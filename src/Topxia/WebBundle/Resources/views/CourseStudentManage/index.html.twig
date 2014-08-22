@@ -1,0 +1,46 @@
+{% extends 'TopxiaWebBundle:CourseManage:layout.html.twig' %}
+
+{% block title %}买家管理 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'students' %}
+{% set script_controller = 'course-manage/students' %}
+
+{% block main %}
+
+<div class="panel panel-default panel-col">
+  <div class="panel-heading">买家管理
+    {% if app.user.isAdmin() %}
+      <a class="btn btn-info btn-sm pull-right mhs" href="{{ path('course_manage_student_export_csv', {id:course.id}) }}"><i class="glyphicon glyphicon-export"></i> 导出买家</a>
+      <button class="btn btn-info btn-sm pull-right mhs" id="student-add-btn" data-toggle="modal" data-target="#modal" data-url="{{ path('course_manage_student_create', {id:course.id}) }}"><i class="glyphicon glyphicon-plus"></i> 添加买家</button>
+    {% endif %}
+  </div>
+  
+  <div class="panel-body">  
+    <table class="table table-striped" id="course-student-list">
+      <thead>
+        <tr>
+          <th width="40%">买家</th>
+          <th width="30%">关注进度</th>
+          <th width="30%">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          {% set user = users[student.userId] %}
+          {% set progress = progresses[student.userId] %}
+          {% set isFollowing = user.id in followingIds %}
+          {% include 'TopxiaWebBundle:CourseStudentManage:tr.html.twig' %}
+        {% else %}
+          <tr class="empty"><td colspan="20">无会员记录</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {{ web_macro.paginator(paginator) }}
+
+  </div>
+
+</div>
+
+
+{% endblock %}
