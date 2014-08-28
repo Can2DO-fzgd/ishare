@@ -107,7 +107,8 @@ class AuthenticationProvider extends UserAuthenticationProvider
                         $registration['userName'] = $partnerUser['userName'];
                         $registration['email'] = $partnerUser['email'];
                         $registration['password'] = $token->getCredentials();
-                        $registration['createdIp'] = $partnerUser['createdIp'];
+                        //$registration['password'] = $partnerUser['password'];
+						$registration['createdIp'] = $partnerUser['createdIp'];
                         $registration['token'] = array(
                             'userId' => $partnerUser['id'],
                         );

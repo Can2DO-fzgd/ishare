@@ -189,12 +189,11 @@ class UserServiceImpl extends BaseService implements UserService
         }
 
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-		$password = md5($user['userName'].$password);
 
         $fields = array(
             'salt' => $salt,
-            //'password' => $this->getPasswordEncoder()->encodePassword($password, $salt),
-			'password' => $password,
+            'password' => $this->getPasswordEncoder()->encodePassword($password, $salt),
+			//'password' => md5($user['userName'].$password),
         );
 
         $this->getUserDao()->updateUser($id, $fields);
@@ -212,8 +211,8 @@ class UserServiceImpl extends BaseService implements UserService
         }
 		
         $encoder = $this->getPasswordEncoder();
-        //$passwordHash = $encoder->encodePassword($password, $user['salt']);
-		$passwordHash = md5($user['userName'].$password);
+        $passwordHash = $encoder->encodePassword($password, $user['salt']);
+		//$passwordHash = md5($user['userName'].$password);
 		
         return $user['password'] == $passwordHash;
     }
@@ -238,6 +237,7 @@ class UserServiceImpl extends BaseService implements UserService
         }
 
         $user = array();
+		$user['cooptype'] = $registration['userTypeId'];
         $user['email'] = $registration['email'];
         $user['userName'] = $registration['userName'];
         $user['roles'] =  array('ROLE_USER');
@@ -247,8 +247,8 @@ class UserServiceImpl extends BaseService implements UserService
 
         if(in_array($type, array('default', 'phpwind', 'discuz'))) {
             $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-            //$user['password'] = $this->getPasswordEncoder()->encodePassword($registration['password'], $user['salt']);
-            $user['password'] = md5($registration['userName'].$registration['password']);
+            $user['password'] = $this->getPasswordEncoder()->encodePassword($registration['password'], $user['salt']);
+            //$user['password'] = md5($registration['userName'].$registration['password']);
 			$user['setup'] = 1;
         } else {
             $user['salt'] = '';

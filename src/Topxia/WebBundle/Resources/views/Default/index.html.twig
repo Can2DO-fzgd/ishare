@@ -4,6 +4,7 @@
 
 <div class="es-row-wrap container-gap">
 
+	<!--图片切换-->
   {% if blocks.home_top_banner %}
     <div class="homepage-feature homepage-feature-slides mbl">
       <div class="cycle-pager"></div>
@@ -12,7 +13,7 @@
   {% endif %}
 
   <div class="row row-9-3">
-
+	<!--最新产品列表-->
     <div class="col-md-9">
       <div class="es-box">
         <div class="es-box-heading"><h2>产品</h2></div>
@@ -28,7 +29,7 @@
         </div>
       </div>
     </div>
-
+	<!--评论列表-->
     <div class="col-md-3">
       {{ render(controller('TopxiaWebBundle:Default:latestReviewsBlock',{number:5})) }}
     </div>

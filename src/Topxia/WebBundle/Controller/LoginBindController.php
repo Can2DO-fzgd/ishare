@@ -124,7 +124,8 @@ class LoginBindController extends BaseController
 
         $registration['email'] = 'u_' . substr($randString, 0, 12) . '@can2do';
         $registration['password'] = substr(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36), 0, 8);
-        $registration['token'] = $token;
+        //$registration['password'] = md5($registration['userName'].$registration['password']);
+		$registration['token'] = $token;
         $registration['createdIp'] = $oauthUser['createdIp'];
 
         $user = $this->getAuthService()->register($registration, $type);
