@@ -795,6 +795,9 @@ CREATE TABLE `user` (
   `newNotificationNum` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '新通知数量',
   `createdIp` varchar(64) NOT NULL DEFAULT '' COMMENT '注册ip',
   `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
+  `code` varchar(40) DEFAULT NULL COMMENT '用户code',
+  `realName` int(32) DEFAULT NULL COMMENT '用户真实姓名',
+  `cooptype` int(2) DEFAULT '1' COMMENT '合作者类型id',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `userName` (`userName`)
