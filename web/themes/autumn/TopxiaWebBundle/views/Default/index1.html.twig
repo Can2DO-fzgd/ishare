@@ -1,0 +1,67 @@
+{% extends 'TopxiaWebBundle:Default:layout.html.twig' %}
+
+{% block topbanner %}
+  {% set blocks = data('Blocks',{'codes':['autumn:home_top_banner'] }) %}
+  {% if blocks['autumn:home_top_banner'] %}
+    <div id="autumn-carousel" class="carousel slide mbl" data-ride="carousel">
+      <ol class="carousel-indicators">
+          <li data-target="#autumn-carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#autumn-carousel" data-slide-to="1" class=""></li>
+          <li data-target="#autumn-carousel" data-slide-to="2" class=""></li>
+      </ol>
+      <div class="carousel-inner">{{ blocks['autumn:home_top_banner']|raw }}</div>
+      <a class="left carousel-control" href="#autumn-carousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#autumn-carousel" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+    </div>
+  {% endif %}
+
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-autumn panel-autumn-primary">
+        <div class="panel-heading panel-heading-important">
+          <h2 class="panel-title">推荐产品 / <small>RecommendProduct</small></h2>
+        </div>
+        <div class="panel-body">
+          <ul class="autumn-grids">
+            {% for course in data('RecommendCourses',{ count:20 }) %}
+              {% if course %}
+                <li class="autumn-grid autumn-course-grid">
+                  <a href="{{ path('course_show', {id:course.id}) }}" class="course-picture"><img src="{{ file_path(course.largePicture, 'course-large.png') }}">
+                    {% if course.serializeMode == 'serialize' %}
+                      <span class="label label-success series-mode-label">更新中</span>
+                    {% elseif course.serializeMode == 'finished' %}
+                      <span class="label label-warning series-mode-label">已上架</span>
+                    {% endif %}
+                  </a>
+                  <h3 class="course-name"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a></h3>
+                  <div class="course-about">{{ course.about|plain_text(60) }}</div>
+
+                  <div class="course-metas">
+                    <span class="price">{% if course.price > 0 %}{{ course.price }}元{% else %}已上市{% endif %}</span>
+                    <span class="teachers">
+                      {% for teacher in course.teachers %}
+                        {{ web_macro.user_link(teacher, 'text-muted') }}
+                      {% endfor %}
+                    </span>
+                  </div>
+                </li>
+              {% else %}
+                <div class="empty">暂无推荐产品，请在后台产品管理设置。</div>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+{% endblock %}

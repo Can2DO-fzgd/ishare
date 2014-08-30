@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs course-dashboard-tabs clearfix" id="course-tabs">
   {% block course_dashboard_nav %}
-	<li class="{% if nav == 'lesson' %}active{% endif %}"><a class="js-nav" href="{{ path('course_show', {id:course.id}) }}">产品使用说明书</a></li>
-	<li class="{% if nav == 'thread' %}active{% endif %}"><a class="js-nav" href="{{ path('course_threads', {id:course.id}) }}">问题讨论区</a></li>
-	<li class="{% if nav == 'material' %}active{% endif %}"><a class="js-nav" href="{{ path('course_materials', {id:course.id}) }}">产品使用说明书材料专区</a></li>
+	<li class="{% if nav == 'lesson' %}active{% endif %}"><a class="js-nav" href="{{ path('course_show', {id:course.id}) }}">使用说明</a></li>
+	<li class="{% if nav == 'thread' %}active{% endif %}"><a class="js-nav" href="{{ path('course_threads', {id:course.id}) }}">问题讨论</a></li>
+	<li class="{% if nav == 'material' %}active{% endif %}"><a class="js-nav" href="{{ path('course_materials', {id:course.id}) }}">教程下载</a></li>
   {% endblock %}
 </ul>

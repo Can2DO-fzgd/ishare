@@ -2,6 +2,18 @@ homepage:
     pattern:  /
     defaults: { _controller: TopxiaWebBundle:Default:index }
 
+recommend:
+    pattern:  /recommend
+    defaults: { _controller: TopxiaWebBundle:Default:index1 }
+
+new:
+    pattern:  /new
+    defaults: { _controller: TopxiaWebBundle:Default:index2 }
+
+hot:
+    pattern:  /hot
+    defaults: { _controller: TopxiaWebBundle:Default:index3 }
+
 login:
     pattern:  /login
     defaults: { _controller: TopxiaWebBundle:Login:index }

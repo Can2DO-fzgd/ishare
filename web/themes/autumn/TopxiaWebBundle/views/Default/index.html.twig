@@ -3,7 +3,7 @@
 {% block topbanner %}
   {% set blocks = data('Blocks',{'codes':['autumn:home_top_banner'] }) %}
   {% if blocks['autumn:home_top_banner'] %}
-    <div id="autumn-carousel" class="carousel slide hidden-xs mbl" data-ride="carousel">
+    <div id="autumn-carousel" class="carousel slide mbl" data-ride="carousel">
       <ol class="carousel-indicators">
           <li data-target="#autumn-carousel" data-slide-to="0" class="active"></li>
           <li data-target="#autumn-carousel" data-slide-to="1" class=""></li>
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="row">
+<!--  <div class="row">
     <div class="col-md-8">
       <div class="panel panel-autumn panel-autumn-default">
         <div class="panel-heading panel-heading-important">
@@ -73,7 +73,7 @@
             {% for course in data('LatestCourses',{ count:8 }) %}
               {% if course %}
               <li class="media">
-                <a href="{{ path('course_show', {id:course.id}) }}" class="pic-link pull-left hidden-xs"><img src="{{ file_path(course.largePicture, 'course-large.png') }}" class="media-object">
+                <a href="{{ path('course_show', {id:course.id}) }}" class="pic-link pull-left"><img src="{{ file_path(course.largePicture, 'course-large.png') }}" class="media-object">
                   {% if course.serializeMode == 'serialize' %}
                     <span class="label label-success series-mode-label">更新中</span>
                   {% elseif course.serializeMode == 'finished' %}
@@ -128,39 +128,8 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>-->
 
-  </div>
-
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-autumn panel-autumn-primary">
-          <div class="panel-heading panel-heading-important">
-            <h2 class="panel-title">
-                享客团 / <small>MerchantsGroup</small>
-            </h2>
-          </div>
-          <div class="panel-body">
-            <ul class="autumn-grids">
-              {% for teacher in data('RecommendTeachers',{'count':'8'}) %}
-                {% if teacher %} 
-                  <li class="autumn-grid">
-                    <div class="media teacher-media">
-                      <a href="{{ path('user_show', {id:teacher.id}) }}" class="pull-left"><img class="media-object" src="{{ file_path(teacher.mediumAvatar, 'avatar.png') }}"></a>
-                      <div class="media-body">
-                        <h4 class="media-heading">{{ web_macro.user_link(teacher) }}</h4>
-                        <div class="teacher-title">{{ teacher.title }}</div>
-                      </div>
-                    </div>
-                  </li>
-                {% else %}
-                  <div class="empty">尚未设置推荐享客商家，请在管理后台设置。</div>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </div>
-      </div>
-    </div>
   </div>
 
 {% endblock %}

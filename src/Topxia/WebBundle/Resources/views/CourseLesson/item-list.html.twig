@@ -34,12 +34,12 @@
 				    {% elseif item.type == 'text' %}
 				      <span class="type">图文信息 <span class="glyphicon glyphicon-picture"></span></span>
 				    {% elseif item.type == 'testpaper' %}
-				      <span class="type">问卷 <span class="glyphicon glyphicon-check"></span></span>
+				      <span class="type">调查问卷 <span class="glyphicon glyphicon-check"></span></span>
 			    	{% endif %}
 			    {% else %}
 			      <span class="status">未发布</span>
 			    {% endif %}
-		    	<span class="name">产品使用说明书{{ item.number }}</span>
+		    	<span class="name">内容{{ item.number }}</span>
 		    	<span class="pie">&nbsp;</span>
 
 
@@ -47,7 +47,7 @@
 		    	<a class="title" href="{{ lessonUrl }}" title="{{ item.title }}" data-id="{{ item.id }}" data-experience="{{ experience }}">
 		    		{{ item.title }}
 				    {% if item.materialNum > 0 %}
-				      <span class="glyphicon  glyphicon-download" title="产品使用说明书材料"></span>
+				      <span class="glyphicon  glyphicon-download" title="使用说明书材料"></span>
 				    {% endif %}
 		    	</a>
 		    	<button class="btn btn-success btn-mini action">查看产品使用说明书</button>

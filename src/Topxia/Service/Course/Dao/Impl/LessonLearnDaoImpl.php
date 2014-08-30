@@ -7,7 +7,7 @@ use Topxia\Service\Course\Dao\LessonLearnDao;
 
 class LessonLearnDaoImpl extends BaseDao implements LessonLearnDao
 {
-    protected $table = 'product_specification_focus';
+    protected $table = 'product_lesson_learn';
 
 	public function getLearn($id)
 	{

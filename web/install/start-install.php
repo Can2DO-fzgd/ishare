@@ -262,7 +262,7 @@ class SystemInit
 
 	public function initAdmin($user)
 	{
-	    $user = $user = $this->getUserService()->register($user);
+	    $user = $user = $this->getUserService()->register1($user);
 	    $user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_SUPER_ADMIN');
 	    $user['currentIp'] = '127.0.0.1';
 

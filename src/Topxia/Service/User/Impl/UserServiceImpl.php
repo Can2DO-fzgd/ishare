@@ -265,6 +265,52 @@ class UserServiceImpl extends BaseService implements UserService
         return $user;
     }
 
+	public function register1($registration, $type = 'default')
+    {
+
+        if (!SimpleValidator::email($registration['email'])) {
+            throw $this->createServiceException('email error!');
+        }
+        
+        if (!SimpleValidator::userName($registration['userName'])) {
+            throw $this->createServiceException('userName error!');
+        }
+
+        if (!$this->isEmailAvaliable($registration['email'])) {
+            throw $this->createServiceException('Email已存在');
+        }
+
+        if (!$this->isUserNameAvaliable($registration['userName'])) {
+            throw $this->createServiceException('注册手机已存在');
+        }
+
+        $user = array();
+        $user['email'] = $registration['email'];
+        $user['userName'] = $registration['userName'];
+        $user['roles'] =  array('ROLE_USER');
+        $user['type'] = $type;
+        $user['createdIp'] = empty($registration['createdIp']) ? '' : $registration['createdIp'];
+        $user['createdTime'] = time();
+
+        if(in_array($type, array('default', 'phpwind', 'discuz'))) {
+            $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+            $user['password'] = $this->getPasswordEncoder()->encodePassword($registration['password'], $user['salt']);
+            $user['setup'] = 1;
+        } else {
+            $user['salt'] = '';
+            $user['password'] = '';
+            $user['setup'] = 0;
+        }
+        $user = UserSerialize::unserialize(
+            $this->getUserDao()->addUser(UserSerialize::serialize($user))
+        );
+        $this->getProfileDao()->addProfile(array('id' => $user['id']));
+        if ($type != 'default') {
+            $this->bindUser($type, $registration['token']['userId'], $user['id'], $registration['token']);
+        }
+        return $user;
+    }
+	
     public function setupAccount($userId)
     {
         $user = $this->getUser($userId);

@@ -4,7 +4,6 @@
 
 <div class="es-row-wrap container-gap">
 
-	<!--图片切换-->
   {% if blocks.home_top_banner %}
     <div class="homepage-feature homepage-feature-slides mbl">
       <div class="cycle-pager"></div>
@@ -12,11 +11,18 @@
     </div>
   {% endif %}
 
+	<ul class="homepage-category-nav">
+      {% for category in categories %}
+        <li><a href="{{ path('course_explore', {category:category.code|default(category.id)}) }}">{{ category.name }}</a></li>
+      {% endfor %}
+        <li><a href="{{ path('course_explore') }}">更多</a></li>
+    </ul>
+
   <div class="row row-9-3">
-	<!--最新产品列表-->
+
     <div class="col-md-9">
       <div class="es-box">
-        <div class="es-box-heading"><h2>产品</h2></div>
+        <div class="es-box-heading"><h2>最新产品</h2></div>
         <div class="es-box-body">
           {% if courses %}
             {{ render(controller('TopxiaWebBundle:Course:coursesBlock', {courses:courses, view: 'list'})) }}
@@ -24,13 +30,14 @@
               <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
             {% endif %}
           {% else %}
-            <div class="empty">还没有发布的产品</div>
+            <div class="empty">还没有发布产品</div>
           {% endif %}
         </div>
       </div>
     </div>
-	<!--评论列表-->
+
     <div class="col-md-3">
+	  {{ render(controller('TopxiaWebBundle:Default:promotedTeacherBlock')) }}
       {{ render(controller('TopxiaWebBundle:Default:latestReviewsBlock',{number:5})) }}
     </div>
 

@@ -19,7 +19,7 @@
 								{% if item.type == 'text' %}
 								  图文信息
 								{% elseif item.type == 'testpaper' %}
-								  产品调查问卷
+								  调查问卷
 								{% else %}
 									{{ item.length|duration }}
 								{% endif %}
@@ -29,7 +29,7 @@
 			      {% endif %}
 	      	</a>
 	      	<div class="item-body">
-	      		<div class="item-seq-name">产品使用说明书{{ item.number }}:</div>
+	      		<div class="item-seq-name">内容{{ item.number }}:</div>
 	      		<div class="item-title"><a href="#modal" data-toggle="modal" data-url="{{ path('course_lesson_preview', {courseId:item.courseId, lessonId:item.id}) }}" title="{{ item.title }}">{{ item.title }}</a></div>
 	      	</div>
 	      </li>

@@ -7,7 +7,7 @@ use Topxia\System;
 
 class DefaultController extends BaseController
 {
-	//首页最新产品
+	//推荐产品
     public function indexAction ()
     {
         $conditions = array('status' => 'published');
@@ -22,7 +22,55 @@ class DefaultController extends BaseController
             'blocks' => $blocks
         ));
     }
+	
+	//推荐产品
+    public function index1Action ()
+    {
+        $conditions = array('status' => 'published');
+        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
 
+        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+
+        $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
+        return $this->render('TopxiaWebBundle:Default:index1.html.twig', array(
+            'courses' => $courses,
+            'categories' => $categories,
+            'blocks' => $blocks
+        ));
+    }
+	
+	//最新产品
+    public function index2Action ()
+    {
+        $conditions = array('status' => 'published');
+        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+
+        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+
+        $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
+        return $this->render('TopxiaWebBundle:Default:index2.html.twig', array(
+            'courses' => $courses,
+            'categories' => $categories,
+            'blocks' => $blocks
+        ));
+    }
+
+	//产品排行
+    public function index3Action ()
+    {
+        $conditions = array('status' => 'published');
+        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+
+        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+
+        $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
+        return $this->render('TopxiaWebBundle:Default:index3.html.twig', array(
+            'courses' => $courses,
+            'categories' => $categories,
+            'blocks' => $blocks
+        ));
+    }
+	
     public function promotedTeacherBlockAction()
     {
         $teacher = $this->getUserService()->findLatestPromotedTeacher(0, 1);

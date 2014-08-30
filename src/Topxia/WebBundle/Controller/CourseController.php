@@ -11,7 +11,6 @@ use Topxia\Common\ArrayToolkit;
 
 class CourseController extends BaseController
 {
-	<!--更多产品-->
     public function exploreAction(Request $request, $category)
     {
         if (!empty($category)) {
@@ -484,7 +483,7 @@ class CourseController extends BaseController
             'users' => $users,
         ));
     }
-	
+
     public function coursesBlockAction($courses, $view = 'list', $mode = 'default')
     {
         $userIds = array();
@@ -499,7 +498,7 @@ class CourseController extends BaseController
             'mode' => $mode,
         ));
     }
-
+	
     public function relatedCoursesBlockAction($course)
     {   
 

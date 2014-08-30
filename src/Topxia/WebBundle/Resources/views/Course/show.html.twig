@@ -26,9 +26,9 @@
 {% endif %}
 
 <div class="es-row-wrap container-gap course-cover">
-
+<!--移动端不显示请用hidden-xs-->
   <div class="row row-5-7 course-cover-heading">
-    <div class="col-sm-5 picture hidden-xs">
+	<div class="col-sm-5">
       <img src="{{ file_path(course.largePicture, 'course-default-475x250.png') }}" class="img-responsive" />
     </div>
     <div class="col-sm-7 info">
@@ -143,12 +143,12 @@
             </li>
             {% if course.goals %}
             <li>
-              <a href="#course-goal-pane" data-toggle="tab">产品亮点功能</a>
+              <a href="#course-goal-pane" data-toggle="tab">亮点功能</a>
             </li>
             {% endif %}
             {% if course.audiences %}
             <li>
-              <a href="#course-audience-pane" data-toggle="tab">适合人群/用途</a>
+              <a href="#course-audience-pane" data-toggle="tab">人群/用途</a>
             </li>
             {% endif %}
           </ul>
@@ -162,7 +162,7 @@
               {% endif %}
               {% if tags %}
                 <div class="mtm">
-                <span class="text-muted">产品品牌标签：</span>{% for tag in tags %}
+                <span class="text-muted">品牌标签：</span>{% for tag in tags %}
                 <a href="{{ path('tag_show', {name:tag.name}) }}" class="mrs">{{ tag.name }}</a>
                 {% endfor %}
                 </div>
@@ -203,7 +203,7 @@
       </div>
       {% embed "TopxiaWebBundle:Bootstrap:panel.html.twig" %}
         {% block heading %}
-      <h3 class="panel-title">产品使用说明书</h3>
+      <h3 class="panel-title">使用说明</h3>
       {% endblock %}
         {% block body %}
 
