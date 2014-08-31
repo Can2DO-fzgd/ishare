@@ -43,7 +43,7 @@
                 <div class="media-body">
                   <h4 class="media-heading"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a></h4>
 
-                  <div class="course-about"><p>{{ course.about|plain_text(100) }}</p></div>
+                  <div class="course-about"><p>{{ course.about|plain_text(16) }}</p></div>
                   <div class="course-metas">
                     <span class="price">{% if course.price > 0 %}{{ course.price }}元{% else %}已上市{% endif %}</span>
                     <span class="teachers">
@@ -60,7 +60,9 @@
               {% endif %}
             {% endfor %}
           </ul>
-          <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% if courses|length >= 12 %}
+          	<a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% endif %}
         </div>
       </div>
     </div>

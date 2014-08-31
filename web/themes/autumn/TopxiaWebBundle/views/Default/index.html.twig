@@ -23,6 +23,7 @@
 
 {% block content %}
   <div class="row">
+  
     <div class="col-lg-12">
       <div class="panel panel-autumn panel-autumn-primary">
         <div class="panel-heading panel-heading-important">
@@ -57,13 +58,16 @@
               {% endif %}
             {% endfor %}
           </ul>
+		  {% if courses|length >= 12 %}
+          	<a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% endif %}
         </div>
       </div>
     </div>
   </div>
 
-<!--  <div class="row">
-    <div class="col-md-8">
+  <div class="row">
+    <div class="col-md-12">
       <div class="panel panel-autumn panel-autumn-default">
         <div class="panel-heading panel-heading-important">
           <h2 class="panel-title">最新产品 / <small>LatestProduct</small></h2>
@@ -83,7 +87,7 @@
                 <div class="media-body">
                   <h4 class="media-heading"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a></h4>
 
-                  <div class="course-about"><p>{{ course.about|plain_text(100) }}</p></div>
+                  <div class="course-about"><p>{{ course.about|plain_text(16) }}</p></div>
                   <div class="course-metas">
                     <span class="price">{% if course.price > 0 %}{{ course.price }}元{% else %}已上市{% endif %}</span>
                     <span class="teachers">
@@ -100,15 +104,17 @@
               {% endif %}
             {% endfor %}
           </ul>
-          <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+          {% if courses|length >= 12 %}
+          	<a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% endif %}
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-12">
       <div class="panel panel-autumn panel-autumn-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">产品排行榜 / <small>Top10</small></h4>
+        <div class="panel-heading panel-heading-important">
+          <h2 class="panel-title">产品排行 / <small>TopProduct</small></h2>
         </div>
         <div class="panel-body">
           <ul class="media-list media-list-rank">
@@ -118,7 +124,7 @@
                   <a href="{{ path('course_show', {id:course.id}) }}" class="pull-left"><img src="{{ file_path(course.largePicture, 'course-large.png') }}" class="media-object"></a>
                   <div class="media-body">
                     <h4 class="media-heading"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a></h4>
-                    {{ course.subtitle }}
+                    {{ course.subtitle|plain_text(60) }}
                   </div>
                 </li>
               {% else %}
@@ -126,9 +132,12 @@
               {% endif %}
             {% endfor %}
           </ul>
+		  {% if courses|length >= 12 %}
+          	<a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% endif %}
         </div>
       </div>
-    </div>-->
+    </div>
 
   </div>
 

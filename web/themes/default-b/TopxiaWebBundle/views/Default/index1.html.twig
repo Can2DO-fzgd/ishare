@@ -1,0 +1,57 @@
+{% extends 'TopxiaWebBundle:Default:layout.html.twig' %}
+
+{% block content %}
+
+<div class="es-row-wrap container-gap">
+
+    {% if blocks.home_top_banner %}
+      <div class="homepage-feature homepage-feature-slides">
+        <div class="cycle-pager"></div>
+        {{ blocks.home_top_banner|raw }}
+      </div>
+    {% endif %}
+
+    <ul class="homepage-category-nav">
+      {% for category in categories %}
+        <li><a href="{{ path('course_explore', {category:category.code|default(category.id)}) }}"><span class="label label-warning ">{{ category.name }}</span></a></li>
+      {% endfor %}
+        <li><a href="{{ path('course_explore') }}"><span class="label label-warning ">更多</span></a></li>
+    </ul>
+
+    <div class="row row-9-3">
+	
+     <!--<div class="col-md-9">
+        <div class="es-box">
+          <div class="es-box-heading"><h2>产品</h2></div>
+          <div class="es-box-body">
+            {{ render(controller('TopxiaWebBundle:Course:coursesBlock1', {courses:courses, view: 'grid'})) }}
+            <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+          </div>
+        </div>
+      </div>-->
+	  
+	<div class="col-md-9">
+      <div class="es-box">
+        <div class="es-box-heading"><h2>推荐产品</h2></div>
+        <div class="es-box-body">
+          {% if courses %}
+            {{ render(controller('TopxiaWebBundle:Course:coursesBlock1', {courses:courses, view: 'list1'})) }}
+            {% if courses|length >= 12 %}
+              <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+            {% endif %}
+          {% else %}
+            <div class="empty">还没有发布产品</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+        {{ render(controller('TopxiaWebBundle:Default:promotedTeacherBlock')) }}
+        {{ render(controller('TopxiaWebBundle:Default:latestReviewsBlock', {number:5})) }}
+      </div>
+    </div>
+
+  </div>
+  
+{% endblock %}

@@ -1,0 +1,37 @@
+<ul class="course-wide-list">
+  {% for course in data('CourseRankByHit',{ count:20 }) %}
+  <li class="course-item clearfix">
+    <a class="course-picture-link" href="{{ path('course_show', {id:course.id}) }}">
+      <img class="course-picture" src="{{ file_path(course.middlePicture, 'course-large.png') }}" alt="{{ course.title }}">
+    </a>
+    <div class="course-body">
+      <h4 class="course-title"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a>
+      {% if course.serializeMode=='serialize' %}
+        <span class="label label-success ">更新中</span>
+      {% elseif course.serializeMode=='finished' %}
+        <span class="label label-warning ">已上架</span>
+      {% endif %}
+      </h4>
+      <div class="course-about ellipsis">{{ course.subtitle }}</div>
+      <div class="course-footer clearfix">
+        {% set teacher = users[course.teacherIds|first]|default(null) %}
+        {% if teacher %}
+          <div class="teacher">
+            <a href="{{ path('user_show', {id:teacher.id}) }}"><img src="{{ file_path(teacher.smallAvatar, 'avatar.png') }}" class="teacher-avatar"></a>
+            <a class="teacher-userName ellipsis" href="{{ path('user_show', {id:teacher.id}) }}">{{ teacher.userName }}</a>
+            <span class="teacher-title ellipsis">{{ teacher.title }}</span>
+          </div>
+        {% endif %}
+        <div class="course-metas">
+          <span class="stars-{{ (course.rating)|number_format }}">&nbsp;</span>
+          <span class="divider"></span>
+          {% if course.showStudentNumType == 'opened' %}
+          <span class="text-muted mrm mls"><strong>{{ course.studentNum }}</strong>会员</span>
+          {% endif %}
+          <span class="course-price">{% if course.price > 0 %}{{ course.price }}元{% else %}可以查看使用说明书{% endif %}</span>
+        </div>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

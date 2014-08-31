@@ -35,7 +35,7 @@
                   <a href="{{ path('course_show', {id:course.id}) }}" class="pull-left"><img src="{{ file_path(course.largePicture, 'course-large.png') }}" class="media-object"></a>
                   <div class="media-body">
                     <h4 class="media-heading"><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a></h4>
-                    {{ course.subtitle }}
+                    {{ course.subtitle|plain_text(60) }}
                   </div>
                 </li>
               {% else %}
@@ -43,6 +43,9 @@
               {% endif %}
             {% endfor %}
           </ul>
+		  {% if courses|length >= 12 %}
+          	<a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+		  {% endif %}
         </div>
       </div>
     </div>

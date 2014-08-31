@@ -499,6 +499,51 @@ class CourseController extends BaseController
         ));
     }
 	
+	public function coursesBlock1Action($courses, $view = 'list1', $mode = 'default')
+    {
+        $userIds = array();
+        foreach ($courses as $course) {
+            $userIds = array_merge($userIds, $course['teacherIds']);
+        }
+        $users = $this->getUserService()->findUsersByIds($userIds);
+
+        return $this->render("TopxiaWebBundle:Course:courses-block-{$view}.html.twig", array(
+            'courses' => $courses,
+            'users' => $users,
+            'mode' => $mode,
+        ));
+    }
+	
+	public function coursesBlock2Action($courses, $view = 'list2', $mode = 'default')
+    {
+        $userIds = array();
+        foreach ($courses as $course) {
+            $userIds = array_merge($userIds, $course['teacherIds']);
+        }
+        $users = $this->getUserService()->findUsersByIds($userIds);
+
+        return $this->render("TopxiaWebBundle:Course:courses-block-{$view}.html.twig", array(
+            'courses' => $courses,
+            'users' => $users,
+            'mode' => $mode,
+        ));
+    }
+	
+	public function coursesBlock3Action($courses, $view = 'list3', $mode = 'default')
+    {
+        $userIds = array();
+        foreach ($courses as $course) {
+            $userIds = array_merge($userIds, $course['teacherIds']);
+        }
+        $users = $this->getUserService()->findUsersByIds($userIds);
+
+        return $this->render("TopxiaWebBundle:Course:courses-block-{$view}.html.twig", array(
+            'courses' => $courses,
+            'users' => $users,
+            'mode' => $mode,
+        ));
+    }
+	
     public function relatedCoursesBlockAction($course)
     {   
 

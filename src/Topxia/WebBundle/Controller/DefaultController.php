@@ -7,7 +7,7 @@ use Topxia\System;
 
 class DefaultController extends BaseController
 {
-	//推荐产品
+	//首页产品
     public function indexAction ()
     {
         $conditions = array('status' => 'published');

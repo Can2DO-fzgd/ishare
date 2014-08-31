@@ -1,7 +1,7 @@
-<ul class="nav navbar-nav">
+<!--<ul class="nav navbar-nav">-->
 	{% for nav in navigations %}
 	  {% if nav.isOpen %}
-		  <li {% if siteNav == nav.url %}class="active"{% endif %}><a href="{{ nav.url|navigation_url }}" {% if nav.isNewWin %}target="_blank"{% endif %}>{{ nav.name }}</a></li>
+		  <!--<li {% if siteNav == nav.url %}class="active"{% endif %}>--><li><a href="{{ nav.url|navigation_url }}" {% if nav.isNewWin %}target="_blank"{% endif %}>{{ nav.name }}</a></li><!--</li>-->
 		{% endif %}
 	{% endfor %}
-</ul>
+<!--</ul>-->
