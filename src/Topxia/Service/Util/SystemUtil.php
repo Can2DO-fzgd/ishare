@@ -32,7 +32,7 @@ class SystemUtil
 
 	public static function getUploadTmpPath()
 	{
-		$realPath = SystemUtil::getSystemRootPath().DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'tmp';
+		$realPath = SystemUtil::getSystemRootPath().DIRECTORY_SEPARATOR.'web'.DIRECTORY_SEPARATOR.'attach'.DIRECTORY_SEPARATOR.'tmp';
 		return $realPath;
 	}
 

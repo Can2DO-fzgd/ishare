@@ -9,13 +9,13 @@
     <div class="col-md-9">
         <div class="panel panel-default panel-col">
           <div class="panel-heading">
-            {% include 'TopxiaWebBundle:MyCourse:my-courses-nav.html.twig' %}
+            {% include 'TopxiaWebBundle:MyProduct:my-products-nav.html.twig' %}
               </div>
               <div class="panel-body">
-                {% if learningCourses is empty %}
-                <h3>你还没有关注任何产品，<a href="{{ path('course_explore') }}">来探索更多产品吧！ </a>
+                {% if learningProducts is empty %}
+                <h3>你还没有关注任何产品，<a href="{{ path('product_explore') }}">来关注更多产品吧！ </a>
             {% else %}
-                {% include 'TopxiaWebBundle:MyCourse:my-courses-list.html.twig' with { users: users, courses: learningCourses } %}
+                {% include 'TopxiaWebBundle:MyProduct:my-products-list.html.twig' with { users: users, products: learningProducts } %}
             {% endif %}
             </div>
         </div>

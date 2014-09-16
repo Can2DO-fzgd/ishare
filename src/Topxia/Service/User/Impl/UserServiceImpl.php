@@ -81,7 +81,7 @@ class UserServiceImpl extends BaseService implements UserService
 
     public function setEmailVerified($userId)
     {
-        $this->getUserDao()->updateUser($userId, array('emailVerified' => 1));
+        $this->getUserDao()->updateUser($userId, array('mailstate' => 1));
     }
 
     public function changeUserName ($userId, $userName)
@@ -240,7 +240,24 @@ class UserServiceImpl extends BaseService implements UserService
 		$user['cooptype'] = $registration['userTypeId'];
         $user['email'] = $registration['email'];
         $user['userName'] = $registration['userName'];
-        $user['roles'] =  array('ROLE_USER');
+		
+		if ($registration['userTypeId'] == '1') {
+			$user['roles'] =  array('ROLE_USER');
+		} elseif($registration['userTypeId'] == '2') {
+			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER');
+		} elseif($registration['userTypeId'] == '3') {
+			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_MANUFACTURER');
+		} elseif($registration['userTypeId'] == '4') {
+			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_MERCHANTS');
+		} elseif($registration['userTypeId'] == '5') {
+			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_AGENT');
+		} elseif($registration['userTypeId'] == '6') {
+			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_USER');
+		} else {
+			$user['roles'] =  array('ROLE_USER');
+		}
+
+        //$user['roles'] =  array('ROLE_USER');
         $user['type'] = $type;
         $user['createdIp'] = empty($registration['createdIp']) ? '' : $registration['createdIp'];
         $user['createdTime'] = time();
@@ -403,7 +420,7 @@ class UserServiceImpl extends BaseService implements UserService
             throw $this->createServiceException('用户角色必须包含ROLE_USER');
         }
 
-        $allowedRoles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN','ROLE_TEACHER');
+        $allowedRoles = array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER','ROLE_MANUFACTURER','ROLE_MERCHANTS','ROLE_AGENT');
 
         $notAllowedRoles = array_diff($roles, $allowedRoles);
         if (!empty($notAllowedRoles)) {

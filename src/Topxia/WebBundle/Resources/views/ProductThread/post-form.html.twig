@@ -1,0 +1,40 @@
+{% extends 'TopxiaWebBundle:Product:dashboard-layout.html.twig' %}
+
+{% set post = post|default(null) %}
+
+{% block title %}{% if post %}编辑帖子{% else %}回复帖子{% endif %} - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'product/thread-post-form' %}
+
+{% block dashboard_main %}
+
+<ul class="breadcrumb">
+  <li><a href="{{ path('product_threads', {id:product.id}) }}">讨论区</a></li>
+  <li><a href="{{ path('product_thread_show', {productId:thread.productId, id:thread.id}) }}">{{ thread.title|plain_text(10) }}</a></li>
+  <li class="active">编辑帖子</li>
+</ul>
+
+<form id="thread-post-form" method="post"
+  {% if post %}
+    action="{{ path('product_thread_post_edit', {productId:product.id, threadId:post.threadId, id:post.id}) }}"
+  {% else %}
+    action="{{ path('product_thread_post', {productId:product.id, id:post.id}) }}"
+  {% endif %}
+  >
+  <div class="form-group">
+    <div class="controls">
+      {{ form_widget(form.content, {attr:{class:'form-control', rows:15, 'data-display':'内容'}}) }}
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="controls clearfix">
+      {{ form_rest(form) }}
+      <button type="submit" class="btn btn-primary pull-right">发表</button>
+      <a href="{{ path('product_threads', {id:product.id}) }}" class="btn btn-link pull-right">取消</a>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+
+{% endblock %}

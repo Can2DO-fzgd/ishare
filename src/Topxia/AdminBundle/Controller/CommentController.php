@@ -13,9 +13,9 @@ class CommentController extends BaseController
     public function indexAction (Request $request)
     {   
         $comments = array();
-        $total = $this->getCommentService()->getCommentsCountByType('course');
+        $total = $this->getCommentService()->getCommentsCountByType('product');
         $paginator = new Paginator($this->get('request'), $total, 30);
-        $comments = $this->getCommentService()->getCommentsByType('course', $paginator->getOffsetCount(), $paginator->getPerPageCount());
+        $comments = $this->getCommentService()->getCommentsByType('product', $paginator->getOffsetCount(), $paginator->getPerPageCount());
         $userIds = ArrayToolkit::column($comments, 'userId');
         return $this->render('TopxiaAdminBundle:Comment:index.html.twig',array(
             'comments' => $comments,

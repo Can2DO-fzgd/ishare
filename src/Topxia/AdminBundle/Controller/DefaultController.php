@@ -8,39 +8,39 @@ use Topxia\Common\ArrayToolkit;
 class DefaultController extends BaseController
 {
 
-    public function popularCoursesAction(Request $request)
+    public function popularProductsAction(Request $request)
     {
         $dateType = $request->query->get('dateType');
 
         $map = array();
-        $students = $this->getCourseService()->searchMember(array('date'=>$dateType, 'role'=>'student'), 0 , 10000);
+        $students = $this->getProductService()->searchMember(array('date'=>$dateType, 'role'=>'student'), 0 , 10000);
         foreach ($students as $student) {
-            if (empty($map[$student['courseId']])) {
-                $map[$student['courseId']] = 1;
+            if (empty($map[$student['productId']])) {
+                $map[$student['productId']] = 1;
             } else {
-                $map[$student['courseId']] ++;
+                $map[$student['productId']] ++;
             }
         }
         asort($map, SORT_NUMERIC);
         $map = array_slice($map, 0, 5, true);
 
-        $courses = array();
-        foreach ($map as $courseId => $studentNum) {
-            $course = $this->getCourseService()->getCourse($courseId);
-            $course['addedStudentNum'] = $studentNum;
-            $course['addedMoney'] = 0;
+        $products = array();
+        foreach ($map as $productId => $studentNum) {
+            $product = $this->getProductService()->getProduct($productId);
+            $product['addedStudentNum'] = $studentNum;
+            $product['addedMoney'] = 0;
 
-            $orders = $this->getOrderService()->searchOrders(array('targetType'=>'course', 'targetId'=>$courseId, 'status' => 'paid', 'date'=>$dateType), 'latest', 0, 10000);
+            $orders = $this->getOrderService()->searchOrders(array('targetType'=>'product', 'targetId'=>$productId, 'status' => 'paid', 'date'=>$dateType), 'latest', 0, 10000);
 
             foreach ($orders as $id => $order) {
-                $course['addedMoney'] += $order['amount'];
+                $product['addedMoney'] += $order['amount'];
             }
 
-            $courses[] = $course;
+            $products[] = $product;
         }
 
-        return $this->render('TopxiaAdminBundle:Default:popular-courses-table.html.twig', array(
-            'courses' => $courses
+        return $this->render('TopxiaAdminBundle:Default:popular-products-table.html.twig', array(
+            'products' => $products
         ));
         
     }
@@ -66,18 +66,18 @@ class DefaultController extends BaseController
             0,5
         );
 
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($questions, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($questions, 'productId'));
         $askers = $this->getUserService()->findUsersByIds(ArrayToolkit::column($questions, 'userId'));
 
         $teacherIds = array();
-        foreach (ArrayToolkit::column($courses, 'teacherIds') as $teacherId) {
+        foreach (ArrayToolkit::column($products, 'teacherIds') as $teacherId) {
              $teacherIds = array_merge($teacherIds,$teacherId);
         }
         $teachers = $this->getUserService()->findUsersByIds($teacherIds);        
 
         return $this->render('TopxiaAdminBundle:Default:unsolved-questions-block.html.twig', array(
             'questions'=>$questions,
-            'courses'=>$courses,
+            'products'=>$products,
             'askers'=>$askers,
             'teachers'=>$teachers
         ));
@@ -94,15 +94,15 @@ class DefaultController extends BaseController
         ));
     }
 
-    public function questionRemindTeachersAction(Request $request, $courseId, $questionId)
+    public function questionRemindTeachersAction(Request $request, $productId, $questionId)
     {
-        $course = $this->getCourseService()->getCourse($courseId);
-        $question = $this->getThreadService()->getThread($courseId, $questionId);
-        $questionUrl = $this->generateUrl('course_thread_show', array('courseId'=>$course['id'], 'id'=> $question['id']), true);
+        $product = $this->getProductService()->getProduct($productId);
+        $question = $this->getThreadService()->getThread($productId, $questionId);
+        $questionUrl = $this->generateUrl('product_thread_show', array('productId'=>$product['id'], 'id'=> $question['id']), true);
         $questionTitle = strip_tags($question['title']);
-        foreach ($course['teacherIds'] as $receiverId) {
+        foreach ($product['teacherIds'] as $receiverId) {
             $result = $this->getNotificationService()->notify($receiverId, 'default',
-                "产品《{$course['title']}》有新问题 <a href='{$questionUrl}' target='_blank'>{$questionTitle}</a>，请及时回答。");
+                "产品《{$product['name']}》有新问题 <a href='{$questionUrl}' target='_blank'>{$questionTitle}</a>，请及时回答。");
         }
 
         return $this->createJsonResponse(array('success' => true, 'message' => 'ok'));
@@ -110,12 +110,12 @@ class DefaultController extends BaseController
 
     protected function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     private function getOrderService()

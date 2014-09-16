@@ -104,14 +104,14 @@
 				  <li><a href="{{ path('login') }}">科技领域</a></li>
               	  <li><a href="{{ path('register') }}">文化领域</a></li>
                 </ul>
-             <a class="navbar-brand" href="{{ path('course_explore') }}">查看更多产品</a>
+             <a class="navbar-brand" href="{{ path('product_explore') }}">查看更多产品</a>
         </div>
 		
 		{% if is_granted('ROLE_ADMIN') %}
 		<div class="navbar-collapse collapse">
 		  <a href="#" class="dropdown-toggle navbar-brand dropdown hidden-lt-ie8" data-toggle="dropdown"> 管理后台<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ path('admin_course') }}">产品管理</a></li>
+                  <li><a href="{{ path('admin_product') }}">产品管理</a></li>
               	  <li><a href="{{ path('admin_user') }}">用户管理</a></li>
 				  <li><a href="{{ path('admin_navigation') }}">资讯管理</a></li>
 				  {% if is_granted('ROLE_SUPER_ADMIN') %}

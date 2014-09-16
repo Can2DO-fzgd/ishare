@@ -37,9 +37,9 @@ class NotificationController extends BaseController
         ));
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getUserService()

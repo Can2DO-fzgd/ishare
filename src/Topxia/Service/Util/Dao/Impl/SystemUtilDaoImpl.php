@@ -7,10 +7,10 @@ use Topxia\Service\Util\Dao\SystemUtilDao;
 
 class SystemUtilDaoImpl extends BaseDao implements SystemUtilDao
 {
-   public function getCourseIdsWhereCourseHasDeleted()
+   public function getProductIdsWhereProductHasDeleted()
    {
         $sql = "SELECT DISTINCT  targetId FROM upload_files WHERE "; 
-        $sql .= " targetType='courselesson' and targetId NOT IN (SELECT id FROM course)";
+        $sql .= " targetType='productlesson' and targetId NOT IN (SELECT id FROM product)";
         return $this->getConnection()->fetchAll($sql);    
    }
 

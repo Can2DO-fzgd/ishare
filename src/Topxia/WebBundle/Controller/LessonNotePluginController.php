@@ -10,11 +10,11 @@ class LessonNotePluginController extends BaseController
     {
         $currentUser = $this->getCurrentUser();
         
-        $course = $this->getCourseService()->getCourse($request->query->get('courseId'));
-        $lesson = array('id' => $request->query->get('lessonId'),'courseId' => $course['id']);
-        $note = $this->getCourseNoteService()->getUserLessonNote($currentUser['id'], $lesson['id']);
+        $product = $this->getProductService()->getProduct($request->query->get('productId'));
+        $lesson = array('id' => $request->query->get('lessonId'),'productId' => $product['id']);
+        $note = $this->getProductNoteService()->getUserLessonNote($currentUser['id'], $lesson['id']);
         $formInfo = array(
-            'courseId' => $course['id'], 
+            'productId' => $product['id'], 
             'lessonId' => $lesson['id'],
             'content'=>$note['content'],
             'id'=>$note['id'],
@@ -32,7 +32,7 @@ class LessonNotePluginController extends BaseController
             $form->bind($request);
             if ($form->isValid()) {
                 $note = $form->getData();
-                $this->getCourseNoteService()->saveNote($note);
+                $this->getProductNoteService()->saveNote($note);
                 return $this->createJsonResponse(true);
             } else {
                 return $this->createJsonResponse(false);
@@ -46,18 +46,18 @@ class LessonNotePluginController extends BaseController
         return $this->createNamedFormBuilder('note', $data)
             ->add('id', 'hidden', array('required' => false))
             ->add('content', 'textarea',array('required' => false))
-            ->add('courseId', 'hidden', array('required' => false))
+            ->add('productId', 'hidden', array('required' => false))
             ->add('lessonId', 'hidden', array('required' => false))
             ->getForm();
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
-    protected function getCourseNoteService()
+    protected function getProductNoteService()
     {
-        return $this->getServiceKernel()->createService('Course.NoteService');
+        return $this->getServiceKernel()->createService('Product.NoteService');
     }
 }

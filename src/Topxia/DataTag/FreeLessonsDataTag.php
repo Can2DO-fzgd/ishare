@@ -23,12 +23,12 @@ class FreeLessonsDataTag extends BaseDataTag implements DataTag
             $arguments['count'] = 4;
         }   
 
-        return $this->getCourseService()->searchLessons(array('free' => 1), array('createdTime', 'DESC'), 0, $arguments['count']);
+        return $this->getProductService()->searchLessons(array('free' => 1), array('createdTime', 'DESC'), 0, $arguments['count']);
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

@@ -54,19 +54,19 @@ class UserController extends BaseController
         $user = $this->tryGetUser($id);
         $paginator = new Paginator(
             $this->get('request'),
-            $this->getCourseService()->findUserFavoritedCourseCount($user['id']),
+            $this->getProductService()->findUserFavoritedProductCount($user['id']),
             10
         );
 
-        $courses = $this->getCourseService()->findUserFavoritedCourses(
+        $products = $this->getProductService()->findUserFavoritedProducts(
             $user['id'],
             $paginator->getOffsetCount(),
             $paginator->getPerPageCount()
         );
 
-        return $this->render('TopxiaWebBundle:User:courses.html.twig', array(
+        return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
-            'courses' => $courses,
+            'products' => $products,
             'paginator' => $paginator,
             'type' => 'favorited',
         ));
@@ -168,19 +168,19 @@ class UserController extends BaseController
         return $this->getServiceKernel()->createService('User.UserService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
     protected function getNoteService()
     {
-        return $this->getServiceKernel()->createService('Course.NoteService');
+        return $this->getServiceKernel()->createService('Product.NoteService');
     }
 
     protected function getNotificationService()
@@ -201,19 +201,19 @@ class UserController extends BaseController
     {
         $paginator = new Paginator(
             $this->get('request'),
-            $this->getCourseService()->findUserLearnCourseCount($user['id']),
+            $this->getProductService()->findUserLearnProductCount($user['id']),
             10
         );
 
-        $courses = $this->getCourseService()->findUserLearnCourses(
+        $products = $this->getProductService()->findUserLearnProducts(
             $user['id'],
             $paginator->getOffsetCount(),
             $paginator->getPerPageCount()
         );
 
-        return $this->render('TopxiaWebBundle:User:courses.html.twig', array(
+        return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
-            'courses' => $courses,
+            'products' => $products,
             'paginator' => $paginator,
             'type' => 'learn',
         ));
@@ -223,19 +223,19 @@ class UserController extends BaseController
     {
         $paginator = new Paginator(
             $this->get('request'),
-            $this->getCourseService()->findUserTeachCourseCount($user['id']),
+            $this->getProductService()->findUserTeachProductCount($user['id']),
             10
         );
 
-        $courses = $this->getCourseService()->findUserTeachCourses(
+        $products = $this->getProductService()->findUserTeachProducts(
             $user['id'],
             $paginator->getOffsetCount(),
             $paginator->getPerPageCount()
         );
 
-        return $this->render('TopxiaWebBundle:User:courses.html.twig', array(
+        return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
-            'courses' => $courses,
+            'products' => $products,
             'paginator' => $paginator,
             'type' => 'teach',
         ));

@@ -4,7 +4,7 @@ namespace Topxia\DataTag;
 
 use Topxia\DataTag\DataTag;
 
-class UserandProfilesDataTag extends CourseBaseDataTag implements DataTag  
+class UserandProfilesDataTag extends ProductBaseDataTag implements DataTag  
 {
     
     /**

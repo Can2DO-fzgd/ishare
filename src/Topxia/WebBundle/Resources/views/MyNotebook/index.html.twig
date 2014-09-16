@@ -11,12 +11,17 @@
   <div class="panel-heading">我的留言</div>
   <div class="panel-body">
     <ul class="media-list notebook-list" id="notebook-list">
-      {% for member in courseMembers %}
-        {% set course = courses[member.courseId] %}
+      {% for member in productMembers %}
+        {% set product = products[member.productId] %}
         <div class="media">
-          <img class="pull-left media-object" src="{{ file_path(course.largePicture, 'course-large.png') }}">
+		  {% if product.typeimg != '' %}
+			<img class="pull-left media-object"  src="/attach/productpic/{{ product.typeimg }}" />
+		  {% else %}
+			<img class="pull-left media-object" src="{{ file_path(product.largePicture, 'product-large.png') }}">
+		  {% endif %}
+          
           <div class="media-body">
-            <h4 class="media-heading">{{course.title}}</h4>
+            <h4 class="media-heading">{{product.name}}</h4>
             <div class="notebook-metas">
               <span class="notebook-number">共 {{ member.noteNum }} 条留言</span>
             </div>
@@ -24,7 +29,7 @@
               {% if member.noteLastUpdateTime > 0 %}
                 <span class="notebook-time">最后更新 {{ member.noteLastUpdateTime | smart_time }}</span>
               {% endif %}
-              <a class="pull-right notebook-go" href="{{ path('my_notebook_show', {courseId: course.id }) }}">查看留言</a>
+              <a class="pull-right notebook-go" href="{{ path('my_notebook_show', {productId: product.id }) }}">查看留言</a>
             </div>
           </div>
         </div>

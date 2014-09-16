@@ -2,12 +2,12 @@ admin:
     pattern:  /
     defaults: { _controller: TopxiaAdminBundle:Default:index }
 
-admin_popular_courses:
-    pattern:  /popular_courses
-    defaults: { _controller: TopxiaAdminBundle:Default:popularCourses }
+admin_popular_products:
+    pattern:  /popular_products
+    defaults: { _controller: TopxiaAdminBundle:Default:popularProducts }
 
 admin_question_remind_teachers:
-    pattern: /course/{courseId}/question/{questionId}/remindTeachers
+    pattern: /product/{productId}/question/{questionId}/remindTeachers
     defaults: { _controller: TopxiaAdminBundle:Default:questionRemindTeachers }
     methods:  [POST]
 
@@ -224,75 +224,75 @@ admin_review_batch_delete:
 
 admin_note:
     pattern: /note
-    defaults: { _controller: TopxiaAdminBundle:CourseNote:index }
+    defaults: { _controller: TopxiaAdminBundle:ProductNote:index }
 
 admin_note_delete:
     pattern: /note/{id}/delete
-    defaults: { _controller: TopxiaAdminBundle:CourseNote:delete }
+    defaults: { _controller: TopxiaAdminBundle:ProductNote:delete }
     methods: [POST]
 
 admin_note_batch_delete:
     pattern: /note/batch_delete
-    defaults: { _controller: TopxiaAdminBundle:CourseNote:batchDelete }
+    defaults: { _controller: TopxiaAdminBundle:ProductNote:batchDelete }
     methods: [POST]
 
-admin_course:
-    pattern:  /course
-    defaults: { _controller: TopxiaAdminBundle:Course:index }
+admin_product:
+    pattern:  /product
+    defaults: { _controller: TopxiaAdminBundle:Product:index }
 
-admin_course_delete:
-    pattern:  /course/{id}/delete
-    defaults: { _controller: TopxiaAdminBundle:Course:delete }
+admin_product_delete:
+    pattern:  /product/{id}/delete
+    defaults: { _controller: TopxiaAdminBundle:Product:delete }
     methods: [POST]
 
-admin_course_publish:
-    pattern: /course/{id}/publish
-    defaults: { _controller: TopxiaAdminBundle:Course:publish }
+admin_product_publish:
+    pattern: /product/{id}/publish
+    defaults: { _controller: TopxiaAdminBundle:Product:publish }
     methods: [POST]
 
-admin_course_close:
-    pattern: /course/{id}/close
-    defaults: { _controller: TopxiaAdminBundle:Course:close }
+admin_product_close:
+    pattern: /product/{id}/close
+    defaults: { _controller: TopxiaAdminBundle:Product:close }
     methods: [POST]
 
-admin_course_recommend:
-    pattern: /course/{id}/recommend
-    defaults: { _controller: TopxiaAdminBundle:Course:recommend }
+admin_product_recommend:
+    pattern: /product/{id}/recommend
+    defaults: { _controller: TopxiaAdminBundle:Product:recommend }
 
-admin_course_cancel_recommend:
-    pattern: /course/{id}/recommend/cancel
-    defaults: { _controller: TopxiaAdminBundle:Course:cancelRecommend }
+admin_product_cancel_recommend:
+    pattern: /product/{id}/recommend/cancel
+    defaults: { _controller: TopxiaAdminBundle:Product:cancelRecommend }
     methods: [POST]
 
-admin_course_chooser:
-    pattern: /course/chooser
-    defaults: { _controller: TopxiaAdminBundle:Course:chooser }
+admin_product_chooser:
+    pattern: /product/chooser
+    defaults: { _controller: TopxiaAdminBundle:Product:chooser }
 
-admin_course_recommend_list:
-    pattern: /course/recommend/list
-    defaults: { _controller: TopxiaAdminBundle:Course:recommendList }
+admin_product_recommend_list:
+    pattern: /product/recommend/list
+    defaults: { _controller: TopxiaAdminBundle:Product:recommendList }
 
-admin_course_category:
-    pattern: /course/category
-    defaults: { _controller: TopxiaAdminBundle:Course:category }
+admin_product_category:
+    pattern: /product/category
+    defaults: { _controller: TopxiaAdminBundle:Product:category }
 
-admin_course_disk:
-    pattern: /course/disk
-    defaults: { _controller: TopxiaAdminBundle:CourseDisk:index }
+admin_product_disk:
+    pattern: /product/disk
+    defaults: { _controller: TopxiaAdminBundle:ProductDisk:index }
 
-admin_course_disk_delete:
+admin_product_disk_delete:
     pattern: /disk/{id}/delete
-    defaults: { _controller: TopxiaAdminBundle:CourseDisk:delete }
+    defaults: { _controller: TopxiaAdminBundle:ProductDisk:delete }
     methods: [POST]
 
-admin_course_disk_batch_delete:
+admin_product_disk_batch_delete:
     pattern: /disk/batch_delete
-    defaults: { _controller: TopxiaAdminBundle:CourseDisk:batchDelete }
+    defaults: { _controller: TopxiaAdminBundle:ProductDisk:batchDelete }
     methods: [POST]
 
-admin_course_order_manage:
-    pattern: /course/order/manage
-    defaults: { _controller: TopxiaAdminBundle:CourseOrder:manage }
+admin_product_order_manage:
+    pattern: /product/order/manage
+    defaults: { _controller: TopxiaAdminBundle:ProductOrder:manage }
 
 admin_order:
     pattern: /order
@@ -304,16 +304,16 @@ admin_order_detail:
 
 admin_order_refunds:
     pattern: /order/refunds
-    defaults: { _controller: TopxiaAdminBundle:CourseOrder:refunds }
+    defaults: { _controller: TopxiaAdminBundle:ProductOrder:refunds }
 
 admin_order_cancel_refund:
     pattern: /order/{id}/cancel_refund
-    defaults: { _controller: TopxiaAdminBundle:CourseOrder:cancelRefund }
+    defaults: { _controller: TopxiaAdminBundle:ProductOrder:cancelRefund }
     methods: [POST]
 
 admin_order_audit_refund:
     pattern: /order/{id}/audit_refund
-    defaults: { _controller: TopxiaAdminBundle:CourseOrder:auditRefund }
+    defaults: { _controller: TopxiaAdminBundle:ProductOrder:auditRefund }
 
 admin_setting_site:
     pattern:  /setting/site
@@ -390,9 +390,9 @@ admin_setting_user_center:
     pattern:  /setting/user-center
     defaults: { _controller: TopxiaAdminBundle:Setting:userCenter }
 
-admin_setting_course_setting:
-    pattern:  /setting/course-setting
-    defaults: { _controller: TopxiaAdminBundle:Setting:courseSetting }
+admin_setting_product_setting:
+    pattern:  /setting/product-setting
+    defaults: { _controller: TopxiaAdminBundle:Setting:productSetting }
 
 admin_setting_admin_sync:
     pattern:  /setting/admin_sync
@@ -565,16 +565,16 @@ admin_login_record_details:
 
 admin_thread:
     pattern:  /thread
-    defaults: { _controller: TopxiaAdminBundle:CourseThread:index }
+    defaults: { _controller: TopxiaAdminBundle:ProductThread:index }
 
 admin_thread_delete:
     pattern: /thread/{id}/delete
-    defaults: {_controller: TopxiaAdminBundle:CourseThread:delete }
+    defaults: {_controller: TopxiaAdminBundle:ProductThread:delete }
     methods: [POST]
 
 admin_thread_batch_delete:
     pattern: /thread/batch_delete
-    defaults: {_controller: TopxiaAdminBundle:CourseThread:batchDelete }
+    defaults: {_controller: TopxiaAdminBundle:ProductThread:batchDelete }
     methods: [POST]
 
 admin_money_card:
@@ -627,7 +627,7 @@ admin_money_card_batch_export_csv:
 
 admin_question:
     pattern:  /question/{postStatus}
-    defaults: { _controller: TopxiaAdminBundle:CourseQuestion:index }
+    defaults: { _controller: TopxiaAdminBundle:ProductQuestion:index }
 
 admin_approval_approving:
     pattern:  approvals/approving

@@ -446,30 +446,30 @@ class SettingController extends BaseController
         ));
     }
 
-    public function courseSettingAction(Request $request)
+    public function productSettingAction(Request $request)
     {
-        $courseSetting = $this->getSettingService()->get('course', array());
+        $productSetting = $this->getSettingService()->get('product', array());
 
         $default = array(
             'welcome_message_enabled' => '0',
-            'welcome_message_body' => '{{userName}},欢迎关注产品{{course}}',
+            'welcome_message_body' => '{{userName}},欢迎关注产品{{product}}',
             'buy_fill_userinfo' => '0',
             'teacher_modify_price' => '1',
             'student_download_media' => '0',
-            'relatedCourses' => '0'
+            'relatedProducts' => '0'
         );
 
-        $courseSetting = array_merge($default, $courseSetting);
+        $productSetting = array_merge($default, $productSetting);
 
         if ($request->getMethod() == 'POST') {
-            $courseSetting = $request->request->all();
-            $this->getSettingService()->set('course', $courseSetting);
-            $this->getLogService()->info('system', 'update_settings', "更新产品设置", $courseSetting);
+            $productSetting = $request->request->all();
+            $this->getSettingService()->set('product', $productSetting);
+            $this->getLogService()->info('system', 'update_settings', "更新产品设置", $productSetting);
             $this->setFlashMessage('success','产品设置已保存！');
         }
 
-        return $this->render('TopxiaAdminBundle:System:course-setting.html.twig', array(
-            'courseSetting' => $courseSetting
+        return $this->render('TopxiaAdminBundle:System:product-setting.html.twig', array(
+            'productSetting' => $productSetting
         ));
     }
 

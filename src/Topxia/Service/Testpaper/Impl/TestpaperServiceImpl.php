@@ -229,7 +229,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
     public function findAllTestpapersByTarget ($id)
     {
-        $target = 'course-'.$id;
+        $target = 'product-'.$id;
         return $this->getTestpaperDao()->findTestpaperByTargets(array($target));
     }
 
@@ -798,9 +798,9 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
         $target = explode('-', $paper['target']);
 
-        if ($target[0] == 'course') {
+        if ($target[0] == 'product') {
             $targetId = explode('/', $target[1]);
-            $member = $this->getCourseService()->getCourseMember($targetId[0], $user['id']);
+            $member = $this->getProductService()->getProductMember($targetId[0], $user['id']);
 
             // @todo: 这个是有问题的。
             if ($member['role'] == 'teacher') {
@@ -815,7 +815,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
         $members = $this->getMemberDao()->findAllMemberByUserIdAndRole($teacherId, 'teacher');
 
         $targets = array_map(function($member){
-            return "course-".$member['courseId'];
+            return "product-".$member['productId'];
         }, $members);
 
         return $this->getTestpaperDao()->findTestpaperByTargets($targets);
@@ -842,9 +842,9 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
         return $this->createDao('Testpaper.TestpaperItemResultDao');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->createService('Course.CourseService');
+        return $this->createService('Product.ProductService');
     }
 
     private function getQuestionService()
@@ -854,6 +854,6 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
     private function getMemberDao ()
     {
-        return $this->createDao('Course.CourseMemberDao');
+        return $this->createDao('Product.ProductMemberDao');
     }
 }

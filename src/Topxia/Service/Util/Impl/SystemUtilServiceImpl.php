@@ -11,12 +11,12 @@ class SystemUtilServiceImpl extends BaseService implements SystemUtilService
     //TODO 删除之前检查该文件是否被其他产品使用
 	public function removeUnusedUploadFiles()
 	{
-		$targets = $this->getSystemUtilDao()->getCourseIdsWhereCourseHasDeleted();
+		$targets = $this->getSystemUtilDao()->getProductIdsWhereProductHasDeleted();
 		if(empty($targets)) return ;
 		$targets = $this->plainTargetId($targets);
 		foreach ($targets as $target) {
 	        $conditions = array(
-	            'targetType'=> 'courselesson', 
+	            'targetType'=> 'productlesson', 
 	            'targetId'=>$target
 	        );
         	$uploadFiles = $this->getUploadFileService()->searchFiles(

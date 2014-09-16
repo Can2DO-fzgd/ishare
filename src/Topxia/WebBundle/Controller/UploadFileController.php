@@ -191,7 +191,7 @@ class UploadFileController extends BaseController
         $file = $this->getUploadFileService()->convertFile($file['id'], 'success', $data['items']);
 
         $this->getNotificationService()->notify($file['createdUserId'], 'cloud-file-converted', array(
-            'courseId' => $file['targetId'],
+            'productId' => $file['targetId'],
             'filename' => $file['filename'],
         ));
 
@@ -203,9 +203,9 @@ class UploadFileController extends BaseController
         return $this->getServiceKernel()->createService('File.UploadFileService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getNotificationService()

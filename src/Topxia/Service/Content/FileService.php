@@ -46,6 +46,7 @@ interface FileService
 	 * @return array 文件记录，包含File对象
 	 */
 	public function uploadFile($group, File $file, $target = null);
+	public function uploadFile1($group, File $file, $target = null);
 
 	/**
 	 * 删除文件

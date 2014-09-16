@@ -141,7 +141,7 @@ class UserController extends BaseController
             $this->getUserService()->changeUserRoles($user['id'], $roles);
 
             if (in_array('ROLE_TEACHER', $user['roles']) && !in_array('ROLE_TEACHER', $roles)) {
-                $this->getCourseService()->cancelTeacherInAllCourses($user['id']);
+                $this->getProductService()->cancelTeacherInAllProducts($user['id']);
             }
 
             $user = $this->getUserService()->getUser($id);
@@ -371,9 +371,9 @@ class UserController extends BaseController
         return $this->getServiceKernel()->createService('System.SettingService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getAuthService()

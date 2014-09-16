@@ -73,7 +73,7 @@ class UploadFileDaoImpl extends BaseDao implements UploadFileDao
         $file['createdTime'] = time();
         $affected = $this->getConnection()->insert($this->table, $file);
         if ($affected <= 0) {
-            throw $this->createDaoException('Insert Course File disk file error.');
+            throw $this->createDaoException('Insert Product File disk file error.');
         }
         return $this->getFile($this->getConnection()->lastInsertId());
     }

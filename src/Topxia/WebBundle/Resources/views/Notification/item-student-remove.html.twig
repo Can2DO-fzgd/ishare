@@ -5,7 +5,7 @@
   <div class="media-body">
     <div class="notification-body">
       {% set data = notification.content %}
-      您已经被管理员移除您关注的产品<a href="{{ path('course_show', {id:data.courseId}) }}">《{{ data.courseTitle }}》</a>的关注身份，不能再继续关注该产品。如有疑问，请联系网站客服。
+      您已经被管理员移除您关注的产品<a href="{{ path('product_show', {id:data.productId}) }}">《{{ data.productName }}》</a>的关注身份，不能再继续关注该产品。如有疑问，请联系网站客服。
     </div>
     <div class="notification-footer">
       {{ notification.createdTime | date('Y-n-d H:i:s') }}

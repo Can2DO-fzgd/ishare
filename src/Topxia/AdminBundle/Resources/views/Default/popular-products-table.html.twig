@@ -1,0 +1,26 @@
+{% if products %}
+	<table class="table table-condensed table-striped table-hover">
+	  <thead>
+	    <tr>
+	      <th>产品名称</th>
+	      <th>新增购买人数</th>
+	      <th>总购买人数</th>
+	      <th>新增收入</th>
+	    </tr>
+	  </thead>
+		<tbody>
+			{% for product in products %}
+				<tr>
+					<td>
+						<a href="{{ path('product_show', {id: product.id}) }}" target="_blank">{{ product.name }}</a>
+					</td>
+					<td>{{ product['addedStudentNum'] }} 人 </td>
+					<td>{{ product['studentNum'] }} 人</td>
+					<td class="money-text">{{ product['addedMoney'] }} 元 </td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+  <div class="empty">暂无受欢迎产品</div>
+{% endif %}

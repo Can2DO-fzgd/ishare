@@ -63,10 +63,10 @@ class CouponBatchController extends BaseController
                 unset($couponData['discount-rate']);
             }
 
-            if ($couponData['targetType'] == 'course')
+            if ($couponData['targetType'] == 'product')
             {
-                $couponData['targetId'] = $couponData['courseId'];
-                unset($couponData['courseId']);
+                $couponData['targetId'] = $couponData['productId'];
+                unset($couponData['productId']);
             }
 
             $batch = $this->getCouponService()->generateCoupon($couponData);
@@ -139,14 +139,14 @@ class CouponBatchController extends BaseController
             $paginator->getPerPageCount()
         );
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($coupons, 'userId'));
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($coupons, 'targetId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($coupons, 'targetId'));
 
         return $this->render('TopxiaAdminBundle:Coupon:coupon-modal.html.twig', array(
             'coupons' => $coupons,
             'batch' => $batch,
             'paginator' => $paginator,
             'users' => $users,
-            'courses' => $courses
+            'products' => $products
         ));
     }
 
@@ -155,9 +155,9 @@ class CouponBatchController extends BaseController
         return $this->getServiceKernel()->createService('Coupon.CouponService');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     private function getCategoryService()

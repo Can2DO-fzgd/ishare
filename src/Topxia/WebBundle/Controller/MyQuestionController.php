@@ -134,9 +134,9 @@ class MyQuestionController extends BaseController
 		return $this->getServiceKernel()->createService('Question.QuestionService');
 	}
 
-	private function getCourseService ()
+	private function getProductService ()
 	{
-		return $this->getServiceKernel()->createService('Course.CourseService');
+		return $this->getServiceKernel()->createService('Product.ProductService');
 	}
 
     private function getTestpaperService()

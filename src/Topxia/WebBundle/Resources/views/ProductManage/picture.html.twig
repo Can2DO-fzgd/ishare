@@ -1,0 +1,52 @@
+{% extends 'TopxiaWebBundle:ProductManage:layout.html.twig' %}
+
+{% block title %}产品图片 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'picture' %}
+{% set script_controller = 'product-manage/picture' %}
+{% block main %}
+
+<div class="panel panel-default panel-col">
+  <div class="panel-heading">
+    产品图片
+  </div>
+
+  <div>
+  <!--<div class="panel-body">-->
+    <form id="product-picture-form" method="post" action="{{ path('product_manage_picture', {id:product.id}) }}" enctype="multipart/form-data">
+      {{ web_macro.flash_messages() }}
+
+      <div class="form-group clearfix">
+        <div class="col-md-offset-2 col-md-8 controls">
+		<!-- /file_path(product.smallpicture) file_path(product.middlepicture) file_path(product.largeepicture)-->
+          <!-- /<img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" />-->
+		  {% if product.typeimg != '' %}
+		  <img src="/attach/productpic/{{ product.typeimg }}" />
+		  {% else %}
+		  <img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" />
+		  {% endif %}
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <div class="col-md-offset-2 col-md-8 controls">
+          <input id="product-picture-field" type="file" name="picture" accept="image/gif,image/jpeg,image/png">
+          <p class="help-block">你可以上传jpg, gif, png格式的文件, 图片建议尺寸至少为480x270。<br>文件大小不能超过<strong>{{ upload_max_filesize()/100 }}</strong>。</p>
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <div class="col-md-offset-2 col-md-8 controls">
+          <button class="btn btn-fat btn-primary" id="upload-picture-btn" type="submit">上传</button>
+        </div>
+      </div>
+
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+      
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+

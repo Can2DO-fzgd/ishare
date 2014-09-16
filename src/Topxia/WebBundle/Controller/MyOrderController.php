@@ -62,7 +62,7 @@ class MyOrderController extends BaseController
 
     public function cancelRefundAction(Request $request, $id)
     {
-        $this->getCourseOrderService()->cancelRefundOrder($id);
+        $this->getProductOrderService()->cancelRefundOrder($id);
         return $this->createJsonResponse(true);
     }
 
@@ -71,14 +71,14 @@ class MyOrderController extends BaseController
         return $this->getServiceKernel()->createService('Order.OrderService');
     }
 
-    private function getCourseOrderService()
+    private function getProductOrderService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseOrderService');
+        return $this->getServiceKernel()->createService('Product.ProductOrderService');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

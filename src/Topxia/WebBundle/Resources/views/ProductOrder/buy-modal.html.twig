@@ -1,0 +1,177 @@
+{% extends 'TopxiaWebBundle::bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{% if product.price > 0 %}购买产品{% else %}我要关注{% endif %}{% endblock %}
+{% block body %}
+  
+  <form id="product-buy-form" class="form-horizontal" method="post" action="{{ path('product_order_pay') }}">
+
+    <div class="form-group">
+      <div class="col-md-3 control-label">产品名称</div>
+      <div class="col-md-9 controls">
+      	<span class="control-text text-muted">{{ product.name }}</span>
+      </div>
+    </div>
+
+    {% if product.price > 0 %}
+    <div class="form-group">
+      <div class="col-md-3 control-label">价格</div>
+      <div class="col-md-9 controls money-text">
+      	<span class="control-text"><strong class="money">{{ product.price }}</strong>
+      		<span class="text-muted">元</span>
+      	</span>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if product.price > 0 %}
+      {% if payments %}
+        <div class="form-group">
+          <div class="col-md-3 control-label">选择支付方式</div>
+          <div class="col-md-9 controls">
+            {% for payment, options in payments %}
+            	<input type="radio" checked="checked" />
+            	<img src="{{ asset('assets/img/order/alipay.gif') }}" />
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if payments.alipay.type|default(null) == 'dualfun' %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-info">
+            <h4>付款提示</h4>
+            请在随后的支付宝支付页面中，选择“<strong>即时到帐交易</strong>”，如下图所示。如果选择“担保交易”需要人工确认，将会产生较大延迟。
+            <br>
+            <img src="{{ asset('bundles/topxiaweb/img/order/alipay_dualfun_example.png') }}">
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if setting('coupon.enabled') %}
+
+          <div class="form-group coupon-btn-group">
+            <div class="col-md-7 col-md-offset-3 controls">
+              <a href="javascript:;" id="show-coupon-input">使用优惠码</a>
+            </div>
+          </div>
+
+        {% endif %}
+
+        <div class="form-group coupon-input-group" style="display:none">
+          <div class="col-md-7 col-md-offset-3 controls">
+            <div class="input-group">
+              <input type="text" class="form-control" name="coupon">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-use-coupon" data-url="{{ path('coupon_check', {type:'product', id:product.id}) }}" type="button">使用</button>
+                <button href="javascript:;" class="btn btn-link btn-cancel-coupon" type="button">取消</button>
+              </span>
+            </div>
+            <div class="help-block coupon-error" style="display:none;"></div>
+          </div>
+        </div>
+
+      {% else %}
+        <div class="alert alert-info">{{ setting('payment.disabled_message')|default('尚未开启支付模块，无法购买产品。')|raw }}</div>
+      {% endif %}
+    {% else %}
+      <div class="row">
+        <div class="col-md-12">
+          {% if avatarAlert %}
+            <div class="alert alert-warning">您还没有头像，设置以后才能关注<br />拥有一个独有的头像，享客和会员们能更容易关注到你哦～～ <a href="{{ path('settings_avatar') }}" class="alert-link" target="_blank">点击设置</a></div>
+          {% else %}
+            <div class="alert alert-info">此产品为免费产品，无需购买，可直接查看产品信息。</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <input type="hidden" name="productId" value="{{ product.id }}" />
+    <input type="hidden" name="payment" value="alipay" />
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+{% if productSetting.buy_fill_userinfo|default(false) %}
+    <br><br>
+    <div class="nav nav-tabs">
+    <div class="help-block">温情提示：如果您的资料有变更，请在此修改，以便更好的为您服务！</div>
+    </div><br>
+
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="truename">真实姓名 <span class="required">*</span></label>
+      <div class="col-md-6 controls">
+        {% if user.approvalStatus == 'approved' %}
+          <div class="control-text">{{ user.truename }} <small class="text-success">(已认证)</small></div>
+        {% elseif user.approvalStatus == 'approving' %}
+          <div class="control-text">{{ user.truename }} <small class="text-warning">(真实认证中)</small></div>
+        {% else %}
+          <input class="form-control" id="truename" type="text" name="truename" value="{{ user.truename }}">
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="mobile">备用手机 <span class="required">*</span></label>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="mobile" type="text" name="mobile" value="{{ user.mobile }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="qq">QQ</label>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="qq" type="text" name="qq" value="{{ user.qq }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="company">所在公司</label>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="company" type="text" name="company" value="{{ user.company }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">职位</label>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="job" type="text" name="job" value="{{ user.job }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">备注</label>
+      <div class="col-md-6 controls">
+        <textarea class="form-control" id="note" name="note"></textarea>
+      </div>
+    </div>
+{% endif %}
+
+
+  </form>
+{% endblock %}
+
+{% block footer %}
+  {% if product.price > 0 %}
+    {% if payments %}
+      {% if member %}
+        <span class="text-muted">预览模式无法支付</span>
+        <button class="btn btn-primary" disabled="disabled">去支付</button> 
+      {% else %}
+        <button class="btn btn-primary" type="submit" data-toggle="form-submit" data-target="#product-buy-form">去支付</button>
+      {% endif %}
+    {% endif %}
+  {% else %}
+    {% if member %}
+      <span class="text-muted">预览模式无法加入关注</span>
+      <button class="btn btn-primary" disabled="disabled">加入关注</button> 
+    {% else %}  
+      {% if not avatarAlert %}
+        <button class="btn btn-primary" type="submit" data-toggle="form-submit" data-target="#product-buy-form">加入关注</button>
+      {% endif %}
+    {% endif %}
+
+  {% endif %}
+
+  <script>
+    app.load('product/buy-modal');
+  </script>
+{% endblock %}

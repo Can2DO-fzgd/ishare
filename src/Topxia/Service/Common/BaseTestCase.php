@@ -56,7 +56,7 @@ class BaseTestCase extends WebTestCase
             'email' => 'admin@admin.com',
             'password'=>'admin',
             'currentIp' => '127.0.0.1',
-            'roles' => array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER')
+            'roles' => array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER','ROLE_MANUFACTURER','ROLE_MERCHANTS','ROLE_AGENT')
         ));
         $serviceKernel->setCurrentUser($currentUser);      
         $this->serviceKernel = $serviceKernel;
@@ -83,7 +83,7 @@ class BaseTestCase extends WebTestCase
             'email' => 'admin@admin.com',
             'password'=>'admin',
             'loginIp' => '127.0.0.1',
-            'roles' => array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER')
+            'roles' => array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER','ROLE_MANUFACTURER','ROLE_MERCHANTS','ROLE_AGENT')
         ));
     }
 

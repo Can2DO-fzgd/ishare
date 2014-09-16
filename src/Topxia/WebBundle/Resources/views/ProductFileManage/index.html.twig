@@ -1,0 +1,90 @@
+{% extends 'TopxiaWebBundle:ProductManage:layout.html.twig' %}
+
+{% block title %}产品使用说明书材料管理 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'files' %}
+{% set tab = 'productLesson' %}
+{% set script_controller = 'product-manage-file/index' %}
+
+{% block main %}
+
+<div class="panel panel-default panel-col">
+
+  <div class="panel-heading">
+
+      {% if type == 'productlesson' %}    
+
+      <button class="btn btn-info btn-sm pull-right" data-toggle="modal" data-backdrop="static" data-target="#modal" data-url="{{ path('product_manage_upload_product_files', {id:product.id, targetType:'productlesson'}) }}">
+          <i class="glyphicon glyphicon-cloud-upload"></i>上传产品补充说明附件
+        </button>
+
+      {% elseif type == 'productmaterial' %}
+
+        <button class="btn btn-info btn-sm pull-right" data-toggle="modal" data-backdrop="static" data-target="#modal" data-url="{{ path('product_manage_upload_product_files', {id:product.id, targetType:'productmaterial'}) }}">
+          <i class="glyphicon glyphicon-cloud-upload"></i>上传备用产品补充说明附件
+        </button>
+
+      {% endif %}
+
+    产品补充说明附件管理
+  </div>
+
+
+  <div class="panel-body" id="file-manage-panel"> 
+
+    <ul class="nav nav-tabs mbm">
+      <li {% if type == 'productlesson' %} class="active" {% endif %}>
+        <a href="{{ path('product_manage_files', {id:product.id, type:'productlesson'}) }}">产品补充说明附件</a></li>
+      <li {% if type == 'productmaterial' %} class="active" {% endif %}><a href="{{ path('product_manage_files', {id:product.id, type:'productmaterial'}) }}">备用产品补充说明附件</a></li>
+    </ul>
+
+    <table class="table table-striped table-hover" id="product-lesson-table">
+      <thead>
+        <tr>
+          <th width="5%"><input type="checkbox"  data-role="batch-select"></th>
+          <th>材料名</th>
+          <th>类型</th>
+          <th>大小</th>
+          <th>最后更新</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for uploadFile in productLessons %}
+          {% include 'TopxiaWebBundle:ProductFileManage:tbody-tr.html.twig' %}
+        {% else %}
+          <tr class="empty"><td colspan="20">无文件记录</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <label class="checkbox-inline mrm"><input type="checkbox" data-role="batch-select"> 全选</label>
+    
+
+    <div class="btn-group">
+      <button class="btn btn-danger btn-sm" data-role="batch-delete" data-name="材料记录" data-url="{{ path('product_manage_upload_product_delete_files', {id:product.id, type:tab}) }}">
+        <i class="glyphicon glyphicon-trash"></i>
+      删除</button>
+
+    </div>
+    
+    <div class="mbl">
+       {{ web_macro.paginator(paginator) }}
+    </div>
+
+   {% if type == 'productmaterial' %}
+
+      <div class="alert alert-info">
+        <ul>
+          <li>上传备用产品补充说明附件成功后，在添加产品补充说明附件时可直接选取。</li>
+          <li><strong><a href="{{ path('product_materials', {id:product.id}) }}">产品使用材料区</a></strong>显示的是所有产品下的补充产品附件文件。</li>
+        </ul>
+      </div>
+    {% endif %}
+    
+
+
+  </div>
+
+</div>
+
+{% endblock %}

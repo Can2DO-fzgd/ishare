@@ -1,0 +1,67 @@
+{% extends 'TopxiaWebBundle::layout.html.twig' %}
+
+{% block title %}发布分享产品 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'product/create' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default panel-page">
+      <div class="panel-heading"><h2>发布分享产品</h2></div>
+
+      {% if not app.user.largeAvatar or not app.user.title or not userProfile.about %}
+        <div class="alert alert-info">
+          <h5><strong>请先完成以下设置，才能发布分享产品：</strong></h5>
+          <ol>
+            <li>设置头像。
+              {% if app.user.largeAvatar %}
+                <span class="text-success"><span class="glyphicon glyphicon-ok-circle"></span> 已完成</span> </li>
+              {% else %}
+                <span class="text-danger"><span class="glyphicon glyphicon-remove-circle"></span> 未完成</span>，<a href="{{ path('settings_avatar') }}" class="alert-link">去设置</a>
+              {% endif %}
+            <li>设置头衔 、自我介绍。
+              {% if app.user.title and userProfile.about %}
+                <span class="text-success"><span class="glyphicon glyphicon-ok-circle"></span> 已完成</span> </li>
+              {% else %}
+                <span class="text-danger"><span class="glyphicon glyphicon-remove-circle"></span> 未完成</span>，<a href="{{ path('settings') }}" class="alert-link">去设置</a>
+              {% endif %}
+            </li>
+          </ol>
+        </div>
+      {% else %}
+        <form id="product-create-form" class="form-horizontal" method="post">
+
+          {{ web_macro.flash_messages() }}
+
+          {{ form_errors(form) }}
+
+          <div class="form-group">
+            <div class="col-md-3 control-label">{{ form_label(form.name, '请输入发布分享的产品名称') }}</div>
+            <div class="col-md-9 controls">{{ form_widget(form.name, {attr:{class:'form-control'}}) }}</div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-6 col-md-6 controls">
+              {{ form_rest(form) }}
+              <input id="product-create-btn" data-submiting-text="正在发布分享产品，请稍后！" class="btn btn-fat btn-primary" type="submit" value="发布分享">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-6 col-md-6 controls">
+              <p class="mtl"><a href="http://www.can2do.com" class="text-muted" target="_blank">如何发布分享产品，点此查看教程？</a></p>
+            </div>
+          </div>
+
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+        </form>
+
+      {% endif %}
+    </div><!-- /panel -->
+
+
+  </div>
+
+</div>
+{% endblock %}

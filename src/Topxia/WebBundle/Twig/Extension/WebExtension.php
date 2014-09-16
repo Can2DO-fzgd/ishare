@@ -33,7 +33,7 @@ class WebExtension extends \Twig_Extension
             'score_text' => new \Twig_Filter_Method($this, 'scoreTextFilter'),
             'fill_question_stem_text' =>new \Twig_Filter_Method($this, 'fillQuestionStemTextFilter'),
             'fill_question_stem_html' =>new \Twig_Filter_Method($this, 'fillQuestionStemHtmlFilter'),
-            'get_course_id' => new \Twig_Filter_Method($this, 'getCourseidFilter')
+            'get_product_id' => new \Twig_Filter_Method($this, 'getProductidFilter')
         );
     }
 
@@ -224,7 +224,7 @@ class WebExtension extends \Twig_Extension
         $links = array();
         $tags = ServiceKernel::instance()->createService('Taxonomy.TagService')->findTagsByIds($tags);
         foreach ($tags as $tag) {
-            $url = $this->container->get('router')->generate('course_explore', array('tagId' => $tag['id']));
+            $url = $this->container->get('router')->generate('product_explore', array('tagId' => $tag['id']));
             $links[] = "<a href=\"{$url}\" class=\"{$class}\">{$tag['name']}</a>";
         }
         return implode(' ', $links);
@@ -307,8 +307,8 @@ class WebExtension extends \Twig_Extension
                 return $kernel->createService('User.UserService')->getUser($id);
             case 'category':
                 return $kernel->createService('Taxonomy.CategoryService')->getCategory($id);
-            case 'course':
-                return $kernel->createService('Course.CourseService')->getCourse($id);
+            case 'product':
+                return $kernel->createService('Product.ProductService')->getProduct($id);
             case 'file_group':
                 return $kernel->createService('Content.FileService')->getFileGroup($id);
             default:
@@ -379,7 +379,7 @@ class WebExtension extends \Twig_Extension
         return $stem;
     }
 
-    public function getCourseidFilter($target)
+    public function getProductidFilter($target)
     {
         $target = explode('/', $target);
         $target = explode('-', $target[0]);

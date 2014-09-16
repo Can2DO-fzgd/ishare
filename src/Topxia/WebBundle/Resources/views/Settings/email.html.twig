@@ -19,7 +19,7 @@
           <div class="col-md-8 controls">
             <span class="control-text">
               {{ app.user.email }}
-              {% if app.user.emailVerified %}
+              {% if app.user.mailstate %}
                 <span class="text-success">(已验证)</span>
               {% else %}
                 <p class="help-block mtm">

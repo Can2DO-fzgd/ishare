@@ -6,9 +6,9 @@
     <div class="notification-body">
       {% set data = notification.content %}
       <a href="{{ path('user_show', {id:data.threadUserId}) }}" target="_blank">{{ data.threadUserUserName }}</a>
-      在产品 <a href="{{ path('course_show', {id:data.courseId}) }}">{{ data.courseTitle }}</a>
+      在产品 <a href="{{ path('product_show', {id:data.productId}) }}">{{ data.productName }}</a>
       发表了{% if data.threadType == 'question' %}问题{% else %}话题{% endif %}
-      <a href="{{ path('course_thread_show', {courseId:data.courseId, id:data.threadId}) }}"  target="_blank">{{ data.threadTitle }}</a>。
+      <a href="{{ path('product_thread_show', {productId:data.productId, id:data.threadId}) }}"  target="_blank">{{ data.threadTitle }}</a>。
     </div>
     <div class="notification-footer">
       {{ notification.createdTime | date('Y-n-d H:i:s') }}

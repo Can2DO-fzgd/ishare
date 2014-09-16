@@ -1,0 +1,100 @@
+{% set mode = mode|default('default') %}
+<ul class="product-grids">
+  {% for product in products %}
+    <li class="product-grid">
+      <a href="{{ path('product_show', {id:product.id}) }}" class="grid-body">
+        {% if product.typeimg != '' %}
+            <img src="/attach/productpic/{{ product.typeimg }}"  class="img-responsive thumb" />
+          {% else %}
+            <img src="{{ file_path(product.largePicture, 'product-large.png') }}"  class="img-responsive thumb">
+          {% endif %}
+		
+          {% if product.serializeMode=='serialize' %}
+            <span class="label label-success series-mode-label">更新中</span>
+          {% elseif product.serializeMode=='finished' %}
+            <span class="label label-warning series-mode-label">已上架</span>
+          {% endif %}
+        <span class="title">{{ product.name }}</span>
+        {% if mode in ['default', 'teach'] %}
+          <span class="metas clearfix">
+            <span class="price-col">
+              <span class="meta-label">价格</span>
+              {% if product.price > 0 %}
+                <span class="price-num">{{ product.price }}元</span>
+              {% else %}
+                <span class="price-num">免费</span>
+              {% endif %}
+            </span>
+
+            {% if product.showStudentNumType == 'opened' %}
+            <span class="student-col">
+              <span class="meta-label">买家会员</span>
+              <span class="student-num">{{ product.studentNum }}人</span>
+            </span>
+            {% endif %}
+
+            <span class="review-col">
+              {% if product.ratingNum > 0 %}
+                <span class="meta-label"><strong>{{ product.ratingNum }}</strong> 评价</span>
+                <span class="review-rating">
+                  <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
+                </span>
+              {% else %}
+                <span class="meta-label">无评价</span>
+                <span class="review-rating">
+                  <span class="stars-0">&nbsp;</span>
+                </span>
+              {% endif %}
+            </span>
+
+
+
+          </span>
+        {% endif %}
+
+        {% if mode in ['default'] %}
+          {% set user = users[product.teacherIds|first]|default(null) %}
+          {% if user %}
+            <span class="teacher clearfix">
+              <img src="{{ file_path(user.smallAvatar, 'avatar.png') }}" class="thumb">
+              <span class="userName ellipsis">{{ user.userName }}</span>
+              <span class="user-title ellipsis">{{ user.title }}</span>
+            </span>
+          {% endif %}
+        {% endif  %}
+
+        {% if mode in ['learn'] %}
+          <div class="learn-status">
+            {% if product.memberIsLearned %}
+              <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
+              </div>
+              <div class="action"><span class="btn btn-default btn-sm">查看产品</span></div>
+            {% else %}
+              <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: {{ percent(product.memberLearnedNum, product.lessonNum) }};"></div>
+              </div>
+              <div class="action"><span class="btn btn-primary btn-sm">继续关注</span></div>
+            {% endif %}
+          </div>
+          {% if product.status == 'draft' %}
+            <span class="label  label-warning product-status">未发布</span>
+          {% elseif product.status == 'closed' %}
+            <span class="label label-danger product-status">已上架</span>
+          {% endif %}       
+        {% endif %}
+
+        {% if mode == 'teach' %}
+          {% if product.status == 'published' %}
+            <span class="label label-success product-status">已上架</span>
+          {% elseif product.status == 'draft' %}
+            <span class="label  label-warning product-status">未发布</span>
+          {% elseif product.status == 'closed' %}
+            <span class="label label-danger product-status">已上架</span>
+          {% endif %}
+        {% endif %}
+
+      </a>
+    </li>
+  {% endfor %}
+</ul>

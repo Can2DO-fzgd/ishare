@@ -7,14 +7,14 @@ use Topxia\Service\System\SettingService;
 
 class AvatarAlert
 {
-	 public static function alertJoinCourse($user)
+	 public static function alertJoinProduct($user)
 	 {
 	 	$setting = self::getSettingService()->get('user_partner');
         if (empty($setting['avatar_alert'])) {
             return false;
         }
 
-        if ($setting['avatar_alert'] == 'when_join_course' && $user['mediumAvatar'] == '') {
+        if ($setting['avatar_alert'] == 'when_join_product' && $user['mediumAvatar'] == '') {
             return true;
         }
        

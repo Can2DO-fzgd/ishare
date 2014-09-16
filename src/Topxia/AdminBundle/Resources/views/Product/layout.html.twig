@@ -1,0 +1,37 @@
+{% extends 'TopxiaAdminBundle::layout.html.twig' %}
+
+{% set nav = 'product' %}
+
+{% block content %}
+  <div class="col-md-2">
+    {% block sidebar %}
+      <div class="list-group">
+        <a href="{{ path('admin_product') }}" class="list-group-item {% if menu == 'product' %}active{% endif %}">产品管理</a>
+
+        <a href="{{ path('admin_product_recommend_list') }}" class="list-group-item {% if menu == 'product-recommend-list' %}active{% endif %}">推荐产品列表</a>
+
+        <a href="{{ url('admin_product_order_manage') }}" class="list-group-item {% if menu == 'order' %}active{% endif %}">订单管理</a>
+
+        <a href="{{ url('admin_order_refunds', {status:'created'}) }}" class="list-group-item {% if menu == 'refunds' %}active{% endif %}">退款管理</a>
+
+        <a href="{{ path('admin_review') }}" class="list-group-item {% if menu == 'review' %}active{% endif %}">评价管理</a>
+
+        <a href="{{ url('admin_thread') }}" class="list-group-item {% if menu == 'thread' %}active{% endif %}">讨论区管理</a>
+
+        <a href="{{ url('admin_question', {postStatus: 'unPosted'}) }}" class="list-group-item {% if menu == 'question' %}active{% endif %}">问答管理</a>
+
+        <a href="{{ url('admin_note') }}" class="list-group-item {% if menu == 'note' %}active{% endif %}" >留言管理</a>
+
+        <a href="{{ url('admin_product_category') }}" class="list-group-item {% if menu == 'category' %}active{% endif %}">分类管理</a>
+
+        <a href="{{ url('admin_tag') }}" class="list-group-item {% if menu == 'tag' %}active{% endif %}">品牌标签管理</a>
+
+        <a href="{{ url('admin_product_disk') }}" class="list-group-item {% if menu == 'product-disk' %}active{% endif %}" style="display:none;">文件管理</a>
+
+      </div>
+    {% endblock %}
+  </div>
+  <div class="col-md-10">
+      {% block main %}{% endblock %}
+  </div>
+{% endblock %}

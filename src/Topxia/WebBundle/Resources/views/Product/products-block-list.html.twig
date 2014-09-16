@@ -1,0 +1,42 @@
+<ul class="product-wide-list">
+  {% for product in products %}
+  <li class="product-item clearfix">
+    <a class="product-picture-link" href="{{ path('product_show', {id:product.id}) }}">
+      {% if product.typeimg != '' %}
+            <img class="product-picture" src="/attach/productpic/{{ product.typeimg }}" alt="{{ product.name }}" />
+          {% else %}
+            <img class="product-picture" src="{{ file_path(product.middlePicture, 'product-large.png') }}" alt="{{ product.name }}">
+          {% endif %}
+	  
+    </a>
+    <div class="product-body">
+      <h4 class="product-title"><a href="{{ path('product_show', {id:product.id}) }}">{{ product.name }}</a>
+      {% if product.serializeMode=='serialize' %}
+        <span class="label label-success ">更新中</span>
+      {% elseif product.serializeMode=='finished' %}
+        <span class="label label-warning ">已上架</span>
+      {% endif %}
+      </h4>
+      <div class="product-about ellipsis">{{ product.jianjie }}</div>
+      <div class="product-footer clearfix">
+        {% set teacher = users[product.teacherIds|first]|default(null) %}
+        {% if teacher %}
+          <div class="teacher">
+            <a href="{{ path('user_show', {id:teacher.id}) }}"><img src="{{ file_path(teacher.smallAvatar, 'avatar.png') }}" class="teacher-avatar"></a>
+            <a class="teacher-userName ellipsis" href="{{ path('user_show', {id:teacher.id}) }}">{{ teacher.userName }}</a>
+            <span class="teacher-title ellipsis">{{ teacher.title }}</span>
+          </div>
+        {% endif %}
+        <div class="product-metas">
+          <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
+          <span class="divider"></span>
+          {% if product.showStudentNumType == 'opened' %}
+          <span class="text-muted mrm mls"><strong>{{ product.studentNum }}</strong>会员</span>
+          {% endif %}
+          <span class="product-price">{% if product.price > 0 %}{{ product.price }}元{% else %}可以查看补充说明{% endif %}</span>
+        </div>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>

@@ -9,7 +9,7 @@ class SearchController extends BaseController
 {
     public function indexAction(Request $request)
     {
-        $courses = $paginator = null;
+        $products = $paginator = null;
 
         $keywords = $request->query->get('q');
         if (!$keywords) {
@@ -23,11 +23,11 @@ class SearchController extends BaseController
 
         $paginator = new Paginator(
             $this->get('request'),
-            $this->getCourseService()->searchCourseCount($conditions)
+            $this->getProductService()->searchProductCount($conditions)
             , 10
         );
 
-        $courses = $this->getCourseService()->searchCourses(
+        $products = $this->getProductService()->searchProducts(
             $conditions,
             'latest',
             $paginator->getOffsetCount(),
@@ -36,20 +36,20 @@ class SearchController extends BaseController
 
         response:
         return $this->render('TopxiaWebBundle:Search:index.html.twig', array(
-            'courses' => $courses,
+            'products' => $products,
             'paginator' => $paginator,
             'keywords' => $keywords,
         ));
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
 

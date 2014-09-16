@@ -11,10 +11,10 @@ class LessonQuestionPluginController extends BaseController
     public function initAction (Request $request)
     {
 
-        $course = $this->getCourseService()->getCourse($request->query->get('courseId'));
+        $product = $this->getProductService()->getProduct($request->query->get('productId'));
         $lesson = array(
             'id' => $request->query->get('lessonId'),
-            'courseId' => $course['id'],
+            'productId' => $product['id'],
         );
 
         $threads = $this->getThreadService()->searchThreads(
@@ -29,7 +29,7 @@ class LessonQuestionPluginController extends BaseController
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($threads, 'userId'));
 
         $form = $this->createQuestionForm(array(
-            'courseId' => $course['id'],
+            'productId' => $product['id'],
             'lessonId' => $lesson['id'],
         ));
 
@@ -44,10 +44,10 @@ class LessonQuestionPluginController extends BaseController
 
     public function listAction(Request $request)
     {
-        $course = $this->getCourseService()->getCourse($request->query->get('courseId'));
+        $product = $this->getProductService()->getProduct($request->query->get('productId'));
         $lesson = array(
             'id' => $request->query->get('lessonId'),
-            'courseId' => $course['id'],
+            'productId' => $product['id'],
         );
 
         $threads = $this->getThreadService()->searchThreads(
@@ -68,21 +68,21 @@ class LessonQuestionPluginController extends BaseController
     public function showAction(Request $request)
     {
 
-        $course = $this->getCourseService()->getCourse($request->query->get('courseId'));
+        $product = $this->getProductService()->getProduct($request->query->get('productId'));
 
         $thread = $this->getThreadService()->getThread(
-            $course['id'],
+            $product['id'],
             $request->query->get('id')
         );
 
         $paginator = new Paginator(
             $request,
-            $this->getThreadService()->getThreadPostCount($course['id'], $thread['id']),
+            $this->getThreadService()->getThreadPostCount($product['id'], $thread['id']),
             100
         );
 
         $posts = $this->getThreadService()->findThreadPosts(
-            $thread['courseId'],
+            $thread['productId'],
             $thread['id'],
             'default',
             $paginator->getOffsetCount(),
@@ -92,12 +92,12 @@ class LessonQuestionPluginController extends BaseController
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($posts, 'userId'));
 
         $form = $this->createPostForm(array(
-            'courseId' => $course['id'],
+            'productId' => $product['id'],
             'threadId' => $thread['id'],
         ));
 
         return $this->render('TopxiaWebBundle:LessonQuestionPlugin:show.html.twig', array(
-            'course' => $course,
+            'product' => $product,
             'thread' => $thread,
             'threader' => $threader,
             'posts' => $posts,
@@ -127,7 +127,7 @@ class LessonQuestionPluginController extends BaseController
         }
 
         return $this->render("TopxiaWebBundle:LessonQuestionPlugin:form.html.twig", array(
-            'course' => $course,
+            'product' => $product,
             'form' => $form->createView(),
         ));
     }
@@ -144,7 +144,7 @@ class LessonQuestionPluginController extends BaseController
                 return $this->render('TopxiaWebBundle:LessonQuestionPlugin:post-item.html.twig', array(
                     'post' => $post,
                     'user' => $this->getUserService()->getUser($post['userId']),
-                    'course' => $this->getCourseService()->getCourse($post['courseId']),
+                    'product' => $this->getProductService()->getProduct($post['productId']),
                 ));
             } else {
                 return $this->createJsonResponse(false);
@@ -152,7 +152,7 @@ class LessonQuestionPluginController extends BaseController
         }
 
         return $this->render("TopxiaWebBundle:LessonQuestionPlugin:form.html.twig", array(
-            'course' => $course,
+            'product' => $product,
             'form' => $form->createView(),
         ));
     }
@@ -162,7 +162,7 @@ class LessonQuestionPluginController extends BaseController
         return $this->createNamedFormBuilder('question', $data)
             ->add('title', 'text')
             ->add('content', 'textarea')
-            ->add('courseId', 'hidden')
+            ->add('productId', 'hidden')
             ->add('lessonId', 'hidden')
             ->getForm();
     }
@@ -171,19 +171,19 @@ class LessonQuestionPluginController extends BaseController
     {
         return $this->createNamedFormBuilder('post', $data)
             ->add('content', 'textarea')
-            ->add('courseId', 'hidden')
+            ->add('productId', 'hidden')
             ->add('threadId', 'hidden')
             ->getForm();
     }
 
     private function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 

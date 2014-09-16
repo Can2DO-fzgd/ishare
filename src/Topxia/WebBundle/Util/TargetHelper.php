@@ -87,20 +87,20 @@ abstract class AbstractTargetFinder
     abstract public function find(array $ids);
 }
 
-class CourseTargetFinder extends AbstractTargetFinder
+class ProductTargetFinder extends AbstractTargetFinder
 {
     public function find(array $ids)
     {
-        $courses = ServiceKernel::instance()->createService('Course.CourseService')->findCoursesByIds($ids);
+        $products = ServiceKernel::instance()->createService('Product.ProductService')->findProductsByIds($ids);
         $targets = array();
-        foreach ($courses as $id => $course) {
+        foreach ($products as $id => $product) {
             $targets[$id] = array(
-                'type' => 'course',
+                'type' => 'product',
                 'id' => $id,
-                'simple_name' => $course['title'],
-                'name' => $course['title'],
-                'full_name' => $course['title'],
-                'url' => $this->container->get('router')->generate('course_show', array('id' => $id))
+                'simple_name' => $product['name'],
+                'name' => $product['name'],
+                'full_name' => $product['name'],
+                'url' => $this->container->get('router')->generate('product_show', array('id' => $id))
             );
         }
 
@@ -112,7 +112,7 @@ class LessonTargetFinder extends AbstractTargetFinder
 {
     public function find(array $ids)
     {
-        $lessons = ServiceKernel::instance()->createService('Course.CourseService')->findLessonsByIds($ids);
+        $lessons = ServiceKernel::instance()->createService('Product.ProductService')->findLessonsByIds($ids);
 
         $targets = array();
         foreach ($lessons as $id => $lesson) {
@@ -122,7 +122,7 @@ class LessonTargetFinder extends AbstractTargetFinder
                 'simple_name' => "产品介绍{$lesson['number']}",
                 'name' => $lesson['title'],
                 'full_name' => "产品介绍{$lesson['number']}：{$lesson['title']}",
-                'url' => $this->container->get('router')->generate('course_learn', array('id' => $lesson['courseId'])) . '#lesson/' . $id,
+                'url' => $this->container->get('router')->generate('product_learn', array('id' => $lesson['productId'])) . '#lesson/' . $id,
             );
         }
         return $targets;

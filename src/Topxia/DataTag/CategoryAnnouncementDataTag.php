@@ -4,7 +4,7 @@ namespace Topxia\DataTag;
 
 use Topxia\DataTag\DataTag;
 
-class CategoryAnnouncementDataTag extends CourseBaseDataTag implements DataTag  
+class CategoryAnnouncementDataTag extends ProductBaseDataTag implements DataTag  
 {
 
     /**
@@ -28,17 +28,17 @@ class CategoryAnnouncementDataTag extends CourseBaseDataTag implements DataTag
             $conditions['categoryId'] = $arguments['categoryId'];
         } 
 
-        $courseCount =  $this->getCourseService()->searchCourseCount($conditions);
+        $productCount =  $this->getProductService()->searchProductCount($conditions);
         
-        $courses = $this->getCourseService()->searchCourses($conditions,'latest', 0, $courseCount);
+        $products = $this->getProductService()->searchProducts($conditions,'latest', 0, $productCount);
 
         $ids = array();
 
-        foreach ($courses as $course) {
-            array_push($ids, $course['id']);
+        foreach ($products as $product) {
+            array_push($ids, $product['id']);
         }
 
-        $announcement = $this->getCourseService()->findAnnouncementsByCourseIds($ids, 0, $arguments['count']);
+        $announcement = $this->getProductService()->findAnnouncementsByProductIds($ids, 0, $arguments['count']);
 
         return $announcement;
     }

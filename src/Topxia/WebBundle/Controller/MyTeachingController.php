@@ -7,17 +7,17 @@ use Topxia\Common\ArrayToolkit;
 
 class MyTeachingController extends BaseController
 {
-    
-    public function coursesAction(Request $request)
+    //我的产品
+    public function productsAction(Request $request)
     {
         $user = $this->getCurrentUser();
         $paginator = new Paginator(
             $this->get('request'),
-            $this->getCourseService()->findUserTeachCourseCount($user['id'], false),
+            $this->getProductService()->findUserTeachProductCount($user['id'], false),
             12
         );
         
-        $courses = $this->getCourseService()->findUserTeachCourses(
+        $products = $this->getProductService()->findUserTeachProducts(
             $user['id'],
             $paginator->getOffsetCount(),
             $paginator->getPerPageCount(),
@@ -25,7 +25,7 @@ class MyTeachingController extends BaseController
         );
 
         return $this->render('TopxiaWebBundle:MyTeaching:teaching.html.twig', array(
-            'courses'=>$courses,
+            'products'=>$products,
             'paginator' => $paginator
         ));
     }
@@ -34,28 +34,28 @@ class MyTeachingController extends BaseController
 	{
 
 		$user = $this->getCurrentUser();
-		$myTeachingCourseCount = $this->getCourseService()->findUserTeachCourseCount($user['id'], true);
+		$myTeachingProductCount = $this->getProductService()->findUserTeachProductCount($user['id'], true);
 
-        if (empty($myTeachingCourseCount)) {
+        if (empty($myTeachingProductCount)) {
             return $this->render('TopxiaWebBundle:MyTeaching:threads.html.twig', array(
                 'type'=>$type,
                 'threads' => array()
             ));
         }
 
-		$myTeachingCourses = $this->getCourseService()->findUserTeachCourses($user['id'], 0, $myTeachingCourseCount, true);
+		$myTeachingProducts = $this->getProductService()->findUserTeachProducts($user['id'], 0, $myTeachingProductCount, true);
 
 		$conditions = array(
-			'courseIds' => ArrayToolkit::column($myTeachingCourses, 'id'),
+			'productIds' => ArrayToolkit::column($myTeachingProducts, 'id'),
 			'type' => $type);
 
         $paginator = new Paginator(
             $request,
-            $this->getThreadService()->searchThreadCountInCourseIds($conditions),
+            $this->getThreadService()->searchThreadCountInProductIds($conditions),
             20
         );
 
-        $threads = $this->getThreadService()->searchThreadInCourseIds(
+        $threads = $this->getThreadService()->searchThreadInProductIds(
             $conditions,
             'createdNotStick',
             $paginator->getOffsetCount(),
@@ -63,14 +63,14 @@ class MyTeachingController extends BaseController
         );
 
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($threads, 'latestPostUserId'));
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($threads, 'courseId'));
-        $lessons = $this->getCourseService()->findLessonsByIds(ArrayToolkit::column($threads, 'lessonId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($threads, 'productId'));
+        $lessons = $this->getProductService()->findLessonsByIds(ArrayToolkit::column($threads, 'lessonId'));
 
     	return $this->render('TopxiaWebBundle:MyTeaching:threads.html.twig', array(
     		'paginator' => $paginator,
             'threads' => $threads,
             'users'=> $users,
-            'courses' => $courses,
+            'products' => $products,
             'lessons' => $lessons,
             'type'=>$type
     	));
@@ -78,7 +78,7 @@ class MyTeachingController extends BaseController
 
 	protected function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
     protected function getUserService()
@@ -86,9 +86,9 @@ class MyTeachingController extends BaseController
         return $this->getServiceKernel()->createService('User.UserService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

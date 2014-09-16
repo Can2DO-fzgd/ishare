@@ -4,12 +4,12 @@
 {% set script_controller = 'message/show' %}
 {% block content %}
 
-<div class="row row-8">
-  <div class="col-md-8 col-md-offset-2">
+<div class="row row-12">
+  <div class="col-md-12">
     <div class="panel panel-default panel-page">
       <div class="panel-heading">
-        <a href="{{ path('message')}}" class="btn btn-default pull-right">返回我的私信</a>
-        <h2>与{{ receiver.userName }}的私信对话</h2>
+        <a href="{{ path('message')}}" class="btn btn-default pull-right">返回我的私信</a></br></br>
+        <p><h3>与{{ receiver.userName }}的私信对话</h3></p>
       </div>
 
       <form id="message-reply-form" class="message-reply-form clearfix" method="post" 
@@ -20,7 +20,7 @@
 
         <div class="form-group">
           {{ form_rest(form) }}
-          <button id="course-reply-btn" class="btn btn-primary pull-right disabled">发送</button>
+          <button id="product-reply-btn" class="btn btn-primary pull-right disabled">发送</button>
         </div>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">

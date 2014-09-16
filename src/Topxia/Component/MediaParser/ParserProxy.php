@@ -6,7 +6,7 @@ class ParserProxy
 
     public function parseItem($url)
     {
-        $parsers = array('YoukuVideo', 'QQVideo', 'NeteaseOpenCourse', 'TudouVideo');
+        $parsers = array('YoukuVideo', 'QQVideo', 'NeteaseOpenProduct', 'TudouVideo');
 
         foreach ($parsers as $parserName) {
             $class = __NAMESPACE__ . "\\ItemParser\\{$parserName}ItemParser";
@@ -22,7 +22,7 @@ class ParserProxy
 
     public function parseAlbum($url)
     {
-        $parsers = array('YoukuVideo', 'QQVideo', 'NeteaseOpenCourse', 'SinaOpenCourse');
+        $parsers = array('YoukuVideo', 'QQVideo', 'NeteaseOpenProduct', 'SinaOpenProduct');
         foreach ($parsers as $parserName) {
             $class = __NAMESPACE__ . "\\AlbumParser\\{$parserName}AlbumParser";
             $parser = new $class();

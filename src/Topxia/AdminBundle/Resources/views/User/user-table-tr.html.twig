@@ -18,7 +18,7 @@
   <td>
     {{ user.email }}
     <br>
-    {% if user.emailVerified %}
+    {% if user.mailstate %}
       <label class="label label-success" title="该Email地址已验证">已验证</label>
     {% endif %}
   </td>
@@ -46,7 +46,7 @@
       <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu pull-right">
         <li><a href="#modal" data-toggle="modal" data-url="{{ path('admin_user_edit', {id:user.id}) }}">编辑用户信息</a></li>
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}

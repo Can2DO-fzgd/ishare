@@ -11,13 +11,13 @@ class DefaultController extends BaseController
     public function indexAction ()
     {
         $conditions = array('status' => 'published');
-        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+        $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
-        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
 
         $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
         return $this->render('TopxiaWebBundle:Default:index.html.twig', array(
-            'courses' => $courses,
+            'products' => $products,
             'categories' => $categories,
             'blocks' => $blocks
         ));
@@ -27,13 +27,13 @@ class DefaultController extends BaseController
     public function index1Action ()
     {
         $conditions = array('status' => 'published');
-        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+        $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
-        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
 
         $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
         return $this->render('TopxiaWebBundle:Default:index1.html.twig', array(
-            'courses' => $courses,
+            'products' => $products,
             'categories' => $categories,
             'blocks' => $blocks
         ));
@@ -43,13 +43,13 @@ class DefaultController extends BaseController
     public function index2Action ()
     {
         $conditions = array('status' => 'published');
-        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+        $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
-        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
 
         $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
         return $this->render('TopxiaWebBundle:Default:index2.html.twig', array(
-            'courses' => $courses,
+            'products' => $products,
             'categories' => $categories,
             'blocks' => $blocks
         ));
@@ -59,13 +59,13 @@ class DefaultController extends BaseController
     public function index3Action ()
     {
         $conditions = array('status' => 'published');
-        $courses = $this->getCourseService()->searchCourses($conditions, 'latest', 0, 12);
+        $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
-        $categories = $this->getCategoryService()->findGroupRootCategories('course');
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
 
         $blocks = $this->getBlockService()->getContentsByCodes(array('home_top_banner'));
         return $this->render('TopxiaWebBundle:Default:index3.html.twig', array(
-            'courses' => $courses,
+            'products' => $products,
             'categories' => $categories,
             'blocks' => $blocks
         ));
@@ -91,11 +91,11 @@ class DefaultController extends BaseController
     {
         $reviews = $this->getReviewService()->searchReviews(array(), 'latest', 0, $number);
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($reviews, 'userId'));
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($reviews, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($reviews, 'productId'));
         return $this->render('TopxiaWebBundle:Default:latest-reviews-block.html.twig', array(
             'reviews' => $reviews,
             'users' => $users,
-            'courses' => $courses,
+            'products' => $products,
         ));
     }
 
@@ -153,14 +153,14 @@ class DefaultController extends BaseController
         return $this->getServiceKernel()->createService('Content.BlockService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getReviewService()
     {
-        return $this->getServiceKernel()->createService('Course.ReviewService');
+        return $this->getServiceKernel()->createService('Product.ReviewService');
     }
 
     protected function getCategoryService()

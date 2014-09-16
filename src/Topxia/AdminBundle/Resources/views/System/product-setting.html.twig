@@ -1,0 +1,91 @@
+{% extends 'TopxiaAdminBundle:System:operation.layout.html.twig' %}
+
+{% block title %}产品设置 - {{ parent() }}{% endblock %}
+
+{% set submenu = 'product_setting' %}
+{% block maincontent %}
+<div class="page-header"><h1>产品设置</h1></div>
+
+{{ web_macro.flash_messages() }}
+
+<form class="form-horizontal" method="post" novalidate>
+
+  <fieldset>
+    <div class="form-group">
+      <div class="col-md-3 control-label">
+        <label >给新会员发送欢迎私信</label>
+      </div>
+      <div class="controls col-md-8 radios">
+        {{ radios('welcome_message_enabled', {1:'开启', 0:'关闭'}, productSetting.welcome_message_enabled) }}
+      <p class="help-block">开启后，新会员关注产品后，会收到享客的欢迎私信</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-3 control-label">
+        <label for="welcome_message_body">欢迎私信内容</label>
+      </div>
+      <div class="controls col-md-8">
+        <textarea id="welcome_message_body" name="welcome_message_body" class="form-control" rows="5">{{ productSetting.welcome_message_body }}</textarea>
+        <div class="help-block">
+          {% verbatim %}
+          <div>变量说明：</div>
+          <ul>
+            <li>{{userName}} 为接收方用户登录手机帐号</li>
+            <li>{{product}} 为产品名称</li>
+          </ul>
+          {% endverbatim %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-3 control-label">
+        <label >购买产品时填写个人资料</label>
+      </div>
+      <div class="controls col-md-8 radios">
+        {{ radios('buy_fill_userinfo', {1:'开启', 0:'关闭'}, productSetting.buy_fill_userinfo) }}
+      <p class="help-block">开启后，会员购买产品时，需填写个人资料</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-3 control-label">
+        <label >允许享客设置产品价格</label>
+      </div>
+      <div class="controls col-md-8 radios">
+        {{ radios('teacher_modify_price', {1:'是', 0:'否'}, productSetting.teacher_modify_price) }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-3 control-label">
+        <label >允许会员下载产品的音视频</label>
+      </div>
+      <div class="controls col-md-8 radios">
+        {{ radios('student_download_media', {0:'不允许', 1:'允许'}, productSetting.student_download_media) }}
+        <div class="help-block">开启此项设置后，会员可在产品简介界面侧栏的"资料"面板中下载。</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="display:none;">
+      <div class="col-md-3 control-label">
+        <label>未购买页面显示相关产品</label>
+      </div>
+      <div class="controls col-md-8 radios">
+        {{ radios('relatedProducts', {1:'开启', 0:'关闭'}, productSetting.relatedProducts) }}
+      </div>
+    </div>
+
+  </fieldset>
+  <br>
+
+  <div class="form-group">
+    <div class="controls col-md-offset-3 col-md-8">
+      <button type="submit" class="btn btn-primary">提交</button>
+    </div>
+  </div>
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+
+{% endblock %}

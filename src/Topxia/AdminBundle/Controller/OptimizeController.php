@@ -38,7 +38,7 @@ class OptimizeController extends BaseController
     public function backupdbAction()
     {
         $db = SystemUtil::backupdb();
-        $downloadFile = '/files/tmp/'.basename($db);
+        $downloadFile = '/attach/tmp/'.basename($db);
         return $this->createJsonResponse(array('status' => 'ok', 'result'=>$downloadFile));
     }
 

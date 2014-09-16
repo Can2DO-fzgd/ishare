@@ -3,7 +3,7 @@
   <td width="60%">
   	{{ myTestpaper.name|plain_text(60) }}
   	<div>
-  	  <small class="text-muted">来自产品《{{ course.title }}》</small>
+  	  <small class="text-muted">来自产品《{{ product.name }}》</small>
   	  <small class="text-muted mhs">•</small>
   	  <small class="text-muted" title="开始问卷时间">{{ myTestpaperResult.beginTime|date("Y年n月d日 H:i") }}</small>
   	</div>
@@ -20,10 +20,10 @@
 	</td>
 	<td>
 		{% if myTestpaperResult.status in ['doing', 'paused'] %}
-			<a href="{{ path('course_manage_show_test', {id:myTestpaperResult.id}) }}" class="btn btn-default btn-sm">继续问卷</a>
+			<a href="{{ path('product_manage_show_test', {id:myTestpaperResult.id}) }}" class="btn btn-default btn-sm">继续问卷</a>
 		{% else %}
-			<a href="{{ path('course_manage_redo_test', {testId:myTestpaper.id}) }}" class="btn btn-default btn-sm">再做一次</a>
-			<a href="{{ path('course_manage_test_results', {id:myTestpaperResult.id}) }}" class="btn btn-link btn-sm">查看结果</a>
+			<a href="{{ path('product_manage_redo_test', {testId:myTestpaper.id}) }}" class="btn btn-default btn-sm">再做一次</a>
+			<a href="{{ path('product_manage_test_results', {id:myTestpaperResult.id}) }}" class="btn btn-link btn-sm">查看结果</a>
 		{% endif %}
 	</td>
 </tr>

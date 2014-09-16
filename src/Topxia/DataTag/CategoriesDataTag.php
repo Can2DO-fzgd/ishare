@@ -4,7 +4,7 @@ namespace Topxia\DataTag;
 
 use Topxia\DataTag\DataTag;
 
-class CategoriesDataTag extends CourseBaseDataTag implements DataTag  
+class CategoriesDataTag extends ProductBaseDataTag implements DataTag  
 {
     /**
      * 获取所有分类

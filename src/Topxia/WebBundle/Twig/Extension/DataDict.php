@@ -4,12 +4,12 @@ namespace Topxia\WebBundle\Twig\Extension;
 class DataDict
 {
 	private static $dict = array(
-		'courseStatus' => array(
+		'productStatus' => array(
 			'draft' => '未上架',
 			'published' => '已上架',
 			'closed' => '已下架'
 		),
-		'courseStatus:html' => array(
+		'productStatus:html' => array(
 			'draft' => '<span class="text-muted">未上架</span>',
 			'published' => '<span class="text-success">已上架</span>',
 			'closed' => '<span class="text-danger">已下架</span>'
@@ -106,7 +106,7 @@ class DataDict
             'unpublished' => '<span class="text-muted">未发布</span>',
             'trash' => '<span class="text-warning">回收站</span>',
     	),
-	'articleStatus' => array(
+		'articleStatus' => array(
             'published' => '已发布',
             'unpublished' => '未发布',
             'trash' => '回收站',
@@ -117,15 +117,22 @@ class DataDict
             'trash' => '<span class="text-warning">回收站</span>',
     	),
     	'lessonType'=> array(
-    		'video' => '视频',
-    		'audio' => '音频',
+    		//'video' => '视频',
+    		//'audio' => '音频',
     		'text' => '图文'
 		),
 		'userRole' => array(
-			'ROLE_USER' => '会员',
+			'ROLE_USER' => '普通',
 			'ROLE_TEACHER' => '享客',
+			'ROLE_MANUFACTURER' => '厂家',
+			'ROLE_MERCHANTS' => '商家',
+			'ROLE_AGENT' => '代理',
 			'ROLE_ADMIN' => '管理员',
 			'ROLE_SUPER_ADMIN' => '超级管理员'
+//			'ROLE_USER' => '会员',
+//			'ROLE_TEACHER' => '享客',
+//			'ROLE_ADMIN' => '管理员',
+//			'ROLE_SUPER_ADMIN' => '超级管理员'
 		),
 		'memberLevel' => array(
 			'1' => '银牌会员',
@@ -180,7 +187,7 @@ class DataDict
 	    	'difficulty' => '困难',
         ),
         'targetName' => array(
-        	'course' => '产品',
+        	'product' => '产品',
         	'vip' => '会员'
     	),
 

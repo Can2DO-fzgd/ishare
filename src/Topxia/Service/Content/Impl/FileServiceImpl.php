@@ -81,6 +81,31 @@ class FileServiceImpl extends BaseService implements FileService
 		return $record;
 	}
 
+	public function uploadFile1($group, File $file, $target = null)
+	{
+		$errors = FileToolkit::validateFileExtension($file);
+		if ($errors) {
+			@unlink($file->getRealPath());
+			throw $this->createServiceException("该文件格式，不允许上传。");
+		}
+
+		$group = $this->getGroupDao()->findGroupByCode($group);
+		$user = $this->getCurrentUser();
+		$record = array();
+		$record['userId'] = $user['id'];
+		$record['groupId'] = $group['id'];
+		// @todo fix it.
+		$record['mime'] = '';
+		// $record['mime'] = $file->getMimeType();
+		$record['size'] = $file->getSize();
+		$record['uri'] = $this->generateUri1($group, $file);
+		$record['createdTime'] = time();
+		$record = $this->getFileDao()->addFile($record);
+		$record['file'] = $this->saveFile1($file, $record['uri']);
+
+		return $record;
+	}
+	
 	protected function validateFileExtension(File $file, $extensions)
 	{
 		if ($file instanceof UploadedFile) {
@@ -174,6 +199,24 @@ class FileServiceImpl extends BaseService implements FileService
 
 		return $file->move($directory, $parsed['name']);
 	}
+	
+	private function saveFile1($file, $uri)
+	{
+		$parsed = $this->parseFileUri($uri);
+		if ($parsed['access'] == 'public') {
+			$directory = $this->getKernel()->getParameter('topxia.upload.public_directory');
+		} else {
+			$directory = $this->getKernel()->getParameter('topxia.upload.private_directory');
+		}
+
+		if (!is_writable($directory)) {
+			throw $this->createServiceException("文件上传路径{$directory}不可写，文件上传失败。");
+		}
+		$directory .= '/' . $parsed['directory'];
+
+		return $file->move($directory, $parsed['name']);
+	}
+	
 
     private function generateUri ($group, $file)
     {
@@ -193,6 +236,29 @@ class FileServiceImpl extends BaseService implements FileService
         $uri .= date('Y') . '/' . date('m-d') . '/' . date('His');
         $uri .= substr(uniqid(), - 6) . substr(uniqid('', true), - 6);
         $uri .= '.' . $ext;
+		
+        return $uri;
+    }
+
+	private function generateUri1 ($group, $file)
+    {
+		if ($file instanceof UploadedFile) {
+			$filename = $file->getClientOriginalName();
+		} else {
+			$filename = $file->getFilename();
+		}
+
+	    $filenameParts = explode('.', $filename);
+	    $ext = array_pop($filenameParts);
+	    if (empty($ext)) {
+	    	throw $this->createServiceException('获取文件扩展名失败！');
+	    }
+
+    	$uri = ($group['public'] ? 'public://' : 'private://') . $group['code'] . '/';
+        $uri .= date('Y') . '-' . date('m-d') . '-' . date('His');
+        $uri .= substr(uniqid(), - 6) . substr(uniqid('', true), - 6);
+        $uri .= '.' . $ext;
+		
         return $uri;
     }
 
@@ -277,9 +343,9 @@ class FileServiceImpl extends BaseService implements FileService
     	return $this->createService('System.SettingService');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->createService('Course.CourseService');
+        return $this->createService('Product.ProductService');
     }
 
     private function getFileDao()

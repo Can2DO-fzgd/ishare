@@ -9,21 +9,21 @@ class LessonLessonPluginController extends BaseController
     public function listAction (Request $request)
     {
         $user = $this->getCurrentUser();
-        list($course, $member) = $this->getCourseService()->tryTakeCourse($request->query->get('courseId'));
+        list($product, $member) = $this->getProductService()->tryTakeProduct($request->query->get('productId'));
 
-        $items = $this->getCourseService()->getCourseItems($course['id']);
-        $learnStatuses = $this->getCourseService()->getUserLearnLessonStatuses($user['id'], $course['id']);
+        $items = $this->getProductService()->getProductItems($product['id']);
+        $learnStatuses = $this->getProductService()->getUserLearnLessonStatuses($user['id'], $product['id']);
 
         return $this->render('TopxiaWebBundle:LessonLessonPlugin:list.html.twig', array(
-            'course' => $course,
+            'product' => $product,
             'items' => $items,
             'learnStatuses' => $learnStatuses,
         ));
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

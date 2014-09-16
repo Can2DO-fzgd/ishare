@@ -59,10 +59,10 @@ class DataExtension extends \Twig_Extension
         return 'topxia_data_twig';
     }
 
-    private function getCourseData($conditions)
+    private function getProductData($conditions)
     {
         if (isset($conditions['id'])) {
-            return $this->getCourseService()->getCourse($conditions['id']);
+            return $this->getProductService()->getProduct($conditions['id']);
         }
         return null;
     }
@@ -75,19 +75,19 @@ class DataExtension extends \Twig_Extension
         return null;
     }
 
-    private function getCourseDatas($conditions, $sort, $start, $limit)
+    private function getProductDatas($conditions, $sort, $start, $limit)
     {
-        return $this->getCourseService()->searchCourses($conditions, $sort, $start, $limit);
+        return $this->getProductService()->searchProducts($conditions, $sort, $start, $limit);
     }
 
-    private function getCourseDatasCount($conditions)
+    private function getProductDatasCount($conditions)
     {
-        return $this->getCourseService()->searchCourseCount($conditions);
+        return $this->getProductService()->searchProductCount($conditions);
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->createService('Course.CourseService');
+        return $this->createService('Product.ProductService');
     }
 
     private function getUserService()

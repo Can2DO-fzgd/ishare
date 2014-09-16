@@ -3,7 +3,7 @@ namespace Topxia\Service\Content;
 
 interface CommentService
 {
-    CONST COMMENT_OBJECTTYPE_COURSE = 'course';
+    CONST COMMENT_OBJECTTYPE_PRODUCT = 'product';
     CONST COMMENT_OBJECTTYPE_TEACHER = 'teacher';
     CONST COMMENT_OBJECTTYPE_QUESTION = 'question';
 

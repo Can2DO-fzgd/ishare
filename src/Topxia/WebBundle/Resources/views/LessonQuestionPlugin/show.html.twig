@@ -6,7 +6,7 @@
 	</div>
 
 	<div class="lesson-question-plugin-pane-thread">
-		<h5><a href="{{ path('course_thread_show', {courseId:thread.courseId, id:thread.id}) }}" target="_blank">{{ thread.title }}</a></h5>
+		<h5><a href="{{ path('product_thread_show', {productId:thread.productId, id:thread.id}) }}" target="_blank">{{ thread.title }}</a></h5>
 		<div class="lesson-question-plugin-pane-thread-content">{{ thread.content|raw }}</div>
 	</div>
 
@@ -21,7 +21,7 @@
 		{% endfor %}
 	</ul>
 
-	<form class="post-form" data-role="post-form" method="post" action="{{ path('course_lesson_plugin_question_answer') }}" novalidate>
+	<form class="post-form" data-role="post-form" method="post" action="{{ path('product_lesson_plugin_question_answer') }}" novalidate>
 		<div class="form-group">
 			<div class="controls">
 				{{ form_widget(form.content, {attr:{class:'form-control', rows:4, 'data-display':'内容'}}) }}

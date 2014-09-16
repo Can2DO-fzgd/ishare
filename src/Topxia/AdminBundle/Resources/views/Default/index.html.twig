@@ -17,15 +17,15 @@
   </div>
 
   {{ render(controller('TopxiaAdminBundle:Default:latestUsersBlock')) }}
-  <div id="popular-courses-panel" class="col-md-6">
+  <div id="popular-products-panel" class="col-md-6">
      <div class="panel panel-default">
       <div class="panel-heading">
-        <select id="popular-courses-type" class="pull-right" data-url="{{path('admin_popular_courses')}}">
+        <select id="popular-products-type" class="pull-right" data-url="{{path('admin_popular_products')}}">
             {{ select_options(dict('dateType'), app.request.query.get('dateType')) }}
         </select>
         <h3 class="panel-title">受欢迎产品</h3>
       </div>
-      <div id="popular-courses-table">
+      <div id="popular-products-table">
       	<div class="empty">正在载入数据，请稍等。</div>
       </div>
     </div>

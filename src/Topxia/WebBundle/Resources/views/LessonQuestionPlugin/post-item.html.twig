@@ -4,7 +4,7 @@
 		<div class="infos">
 			<div class="userName">
 				<a href="{{ path('user_show', {id:user.id}) }}" class="userName">{{ user.userName }}</a>
-				{% if user.id in course.teacherIds %}
+				{% if user.id in product.teacherIds %}
 					<span class="teacher-flag">享客</span>
 				{% endif %}
 			</div>

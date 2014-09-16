@@ -3,8 +3,8 @@
 <ul class="media-list latest-review-list">
 	{% for review in reviews %}
 	  {% set author = users[review.userId]|default(null) %}
-	  {% set course = courses[review.courseId]|default(null) %}
-	  {% if author and course %}
+	  {% set product = products[review.productId]|default(null) %}
+	  {% if author and product %}
 		  <li class="media">
 		  	<a href="{{ path('user_show', {id:author.id}) }}" class="author-picture-link">
 			  	<img class="author-picture" src="{{ file_path(author.smallAvatar, 'avatar.png') }}">
@@ -13,7 +13,7 @@
 		  	<div class="review-content">{{ review.content|plain_text(50) }}</div>
 
 			  <div class="review-footer">
-				  <a href="{{ path('course_show', {id:course.id}) }}" class="course-title"> {{ course.title }}</a>
+				  <a href="{{ path('product_show', {id:product.id}) }}" class="product-title"> {{ product.name }}</a>
 				  <span class="divider"></span>
 				  <span class="stars-{{review.rating }}">&nbsp;</span>
 			  </div>

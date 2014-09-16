@@ -110,9 +110,9 @@ class MessageController extends BaseController
         return $this->getServiceKernel()->createService('User.UserService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getSettingService()

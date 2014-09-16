@@ -67,7 +67,7 @@ class CommentServiceImpl extends BaseService implements CommentService
 
 	private function checkCommentObjectFields($objectType)
 	{
-		$objectTypes = array('course');
+		$objectTypes = array('product');
 		if(!in_array($objectType, $objectTypes)){
 			throw $this->createServiceException('不存在当前这种评论对象');
 		}
@@ -77,9 +77,9 @@ class CommentServiceImpl extends BaseService implements CommentService
 	private function checkCommentObjectValue($comment)
 	{
 		switch ($comment['objectType']) {
-			case self::COMMENT_OBJECTTYPE_COURSE:
-				$foundCourse = $this->getCourseService()->getCourse($comment['objectId']);
-				if(empty($foundCourse)){
+			case self::COMMENT_OBJECTTYPE_PRODUCT:
+				$foundProduct = $this->getProductService()->getProduct($comment['objectId']);
+				if(empty($foundProduct)){
 					throw $this->createServiceException('评论产品失败，该产品不存在');
 				}
 				break;
@@ -94,8 +94,8 @@ class CommentServiceImpl extends BaseService implements CommentService
         return $this->createDao('Content.CommentDao');
 	}
 
-	private function getCourseService()
+	private function getProductService()
     {
-    	return $this->createService('Course.CourseService');
+    	return $this->createService('Product.ProductService');
     }
 }

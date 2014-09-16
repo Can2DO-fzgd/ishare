@@ -1,8 +1,8 @@
 <tr>
 	<td>
-		<a href="{% if status == 'reviewing' %}{{ path('course_manage_test_teacher_check', {id:paperResult.id}) }}{% endif %}{% if status == 'finished' %}{{ path('course_manage_test_results', {id:paperResult.id}) }}{% endif %}">{{ testpaper.name|plain_text(60) }}</a> 
+		<a href="{% if status == 'reviewing' %}{{ path('product_manage_test_teacher_check', {id:paperResult.id}) }}{% endif %}{% if status == 'finished' %}{{ path('product_manage_test_results', {id:paperResult.id}) }}{% endif %}">{{ testpaper.name|plain_text(60) }}</a> 
 		<br>
-		<small class="text-muted">来自产品《{{ course.title }}》</small>
+		<small class="text-muted">来自产品《{{ product.name }}》</small>
 		<small class="text-muted mhs">•</small>
 		<small class="text-muted">共{{ testpaper.score }}分 / {{ testpaper.itemCount }}道题	</small>
 	</td>
@@ -12,7 +12,7 @@
 	</td>
 	<td>
 		{% if status == 'reviewing' %}
-			<a href="{{ path('course_manage_test_teacher_check', {id:paperResult.id}) }}" class="btn btn-default btn-sm pull-right" target="_blank">批阅</a>
+			<a href="{{ path('product_manage_test_teacher_check', {id:paperResult.id}) }}" class="btn btn-default btn-sm pull-right" target="_blank">批阅</a>
 		{% endif %}
 
 		{% if status == 'finished' %}

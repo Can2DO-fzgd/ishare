@@ -29,20 +29,20 @@ class TestpaperController extends BaseController
         $testpapers = ArrayToolkit::index($testpapers, 'id');
 
         $targets = ArrayToolkit::column($testpapers, 'target');
-        $courseIds = array_map(function($target){
-            $course = explode('/', $target);
-            $course = explode('-', $course[0]);
-            return $course[1];
+        $productIds = array_map(function($target){
+            $product = explode('/', $target);
+            $product = explode('-', $product[0]);
+            return $product[1];
         }, $targets);
 
-        $courses = $this->getCourseService()->findCoursesByIds($courseIds);
+        $products = $this->getProductService()->findProductsByIds($productIds);
 
         return $this->render('TopxiaWebBundle:MyQuiz:my-quiz.html.twig', array(
             'myQuizActive' => 'active',
             'user' => $user,
             'myTestpaperResults' => $testpaperResults,
             'myTestpapers' => $testpapers,
-            'courses' => $courses,
+            'products' => $products,
             'paginator' => $paginator
         ));
     }
@@ -58,17 +58,17 @@ class TestpaperController extends BaseController
 
         $targets = $this->get('topxia.target_helper')->getTargets(array($testpaper['target']));
 
-        if ($targets[$testpaper['target']]['type'] != 'course') {
+        if ($targets[$testpaper['target']]['type'] != 'product') {
             throw $this->createAccessDeniedException('问卷只能属于某产品');
         }
 
-        $course = $this->getCourseService()->getCourse($targets[$testpaper['target']]['id']);
+        $product = $this->getProductService()->getProduct($targets[$testpaper['target']]['id']);
 
-        if (empty($course)) {
+        if (empty($product)) {
             return $this->createMessageResponse('info', '问卷所属产品不存在！');
         }
 
-        if (!$this->getCourseService()->canTakeCourse($course)) {
+        if (!$this->getProductService()->canTakeProduct($product)) {
             return $this->createMessageResponse('info', '不是问卷所属产品享客或会员');
         }
 
@@ -89,13 +89,13 @@ class TestpaperController extends BaseController
 
             $testpaperResult = $this->getTestpaperService()->startTestpaper($testId, array('type' => $targetType, 'id' => $targetId));
 
-            return $this->redirect($this->generateUrl('course_manage_show_test', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_show_test', array('id' => $testpaperResult['id'])));
         }
 
         if (in_array($testpaperResult['status'], array('doing', 'paused'))) {
-            return $this->redirect($this->generateUrl('course_manage_show_test', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_show_test', array('id' => $testpaperResult['id'])));
         } else {
-            return $this->redirect($this->generateUrl('course_manage_test_results', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_test_results', array('id' => $testpaperResult['id'])));
         }
     }
 
@@ -110,17 +110,17 @@ class TestpaperController extends BaseController
 
         $targets = $this->get('topxia.target_helper')->getTargets(array($testpaper['target']));
 
-        if ($targets[$testpaper['target']]['type'] != 'course') {
+        if ($targets[$testpaper['target']]['type'] != 'product') {
             throw $this->createAccessDeniedException('问卷只能属于某产品');
         }
 
-        $course = $this->getCourseService()->getCourse($targets[$testpaper['target']]['id']);
+        $product = $this->getProductService()->getProduct($targets[$testpaper['target']]['id']);
 
-        if (empty($course)) {
+        if (empty($product)) {
             return $this->createMessageResponse('info', '问卷所属产品不存在！');
         }
 
-        if (!$this->getCourseService()->canTakeCourse($course)) {
+        if (!$this->getProductService()->canTakeProduct($product)) {
             return $this->createMessageResponse('info', '不是问卷所属产品享客或会员');
         }
 
@@ -131,7 +131,7 @@ class TestpaperController extends BaseController
         $testResult = $this->getTestpaperService()->findTestpaperResultsByTestIdAndStatusAndUserId($testId, $userId, array('doing', 'paused'));
 
         if ($testResult) {
-            return $this->redirect($this->generateUrl('course_manage_show_test', array('id' => $testResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_show_test', array('id' => $testResult['id'])));
         }
 
         if ($testpaper['status'] == 'draft') {
@@ -143,7 +143,7 @@ class TestpaperController extends BaseController
 
         $testResult = $this->getTestpaperService()->startTestpaper($testId, array('type' => $targetType, 'id' => $targetId));
 
-        return $this->redirect($this->generateUrl('course_manage_show_test', array('id' => $testResult['id'])));
+        return $this->redirect($this->generateUrl('product_manage_show_test', array('id' => $testResult['id'])));
     }
 
     public function previewTestAction (Request $request, $testId)
@@ -178,7 +178,7 @@ class TestpaperController extends BaseController
             throw $this->createAccessDeniedException('不可以访问其他会员的问卷哦~');
         }
         if (in_array($testpaperResult['status'], array('reviewing', 'finished'))) {
-            return $this->redirect($this->generateUrl('course_manage_test_results', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_test_results', array('id' => $testpaperResult['id'])));
         }
 
         $testpaper = $this->getTestpaperService()->getTestpaper($testpaperResult['testId']);
@@ -209,7 +209,7 @@ class TestpaperController extends BaseController
         }
 
         if (in_array($testpaperResult['status'], array('doing', 'paused'))){
-            return $this->redirect($this->generateUrl('course_manage_show_test', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_show_test', array('id' => $testpaperResult['id'])));
         }
 
         $testpaper = $this->getTestpaperService()->getTestpaper($testpaperResult['testId']);
@@ -217,10 +217,10 @@ class TestpaperController extends BaseController
         $targets = $this->get('topxia.target_helper')->getTargets(array($testpaper['target']));
        
         if ($testpaperResult['userId'] != $this->getCurrentUser()->id){
-            $course = $this->getCourseService()->tryManageCourse($targets[$testpaper['target']]['id']);
+            $product = $this->getProductService()->tryManageProduct($targets[$testpaper['target']]['id']);
         }
 
-        if (empty($course) and $testpaperResult['userId'] != $this->getCurrentUser()->id) {
+        if (empty($product) and $testpaperResult['userId'] != $this->getCurrentUser()->id) {
             throw $this->createAccessDeniedException('不可以访问其他会员的问卷哦~');
         }
 
@@ -315,15 +315,15 @@ class TestpaperController extends BaseController
 
             $targets = $this->get('topxia.target_helper')->getTargets(array($testpaper['target']));
 
-            $course = $this->getCourseService()->getCourse($targets[$testpaper['target']]['id']);
+            $product = $this->getProductService()->getProduct($targets[$testpaper['target']]['id']);
 
             if ($this->getTestpaperService()->isExistsEssay($testResults)) {
                 $user = $this->getCurrentUser();
 
                 $userUrl = $this->generateUrl('user_show', array('id'=>$user['id']), true);
-                $teacherCheckUrl = $this->generateUrl('course_manage_test_teacher_check', array('id'=>$testpaperResult['id']), true);
+                $teacherCheckUrl = $this->generateUrl('product_manage_test_teacher_check', array('id'=>$testpaperResult['id']), true);
 
-                foreach ($course['teacherIds'] as $receiverId) {
+                foreach ($product['teacherIds'] as $receiverId) {
                     $result = $this->getNotificationService()->notify($receiverId, 'default', "【问卷已完成】 <a href='{$userUrl}' target='_blank'>{$user['userName']}</a> 刚刚完成了 {$testpaperResult['paperName']} ，<a href='{$teacherCheckUrl}' target='_blank'>请点击批阅</a>");
                 }
             }
@@ -332,10 +332,10 @@ class TestpaperController extends BaseController
             $targets = $this->get('topxia.target_helper')->getTargets(array($testpaperResult['target']));
 
             if ($targets[$testpaperResult['target']]['type'] == 'lesson' and !empty($targets[$testpaperResult['target']]['id'])) {
-                $lessons = $this->getCourseService()->findLessonsByIds(array($targets[$testpaperResult['target']]['id']));
+                $lessons = $this->getProductService()->findLessonsByIds(array($targets[$testpaperResult['target']]['id']));
                 if (!empty($lessons[$targets[$testpaperResult['target']]['id']])) {
                     $lesson = $lessons[$targets[$testpaperResult['target']]['id']];
-                    $this->getCourseService()->finishLearnLesson($lesson['courseId'], $lesson['id']);
+                    $this->getProductService()->finishLearnLesson($lesson['productId'], $lesson['id']);
                 }
             }
 
@@ -357,7 +357,7 @@ class TestpaperController extends BaseController
         }
 
         if ($testpaperResult['status'] != 'reviewing') {
-            return $this->redirect($this->generateUrl('course_manage_test_results', array('id' => $testpaperResult['id'])));
+            return $this->redirect($this->generateUrl('product_manage_test_results', array('id' => $testpaperResult['id'])));
         }
 
         if ($request->getMethod() == 'POST') {
@@ -368,7 +368,7 @@ class TestpaperController extends BaseController
             $user = $this->getCurrentUser();
 
             $userUrl = $this->generateUrl('user_show', array('id'=>$user['id']), true);
-            $testpaperResultUrl = $this->generateUrl('course_manage_test_results', array('id'=>$testpaperResult['id']), true);
+            $testpaperResultUrl = $this->generateUrl('product_manage_test_results', array('id'=>$testpaperResult['id']), true);
 
             $result = $this->getNotificationService()->notify($testpaperResult['userId'], 'default', "【问卷已批阅】 <a href='{$userUrl}' target='_blank'>{$user['userName']}</a> 刚刚批阅了 {$testpaperResult['paperName']} ，<a href='{$testpaperResultUrl}' target='_blank'>请点击查看结果</a>");
             
@@ -475,19 +475,19 @@ class TestpaperController extends BaseController
         $users = $this->getUserService()->findUsersByIds($userIds);
 
         $targets = ArrayToolkit::column($testpapers, 'target');
-        $courseIds = array_map(function($target){
-            $course = explode('/', $target);
-            $course = explode('-', $course[0]);
-            return $course[1];
+        $productIds = array_map(function($target){
+            $product = explode('/', $target);
+            $product = explode('-', $product[0]);
+            return $product[1];
         }, $targets);
 
-        $courses = $this->getCourseService()->findCoursesByIds($courseIds);
+        $products = $this->getProductService()->findProductsByIds($productIds);
 
         return $this->render('TopxiaWebBundle:MyQuiz:teacher-test-layout.html.twig', array(
             'status' => 'reviewing',
             'users' => ArrayToolkit::index($users, 'id'),
             'paperResults' => $paperResults,
-            'courses' => ArrayToolkit::index($courses, 'id'),
+            'products' => ArrayToolkit::index($products, 'id'),
             'testpapers' => ArrayToolkit::index($testpapers, 'id'),
             'teacher' => $user,
             'paginator' => $paginator
@@ -521,30 +521,30 @@ class TestpaperController extends BaseController
         $users = $this->getUserService()->findUsersByIds($userIds);
 
         $targets = ArrayToolkit::column($testpapers, 'target');
-        $courseIds = array_map(function($target){
-            $course = explode('/', $target);
-            $course = explode('-', $course[0]);
-            return $course[1];
+        $productIds = array_map(function($target){
+            $product = explode('/', $target);
+            $product = explode('-', $product[0]);
+            return $product[1];
         }, $targets);
 
-        $courses = $this->getCourseService()->findCoursesByIds($courseIds);
+        $products = $this->getProductService()->findProductsByIds($productIds);
 
         return $this->render('TopxiaWebBundle:MyQuiz:teacher-test-layout.html.twig', array(
             'status' => 'finished',
             'users' => ArrayToolkit::index($users, 'id'),
             'paperResults' => $paperResults,
-            'courses' => ArrayToolkit::index($courses, 'id'),
+            'products' => ArrayToolkit::index($products, 'id'),
             'testpapers' => ArrayToolkit::index($testpapers, 'id'),
             'teacher' => $user,
             'paginator' => $paginator
         ));
     }
 
-    public function teacherCheckInCourseAction (Request $request, $id, $status)
+    public function teacherCheckInProductAction (Request $request, $id, $status)
     {
         $user = $this->getCurrentUser();
 
-        $course = $this->getCourseService()->tryManageCourse($id);
+        $product = $this->getProductService()->tryManageProduct($id);
 
         $testpapers = $this->getTestpaperService()->findAllTestpapersByTarget($id);
 
@@ -570,11 +570,11 @@ class TestpaperController extends BaseController
         $teachers = $this->getUserService()->findUsersByIds($teacherIds);
 
 
-        return $this->render('TopxiaWebBundle:MyQuiz:list-course-test-paper.html.twig', array(
+        return $this->render('TopxiaWebBundle:MyQuiz:list-product-test-paper.html.twig', array(
             'status' => $status,
             'testpapers' => ArrayToolkit::index($testpapers, 'id'),
             'paperResults' => ArrayToolkit::index($testpaperResults, 'id'),
-            'course' => $course,
+            'product' => $product,
             'users' => $users,
             'teachers' => ArrayToolkit::index($teachers, 'id'),
             'paginator' => $paginator
@@ -612,9 +612,9 @@ class TestpaperController extends BaseController
         return $this->getServiceKernel()->createService('Question.QuestionService');
     }
 
-    private function getCourseService ()
+    private function getProductService ()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getUserService()

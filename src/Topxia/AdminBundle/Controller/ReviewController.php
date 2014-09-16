@@ -24,12 +24,12 @@ class ReviewController extends BaseController {
         ); 
 
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($reviews, 'userId'));
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($reviews, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($reviews, 'productId'));
 
         return $this->render('TopxiaAdminBundle:Review:index.html.twig',array(
             'reviews' => $reviews,
             'users'=>$users,
-            'courses'=>$courses,
+            'products'=>$products,
             'paginator' => $paginator,
             ));
     }
@@ -50,9 +50,9 @@ class ReviewController extends BaseController {
         return $this->createJsonResponse(true);
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getUserService()
@@ -62,7 +62,7 @@ class ReviewController extends BaseController {
 
     protected function getReviewService()
     {
-        return $this->getServiceKernel()->createService('Course.ReviewService');
+        return $this->getServiceKernel()->createService('Product.ReviewService');
     }
 
 

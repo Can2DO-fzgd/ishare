@@ -154,33 +154,33 @@ class ContentServiceImpl extends BaseService implements ContentService
 
 class ContentSerialize
 {
-    public static function serialize(array &$course)
+    public static function serialize(array &$product)
     {
-    	if (isset($course['tagIds'])) {
-    		if (is_array($course['tagIds']) and !empty($course['tagIds'])) {
-    			$course['tagIds'] = '|' . implode('|', $course['tagIds']) . '|';
+    	if (isset($product['tagIds'])) {
+    		if (is_array($product['tagIds']) and !empty($product['tagIds'])) {
+    			$product['tagIds'] = '|' . implode('|', $product['tagIds']) . '|';
     		} else {
-    			$course['tagIds'] = '';
+    			$product['tagIds'] = '';
     		}
     	}
-        return $course;
+        return $product;
     }
 
-    public static function unserialize(array $course = null)
+    public static function unserialize(array $product = null)
     {
-    	if (empty($course)) {
-    		return $course;
+    	if (empty($product)) {
+    		return $product;
     	}
 
-		$course['tagIds'] = empty($course['tagIds']) ? array() : explode('|', trim($course['tagIds'], '|'));
+		$product['tagIds'] = empty($product['tagIds']) ? array() : explode('|', trim($product['tagIds'], '|'));
 
-		return $course;
+		return $product;
     }
 
-    public static function unserializes(array $courses)
+    public static function unserializes(array $products)
     {
-    	return array_map(function($course) {
-    		return ContentSerialize::unserialize($course);
-    	}, $courses);
+    	return array_map(function($product) {
+    		return ContentSerialize::unserialize($product);
+    	}, $products);
     }
 }

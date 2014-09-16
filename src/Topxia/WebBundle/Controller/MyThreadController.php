@@ -30,11 +30,11 @@ class MyThreadController extends BaseController
             $paginator->getPerPageCount()
         );
 
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($threads, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($threads, 'productId'));
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($threads, 'latestPostUserId'));
 
         return $this->render('TopxiaWebBundle:MyThread:discussions.html.twig',array(
-            'courses'=>$courses,
+            'products'=>$products,
             'users'=>$users,
             'threads'=>$threads,
             'paginator' => $paginator));
@@ -62,11 +62,11 @@ class MyThreadController extends BaseController
             $paginator->getPerPageCount()
         );
 
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($threads, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($threads, 'productId'));
         $users = $this->getUserService()->findUsersByIds(ArrayToolkit::column($threads, 'latestPostUserId'));
 
         return $this->render('TopxiaWebBundle:MyThread:questions.html.twig',array(
-            'courses'=>$courses,
+            'products'=>$products,
             'users'=>$users,
             'threads'=>$threads,
             'paginator' => $paginator));
@@ -74,12 +74,12 @@ class MyThreadController extends BaseController
 
     protected function getThreadService()
     {
-        return $this->getServiceKernel()->createService('Course.ThreadService');
+        return $this->getServiceKernel()->createService('Product.ThreadService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

@@ -13,9 +13,9 @@
 
 	<ul class="homepage-category-nav">
       {% for category in categories %}
-        <li><a href="{{ path('course_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
+        <li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
       {% endfor %}
-        <li><a href="{{ path('course_explore') }}"><span class="label label-success ">更多</span></a></li>
+        <li><a href="{{ path('product_explore') }}"><span class="label label-success ">更多</span></a></li>
     </ul>
 
   <div class="row row-9-3">
@@ -24,10 +24,10 @@
       <div class="es-box">
         <div class="es-box-heading"><h2>最新产品</h2></div>
         <div class="es-box-body">
-          {% if courses %}
-            {{ render(controller('TopxiaWebBundle:Course:coursesBlock2', {courses:courses, view: 'list2'})) }}
-            {% if courses|length >= 12 %}
-              <a class="btn btn-default btn-lg btn-block" href="{{ path('course_explore') }}">更多产品</a>
+          {% if products %}
+            {{ render(controller('TopxiaWebBundle:Product:productsBlock2', {products:products, view: 'list2'})) }}
+            {% if products|length >= 12 %}
+              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多产品</a>
             {% endif %}
           {% else %}
             <div class="empty">还没有发布产品</div>

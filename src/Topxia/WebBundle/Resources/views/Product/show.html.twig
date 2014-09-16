@@ -1,0 +1,246 @@
+{% extends 'TopxiaWebBundle::layout.html.twig' %}
+
+{% block title %}{{ product.name }} - {{ parent() }}{% endblock %}
+
+{%- block keywords -%}
+  {% if category %}{{ category.name }}{% endif %}
+  {% for tag in tags %}{{ tag.name }}{% endfor %}
+  {{ product.name }} {{ setting('site.name') }}
+{%- endblock -%}
+{% block description %}{{ product.specinfo|plain_text(150) }}{% endblock %}
+
+
+{% set script_controller = 'product/show' %}
+
+{% block content %}
+
+{% if member and member.locked %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="mtl alert alert-warning">
+      您的退款申请已提交，请等待管理员的处理，退款期间将不能关注产品。
+      <button class="btn btn-warning btn-sm cancel-refund" data-url="{{ path('product_order_cancel_refund', {id:product.id}) }}">取消退款，继续关注！</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="es-row-wrap container-gap product-cover">
+<!--移动端不显示请用hidden-xs-->
+  <div class="row row-5-7 product-cover-heading">
+	<div class="col-sm-5">
+      {% if product.typeimg != '' %}
+            <img src="/attach/productpic/{{ product.typeimg }}" class="img-responsive" />
+          {% else %}
+            <img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" class="img-responsive" />
+          {% endif %}
+	  
+    </div>
+    <div class="col-sm-7 info">
+      {% if is_granted('ROLE_ADMIN') %}
+      <div class="btn-group pull-right">
+        <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog"></i>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a href="{{ path('product_manage', {id:product.id}) }}">产品管理</a>
+          </li>
+        </ul>
+      </div>
+      {% endif %}
+	  <p><h1 class="title">{{ product.name }}</h1></p>
+      <div class="subtitle">{{ product.jianjie }}</div>
+      <div class="stats">
+        <p>
+          价　格：
+          {% if product.price > 0 %}
+            <span class="money-num">{{ product.price }}</span>
+            <span class="money-text">元</span>
+          {% else %}
+            <span class="money-num" style="font-size:16px;">免费</span>
+          {% endif %}
+        </p>
+        <p>
+          评　价：
+          <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
+          <span class="rating-num">{{ product.rating|number_format(1) }}分</span>
+          <a class="rating-user-num show-product-review-pane" href="javascript:">({{ product.ratingNum }}人评价)</a>
+        </p>
+        {% if product.showStudentNumType == 'opened' %}
+        <p>
+          关注人数：
+          <span class="member-num">{{ product.studentNum }}</span>
+          <span class="member-text">人</span>
+        </p>
+        {% endif %}
+        {% if not product.expiryDay == 0 %}
+        <p>
+          有效期：
+          <span class="member-num">{{ product.expiryDay }}</span>
+          <span class="member-text">天</span>
+        </p>
+        {% endif %}
+        <p>
+          {% if product.status=='closed' %}  
+            状　态： <span class="label label-danger ">已下架</span>
+          {% elseif product.status=='draft' %}
+            状　态： <span class="label label-warning ">未发布</span>
+          {% endif %}          
+        </p>
+      </div>
+      <div class="actions clearfix">
+        <div class="pull-left">
+          {% if product.status != 'published' %}
+            <a class="btn btn-primary disabled" href="javascript:">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
+          {% else %}
+            <a class="btn btn-primary btn-fat" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
+
+            {% if productMemberLevel %}
+              {% if checkMemberLevelResult == 'not_login' %}
+                <a href="{{ path('login') }}" class="btn btn-warning mll">{{ productMemberLevel.name }}，查看产品</a>  
+              {% elseif checkMemberLevelResult in ['not_member', 'member_expired'] %}
+                <a href="{{ path('vip_buy') }}" class="btn btn-warning mll">{{ productMemberLevel.name }}，查看产品</a>  
+              {% elseif checkMemberLevelResult == 'level_low' %}
+                <a href="{{ path('vip_upgrade', {level:productMemberLevel.id}) }}" class="btn btn-warning mll">{{ productMemberLevel.name }}，查看产品</a>
+              {% elseif checkMemberLevelResult == 'ok' %}
+                <a href="javascript:;" data-url="{{ path('product_become_use_member', {id:product.id}) }}" class="btn btn-warning mll become-use-member-btn">{{ productMemberLevel.name }}，查看产品</a>
+              {% endif %}
+
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="pull-right">
+          <a class="btn btn-link" href="#" style="display:none;"> <i class="glyphicon glyphicon-play-circle"></i>
+            查看产品
+          </a>
+          <a class="btn btn-link" id="favorite-btn" href="javascript:" data-url="{{ path('product_favorite', {id:product.id}) }}" {% if hasFavorited %}style="display:none;"{% endif %}>
+            <i class="glyphicon glyphicon-bookmark"></i>
+            收藏产品
+          </a>
+          <a class="btn btn-link" id="unfavorite-btn" href="javascript:" data-url="{{ path('product_unfavorite', {id:product.id}) }}" {% if not hasFavorited %}style="display:none;"{% endif %}>
+            <i class="glyphicon glyphicon-bookmark"></i>
+            已收藏
+          </a>
+          <a class="btn btn-link" href="#" style="display:none;">
+            <i class="glyphicon glyphicon-gift"></i>
+            查看产品
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row row-8-4">
+    <div class="col-md-8">
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <ul class="nav nav-tabs mbl clearfix" id="product-nav-tabs">
+            <li class="active">
+              <a href="#product-about-pane" data-toggle="tab">产品规格</a>
+            </li>
+            <li>
+              <a id="product-review-tab" href="#product-review-pane" data-toggle="tab" data-url="{{ path('product_review_list', {id:product.id, previewAs:previewAs}) }}">
+                产品评价
+                <span class="badge">{{ product.ratingNum }}</span>
+              </a>
+            </li>
+            {% if product.efficacyinfo %}
+            <li>
+              <a href="#product-goal-pane" data-toggle="tab">产品功能</a>
+            </li>
+            {% endif %}
+            {% if product.yaodian %}
+            <li>
+              <a href="#product-audience-pane" data-toggle="tab">创新要点</a>
+            </li>
+            {% endif %}
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="product-about-pane" class="text-left">
+              {% if product.specinfo %}
+                {{ product.specinfo|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品补充说明...</span>
+              {% endif %}
+              {% if tags %}
+                <div class="mtm">
+                <span class="text-muted">品牌标签：</span>{% for tag in tags %}
+                <a href="{{ path('tag_show', {name:tag.name}) }}" class="mrs">{{ tag.name }}</a>
+                {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+            <div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
+            {% if product.efficacyinfo %}
+            <div class="tab-pane" id="product-goal-pane">
+              <ul class="media-list">
+                {% for goal in product.efficacyinfo  %}
+                <li class="media">
+                  <div class="pull-left">
+                    <span class="glyphicon glyphicon-flag media-object"></span>
+                  </div>
+                  <div class="media-body">{{ goal }}</div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+
+            {% if product.yaodian %}
+            <div class="tab-pane" id="product-audience-pane">
+              <ul class="media-list">
+                {% for audience in product.yaodian %}
+                <li class="media">
+                  <div class="pull-left">
+                    <span class="glyphicon glyphicon-user media-object"></span>
+                  </div>
+                  <div class="media-body">{{ audience }}</div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% embed "TopxiaWebBundle:Bootstrap:panel.html.twig" %}
+        {% block heading %}
+      <h3 class="panel-title">产品补充说明</h3>
+      {% endblock %}
+        {% block body %}
+
+          {% include 'TopxiaWebBundle:ProductLesson:item-list-multi.html.twig' with {experience: true} %}
+
+        {% endblock %}
+      {% endembed %}
+
+      {{ render(controller('TopxiaWebBundle:ProductReview:latestBlock',{product:product})) }}
+
+      {% if setting('product.relatedProducts') == 1 %}
+        {{ render(controller('TopxiaWebBundle:Product:relatedProductsBlock',{product:product})) }}
+      {% endif %}
+    </div>
+    <div class="col-md-4">
+      {{ render(controller('TopxiaWebBundle:Product:teachersBlock',{product:product})) }}
+
+      {{ render(controller('TopxiaWebBundle:ProductThread:latestBlock',{product:product})) }}
+
+      {{ render(controller('TopxiaWebBundle:Product:latestMembersBlock',{product:product})) }}
+
+      {{ render(controller('TopxiaWebBundle:ProductAnnouncement:block',{product:product})) }}
+
+    </div>
+  </div>
+
+</div>
+
+</div>
+{% endblock %}
+
+{% block bottom %}
+<div id="product-modal" class="modal"></div>
+<div id="product-edit-modal" class="modal"></div>
+{% endblock %}

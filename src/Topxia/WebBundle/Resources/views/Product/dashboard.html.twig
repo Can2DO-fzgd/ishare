@@ -1,0 +1,17 @@
+{% extends 'TopxiaWebBundle:Product:dashboard-layout.html.twig' %}
+
+{% set script_controller = 'product/dashboard' %}
+{% set script_arguments = {product_uri: path('product_show', {id:product.id})} %}
+
+{% block dashboard_main %}
+	{% include 'TopxiaWebBundle:Product:dashboard-nav.html.twig' with {nav:'lesson'} %}
+
+	{% if items is empty %}
+		<ul class="media-list">
+			<li class="mvl tac text-muted">产品暂无补充说明内容</li>
+		</ul>
+	{% else %}
+		{% include 'TopxiaWebBundle:ProductLesson:item-list.html.twig' %}
+	{% endif %}
+
+{% endblock %}

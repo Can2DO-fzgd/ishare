@@ -8,8 +8,8 @@ class LessonMaterialPluginController extends BaseController
 
     public function initAction (Request $request)
     {
-        list($course, $member) = $this->getCourseService()->tryTakeCourse($request->query->get('courseId'));
-        $lesson = $this->getCourseService()->getCourseLesson($course['id'], $request->query->get('lessonId'));
+        list($product, $member) = $this->getProductService()->tryTakeProduct($request->query->get('productId'));
+        $lesson = $this->getProductService()->getProductLesson($product['id'], $request->query->get('lessonId'));
 
         if ($lesson['mediaId'] > 0) {
             $file = $this->getUploadFileService()->getFile($lesson['mediaId']);
@@ -20,7 +20,7 @@ class LessonMaterialPluginController extends BaseController
         $lessonMaterials = $this->getMaterialService()->findLessonMaterials($lesson['id'], 0, 100);
         return $this->render('TopxiaWebBundle:LessonMaterialPlugin:index.html.twig',array(
             'materials' => $lessonMaterials,
-            'course' => $course,
+            'product' => $product,
             'lesson' => $lesson,
             'file' => $file,
         ));
@@ -31,13 +31,13 @@ class LessonMaterialPluginController extends BaseController
         return $this->getServiceKernel()->createService('File.UploadFileService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
     protected function getMaterialService()
     {
-        return $this->getServiceKernel()->createService('Course.MaterialService');
+        return $this->getServiceKernel()->createService('Product.MaterialService');
     }
 }

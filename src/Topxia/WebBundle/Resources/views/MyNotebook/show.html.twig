@@ -12,8 +12,13 @@
     <div class="notebook" id="notebook">
       <div class="notebook-heading">
         <a class="btn btn-default btn-sm pull-right notebook-back-btn" href="{{ path('my_notebooks') }}" >返回</a>
-        <img class="notebook-icon" src="{{ file_path(course.largePicture, 'course-large.png') }}" />
-        《{{ course.title }}》的留言
+        {% if product.typeimg != '' %}
+			<img class="notebook-icon"  src="/attach/productpic/{{ product.typeimg }}" />
+		{% else %}
+			<img class="notebook-icon" src="{{ file_path(product.largePicture, 'product-large.png') }}" />
+		{% endif %}
+		
+        《{{ product.name }}》的留言
       </div>
       <div class="notebook-body">
         {% for note in notes %}
@@ -21,7 +26,7 @@
           <div class="notebook-note notebook-note-collapsed">
             <div class="notebook-note-heading">
               {% if lesson %}
-                <a href="{{ path('course_learn', {id:note.courseId}) }}#lesson/{{ lesson.id }}" target="_blank">产品{{ lesson.number }}：{{ lesson.title }}</a>
+                <a href="{{ path('product_learn', {id:note.productId}) }}#lesson/{{ lesson.id }}" target="_blank">产品{{ lesson.number }}：{{ lesson.title }}</a>
               {% else %}
                 <span>该产品已删除</span>
               {% endif %}

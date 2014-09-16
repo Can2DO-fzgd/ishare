@@ -1,0 +1,391 @@
+<?php
+namespace Topxia\WebBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Topxia\Common\ArrayToolkit;
+use Topxia\Service\Util\CloudClientFactory;
+
+class ProductLessonManageController extends BaseController
+{
+	//产品补充说明
+	public function indexAction(Request $request, $id)
+	{
+		//判断是否有权操作
+		$product = $this->getProductService()->tryManageProduct($id);
+		
+		$productItems = $this->getProductService()->getProductItems($product['id']);
+		$mediaMap = array();
+		foreach ($productItems as $item) {
+			if ($item['itemType'] != 'lesson') {
+				continue;
+			}
+
+			if (empty($item['mediaId'])) {
+				continue;
+			}
+
+			if (empty($mediaMap[$item['mediaId']])) {
+				$mediaMap[$item['mediaId']] = array();
+			}
+			$mediaMap[$item['mediaId']][] = $item['id'];
+		}
+
+		$mediaIds = array_keys($mediaMap);
+
+		$files = $this->getUploadFileService()->findFilesByIds($mediaIds);
+
+		foreach ($files as $file) {
+			$lessonIds = $mediaMap[$file['id']];
+			foreach ($lessonIds as $lessonId) {
+				$productItems["lesson-{$lessonId}"]['mediaStatus'] = $file['convertStatus'];
+			}
+		}
+		
+		return $this->render('TopxiaWebBundle:ProductLessonManage:index.html.twig', array(
+			'product' => $product,
+			'items' => $productItems
+		));
+	}
+
+	// @todo refactor it.
+	public function createAction(Request $request, $id)
+	{
+		$product = $this->getProductService()->tryManageProduct($id);
+	    if($request->getMethod() == 'POST') {
+        	$lesson = $request->request->all();
+        	$lesson['productId'] = $product['id'];
+
+        	if ($lesson['media']) {
+        		$lesson['media'] = json_decode($lesson['media'], true);
+        	}
+        	if (is_numeric($lesson['second'])) {
+        		$lesson['length'] = $this->textToSeconds($lesson['minute'], $lesson['second']);
+        		unset($lesson['minute']);
+        		unset($lesson['second']);
+        	}
+        	$lesson = $this->getProductService()->createLesson($lesson);
+
+			return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+				'product' => $product,
+				'lesson' => $lesson,
+			));
+        }
+
+    	$user = $this->getCurrentUser();
+
+    	$randString = substr(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36), 0, 12);
+    	$filePath = "productlesson/{$product['id']}";
+    	$fileKey = "{$filePath}/" . $randString;
+    	$convertKey = $randString;
+
+        $targetType = 'productlesson';
+        $targetId = $product['id'];
+
+    	$setting = $this->setting('storage');
+    	if ($setting['upload_mode'] == 'local') {
+    		$videoUploadToken = $audioUploadToken = array(
+	    		'token' => $this->getUserService()->makeToken('fileupload', $user['id'], strtotime('+ 2 hours')),
+	    		'url' => $this->generateUrl('uploadfile_upload', array('targetType' => $targetType, 'targetId' => $targetId)),
+			);
+
+    	} else {
+
+    		try {
+
+                $factory = new CloudClientFactory();
+                $client = $factory->createClient();
+    		
+		        $commands = array_keys($client->getVideoConvertCommands());
+		    	$videoUploadToken = $client->generateUploadToken($client->getBucket(), array(
+		    		'convertCommands' => implode(';', $commands),
+		    		'convertNotifyUrl' => $this->generateUrl('uploadfile_cloud_convert_callback', array('key' => $convertKey), true),
+	    		));
+	    		if (!empty($videoUploadToken['error'])) {
+	    			return $this->createMessageModalResponse('error', $videoUploadToken['error']['message']);
+	    		}
+
+	    		$audioUploadToken = $client->generateUploadToken($client->getBucket(), array());
+	    		if (!empty($audioUploadToken['error'])) {
+	    			return $this->createMessageModalResponse('error', $audioUploadToken['error']['message']);
+	    		}
+    		}
+    		 catch (\Exception $e) {
+    			return $this->createMessageModalResponse('error', $e->getMessage());
+    		}
+    	}
+
+		return $this->render('TopxiaWebBundle:ProductLessonManage:lesson-modal.html.twig', array(
+			'product' => $product,
+            'targetType' => $targetType,
+            'targetId' => $targetId,
+			'videoUploadToken' => $videoUploadToken,
+			'audioUploadToken' => $audioUploadToken,
+			'filePath' => $filePath,
+			'fileKey' => $fileKey,
+			'convertKey' => $convertKey,
+			'storageSetting' => $setting,
+		));
+	}
+
+	// @todo refactor it.
+	public function editAction(Request $request, $productId, $lessonId)
+	{
+		$product = $this->getProductService()->tryManageProduct($productId);
+		$lesson = $this->getProductService()->getProductLesson($product['id'], $lessonId);
+		if (empty($lesson)) {
+			throw $this->createNotFoundException("产品介绍(#{$lessonId})不存在！");
+		}
+
+	    if($request->getMethod() == 'POST'){
+        	$fields = $request->request->all();
+        	if ($fields['media']) {
+        		$fields['media'] = json_decode($fields['media'], true);
+        	}
+        	if ($fields['second']) {
+        		$fields['length'] = $this->textToSeconds($fields['minute'], $fields['second']);
+        		unset($fields['minute']);
+        		unset($fields['second']);
+        	}
+
+        	$fields['free'] = empty($fields['free']) ? 0 : 1;
+        	$lesson = $this->getProductService()->updateLesson($product['id'], $lesson['id'], $fields);
+			return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+				'product' => $product,
+				'lesson' => $lesson,
+			));
+        }
+
+        if ($lesson['mediaId']) {
+	    	$file = $this->getUploadFileService()->getFile($lesson['mediaId']);
+	    	if (!empty($file)) {
+	    		$lesson['media'] = array(
+		        	'id' => $file['id'],
+		        	'status' => $file['convertStatus'],
+		        	'source' => 'self',
+		        	'name' => $file['filename'],
+		        	'uri' => '',
+    			);
+	    	} else {
+	    		$lesson['media'] = array('id' => 0, 'status' => 'none', 'source' => '', 'name' => '', 'uri' => '');
+	    	}
+        } else {
+	        $lesson['media'] = array(
+	        	'id' => 0,
+	        	'status' => 'none',
+	        	'source' => $lesson['mediaSource'],
+	        	'name' => $lesson['mediaName'],
+	        	'uri' => $lesson['mediaUri'],
+	    	);
+        }
+
+        list($lesson['minute'], $lesson['second']) = $this->secondsToText($lesson['length']);
+
+        $user = $this->getCurrentUser();
+
+        $randString = substr(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36), 0, 12);
+        $filePath = "productlesson/{$product['id']}";
+        $fileKey = "{$filePath}/" . $randString;
+        $convertKey = $randString;
+
+        $targetType = 'productlesson';
+        $targetId = $product['id'];
+
+    	$setting = $this->setting('storage');
+    	if ($setting['upload_mode'] == 'local') {
+            $videoUploadToken = $audioUploadToken = array(
+                'token' => $this->getUserService()->makeToken('fileupload', $user['id'], strtotime('+ 2 hours')),
+                'url' => $this->generateUrl('uploadfile_upload', array('targetType' => $targetType, 'targetId' => $targetId)),
+            );
+    	} else {
+
+    		try {
+
+                $factory = new CloudClientFactory();
+                $client = $factory->createClient();
+
+		        $commands = array_keys($client->getVideoConvertCommands());
+		    	$videoUploadToken = $client->generateUploadToken($setting['cloud_bucket'], array(
+		    		'convertCommands' => implode(';', $commands),
+		    		'convertNotifyUrl' => $this->generateUrl('uploadfile_cloud_convert_callback', array('key' => $convertKey), true),
+	    		));
+	    		if (!empty($videoUploadToken['error'])) {
+	    			return $this->createMessageModalResponse('error', $videoUploadToken['error']['message']);
+	    		}
+
+	    		$audioUploadToken = $client->generateUploadToken($setting['cloud_bucket'], array());
+	    		if (!empty($audioUploadToken['error'])) {
+	    			return $this->createMessageModalResponse('error', $audioUploadToken['error']['message']);
+	    		}
+    		}
+    		 catch (\Exception $e) {
+    			return $this->createMessageModalResponse('error', $e->getMessage());
+    		}
+    	}
+
+		return $this->render('TopxiaWebBundle:ProductLessonManage:lesson-modal.html.twig', array(
+			'product' => $product,
+			'lesson' => $lesson,
+            'targetType' => $targetType,
+            'targetId' => $targetId,
+			'videoUploadToken' => $videoUploadToken,
+			'audioUploadToken' => $audioUploadToken,
+			'filePath' => $filePath,
+			'fileKey' => $fileKey,
+			'convertKey' => $convertKey,
+			'storageSetting' => $setting
+		));
+	}
+
+	public function createTestPaperAction(Request $request, $id)
+	{
+		$product = $this->getProductService()->tryManageProduct($id);
+
+        $conditions = array();
+        $conditions['target'] = "product-{$product['id']}";
+        $conditions['status'] = 'open';
+
+        $testpapers = $this->getTestpaperService()->searchTestpapers(
+            $conditions,
+            array('createdTime' ,'DESC'),
+            0,
+            1000
+        );
+
+    	$paperOptions = array();
+    	foreach ($testpapers as $testpaper) {
+    		$paperOptions[$testpaper['id']] = $testpaper['name'];
+    	}
+
+	    if($request->getMethod() == 'POST') {
+
+            $lesson = $request->request->all();
+            $lesson['type'] = 'testpaper';
+            $lesson['productId'] = $product['id'];
+            $lesson = $this->getProductService()->createLesson($lesson);
+
+			return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+				'product' => $product,
+				'lesson' => $lesson,
+			));
+
+    	}
+
+		return $this->render('TopxiaWebBundle:ProductLessonManage:testpaper-modal.html.twig', array(
+			'product' => $product,
+			'paperOptions' => $paperOptions,
+		));
+	}
+
+	public function editTestpaperAction(Request $request, $productId, $lessonId)
+	{
+		$product = $this->getProductService()->tryManageProduct($productId);
+
+        $lesson = $this->getProductService()->getProductLesson($product['id'], $lessonId);
+        if (empty($lesson)) {
+            throw $this->createNotFoundException("课时(#{$lessonId})不存在！");
+        }
+
+        $conditions = array();
+        $conditions['target'] = "product-{$product['id']}";
+        $conditions['status'] = 'open';
+
+        $testpapers = $this->getTestpaperService()->searchTestpapers(
+            $conditions,
+            array('createdTime' ,'DESC'),
+            0,
+            1000
+        );
+
+    	$paperOptions = array();
+    	foreach ($testpapers as $paper) {
+    		$paperOptions[$paper['id']] = $paper['name'];
+    	}
+
+        if($request->getMethod() == 'POST') {
+            $fields = $request->request->all();
+            $lesson = $this->getProductService()->updateLesson($product['id'], $lesson['id'], $fields);
+            return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+                'product' => $product,
+                'lesson' => $lesson,
+            ));
+        }
+
+        return $this->render('TopxiaWebBundle:ProductLessonManage:testpaper-modal.html.twig', array(
+            'product' => $product,
+            'lesson' => $lesson,
+            'paperOptions' => $paperOptions,
+        ));
+
+	}
+
+	public function publishAction(Request $request, $productId, $lessonId)
+	{
+		$this->getProductService()->publishLesson($productId, $lessonId);
+		return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+			'product' => $this->getProductService()->getProduct($productId),
+			'lesson' => $this->getProductService()->getProductLesson($productId, $lessonId),
+		));
+	}
+
+	public function unpublishAction(Request $request, $productId, $lessonId)
+	{
+		$this->getProductService()->unpublishLesson($productId, $lessonId);
+		return $this->render('TopxiaWebBundle:ProductLessonManage:list-item.html.twig', array(
+			'product' => $this->getProductService()->getProduct($productId),
+			'lesson' => $this->getProductService()->getProductLesson($productId, $lessonId),
+		));
+	}
+
+	public function sortAction(Request $request, $id)
+	{
+		$product = $this->getProductService()->tryManageProduct($id);
+		$this->getProductService()->sortProductItems($product['id'], $request->request->get('ids'));
+		return $this->createJsonResponse(true);
+	}
+
+	public function deleteAction(Request $request, $productId, $lessonId)
+	{
+		$product = $this->getProductService()->tryManageProduct($productId);
+		$this->getProductService()->deleteLesson($product['id'], $lessonId);
+		$this->getProductMaterialService()->deleteMaterialsByLessonId($lessonId);
+		return $this->createJsonResponse(true);
+	}
+
+	private function secondsToText($value)
+	{
+        $minutes = intval($value / 60);
+        $seconds = $value - $minutes * 60;
+        return array($minutes, $seconds);
+	}
+
+	private function textToSeconds($minutes, $seconds)
+	{
+		return intval($minutes) * 60 + intval($seconds);
+	}
+
+    private function getProductService()
+    {
+        return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+
+    private function getTestpaperService()
+    {
+        return $this->getServiceKernel()->createService('Testpaper.TestpaperService');
+    }
+
+    private function getProductMaterialService()
+    {
+        return $this->getServiceKernel()->createService('Product.MaterialService');
+    }
+
+    private function getDiskService()
+    {
+        return $this->getServiceKernel()->createService('User.DiskService');
+    }
+
+    private function getUploadFileService()
+    {
+        return $this->getServiceKernel()->createService('File.UploadFileService');
+    }
+
+}

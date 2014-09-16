@@ -30,9 +30,9 @@ class OrderController extends BaseController
             $code = $request->request->get('code');
 
             //判断coupon是否合法，是否存在跟是否过期跟是否可用于当前产品
-            $course = $this->getCourseService()->getCourse($id);
+            $product = $this->getProductService()->getProduct($id);
 
-            $couponInfo = $this->getCouponService()->checkCouponUseable($code, $type, $id, $course['price']);
+            $couponInfo = $this->getCouponService()->checkCouponUseable($code, $type, $id, $product['price']);
             
             return $this->createJsonResponse($couponInfo);
         }
@@ -136,9 +136,9 @@ class OrderController extends BaseController
         return $this->getServiceKernel()->createService('Coupon:Coupon.CouponService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

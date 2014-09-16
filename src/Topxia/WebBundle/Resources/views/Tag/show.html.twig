@@ -14,8 +14,8 @@
   <div class="row" style="min-height:300px;">
     <div class="col-md-9">
       {% if tag %}
-        {% if courses %}
-          {{ render(controller('TopxiaWebBundle:Course:coursesBlock', {courses:courses, view: 'list'})) }}
+        {% if products %}
+          {{ render(controller('TopxiaWebBundle:Product:productsBlock', {products:products, view: 'list'})) }}
           {{ web_macro.paginator(paginator) }} 
         {% else %}
           <div class="empty">没有搜到相关产品，请换个产品品牌标签试试！</div>

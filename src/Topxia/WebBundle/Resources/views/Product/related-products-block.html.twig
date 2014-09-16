@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">相关产品</h3>
+  </div>
+  <div class="panel-body">
+    <ul class="product-grids">
+      {% set key = 0 %}
+      {% for product in products %}
+        {% if key < 3 and currentProduct.id != product.id %}
+        {% set key = key + 1 %}
+        <li class="product-grid required-product-grid">
+            <a href="{{ path('product_show', {id:product.id}) }}" class="grid-body">
+            {% if product.typeimg != '' %}
+            <img src="/attach/productpic/{{ product.typeimg }}"  class="img-responsive thumb" />
+          {% else %}
+            <img src="{{ file_path(product.largePicture, 'product-large.png') }}" class="img-responsive thumb">
+          {% endif %}
+			
+            <span class="title">{{ product.name }}</span>  
+          </a>
+        </li>
+        {% endif %}
+      {% endfor %}
+    </ul>       
+  </div>
+</div>

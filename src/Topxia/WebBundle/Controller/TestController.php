@@ -13,9 +13,9 @@ class TestController extends BaseController
         return $this->render('TopxiaWebBundle:Test:test.html.twig');
     }
 
-    private function getCourseService()
+    private function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
     
 }

@@ -20,28 +20,28 @@ class MyNotebookController extends BaseController
 
         $paginator = new Paginator(
             $request,
-            $this->getCourseService()->searchMemberCount($conditions),
+            $this->getProductService()->searchMemberCount($conditions),
             10
         );
 
-        $courseMembers = $this->getCourseService()->searchMember($conditions, $paginator->getOffsetCount(), $paginator->getPerPageCount());
+        $productMembers = $this->getProductService()->searchMember($conditions, $paginator->getOffsetCount(), $paginator->getPerPageCount());
 
-        $courses = $this->getCourseService()->findCoursesByIds(ArrayToolkit::column($courseMembers, 'courseId'));
+        $products = $this->getProductService()->findProductsByIds(ArrayToolkit::column($productMembers, 'productId'));
         
         return $this->render('TopxiaWebBundle:MyNotebook:index.html.twig', array(
-            'courseMembers'=>$courseMembers,
+            'productMembers'=>$productMembers,
             'paginator' => $paginator,
-            'courses'=>$courses
+            'products'=>$products
         ));
     }
 
-    public function showAction(Request $request, $courseId)
+    public function showAction(Request $request, $productId)
     {   
         $user = $this->getCurrentUser();
 
-        $course = $this->getCourseService()->getCourse($courseId);
-        $lessons = ArrayToolkit::index($this->getCourseService()->getCourseLessons($courseId), 'id');
-        $notes = $this->getNoteService()->findUserCourseNotes($user['id'], $course['id']);
+        $product = $this->getProductService()->getProduct($productId);
+        $lessons = ArrayToolkit::index($this->getProductService()->getProductLessons($productId), 'id');
+        $notes = $this->getNoteService()->findUserProductNotes($user['id'], $product['id']);
 
         foreach ($notes as &$note) {
             $note['lessonNumber'] = empty($lessons[$note['lessonId']]) ? 0 : $lessons[$note['lessonId']]['number'];
@@ -61,7 +61,7 @@ class MyNotebookController extends BaseController
         });
 
         return $this->render('TopxiaWebBundle:MyNotebook:show.html.twig', array(
-            'course' => $course,
+            'product' => $product,
             'lessons' => $lessons,
             'notes' => $notes,
         ));
@@ -75,12 +75,12 @@ class MyNotebookController extends BaseController
 
     protected function getNoteService()
     {
-        return $this->getServiceKernel()->createService('Course.NoteService');
+        return $this->getServiceKernel()->createService('Product.NoteService');
     }
 
-    protected function getCourseService()
+    protected function getProductService()
     {
-        return $this->getServiceKernel()->createService('Course.CourseService');
+        return $this->getServiceKernel()->createService('Product.ProductService');
     }
 
 }

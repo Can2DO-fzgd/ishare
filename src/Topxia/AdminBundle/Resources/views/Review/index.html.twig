@@ -1,4 +1,4 @@
-{% extends 'TopxiaAdminBundle:Course:layout.html.twig' %}
+{% extends 'TopxiaAdminBundle:Product:layout.html.twig' %}
 
 {% block title %}产品评价管理 - {{ parent() }}{% endblock %}
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="form-group">
-      <input class="form-control" type="text" placeholder="产品编号" name="courseId" value="{{ app.request.get('courseId') }}">
+      <input class="form-control" type="text" placeholder="产品编号" name="productId" value="{{ app.request.get('productId') }}">
     </div>
 
     <div class="form-group">
@@ -48,7 +48,7 @@
       <tbody>
         {% for review in reviews %}
           {% set author = users[review.userId]|default(null) %}
-          {% set course = courses[review.courseId]|default(null) %}
+          {% set product = products[review.productId]|default(null) %}
           <tr id="review-table-tr-{{review.id}}" data-role="item">
             <td><input type="checkbox" value="{{review.id}}" data-role="batch-item"></td>
             <td>
@@ -59,8 +59,8 @@
                 <div class="long-text">{{ review.content|nl2br }} <span class="text-muted trigger">(收起)</span></div>
               </div>
               <div class="mts">
-                {% if course %}
-                  <a class="text-success text-sm" href="{{ path('course_show', {id:review.courseId}) }}" target="_blank">{{ courses[review.courseId].title }}</a>
+                {% if product %}
+                  <a class="text-success text-sm" href="{{ path('product_show', {id:review.productId}) }}" target="_blank">{{ products[review.productId].name }}</a>
                 {% else %}
                   <span class="text-muted text-sm">产品已删除</span>
                 {% endif %}

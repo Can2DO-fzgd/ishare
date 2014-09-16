@@ -4,8 +4,8 @@
 {% set script_controller = 'auth/register' %}
 
 {% block content %}
-<div class="row row-6">
-  <div class="col-md-6 col-md-offset-3 ptl">
+<div class="row row-12">
+  <div class="col-md-12">
     {% if isLoginEnabled %}
       <div class="panel panel-default panel-page">
         <div class="panel-heading"><h2>注册</h2></div>
@@ -24,7 +24,7 @@
 					<option value ="4">商家</option>
 					<option value ="5">代理</option>
 					<option value ="6">其他</option>
-			    	<!--{{ select_options(category_choices('usertypes'), course.name, '普通') }}-->
+			    	<!--{{ select_options(category_choices('usertypes'), product.name, '普通') }}-->
 			    </select>
               <p class="help-block">选择分享者类型</p>
             </div>
