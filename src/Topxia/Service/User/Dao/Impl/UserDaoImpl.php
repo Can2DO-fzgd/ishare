@@ -9,7 +9,7 @@ use PDO;
 
 class UserDaoImpl extends BaseDao implements UserDao
 {
-    protected $table = 'user';
+    protected $table = 't_member';
 
     public function getUser($id)
     {

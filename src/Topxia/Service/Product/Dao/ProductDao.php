@@ -4,7 +4,7 @@ namespace Topxia\Service\Product\Dao;
 
 interface ProductDao
 {
-    const TABLENAME = 'product';
+    const TABLENAME = 't_product';
 
     public function getProduct($id);
 

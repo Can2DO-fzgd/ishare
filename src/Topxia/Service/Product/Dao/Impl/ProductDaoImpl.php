@@ -133,7 +133,7 @@ class ProductDaoImpl extends BaseDao implements ProductDao
         }
 
         $builder = $this->createDynamicQueryBuilder($conditions)
-            ->from(self::TABLENAME, 'product')
+            ->from(self::TABLENAME, 't_product')
             ->andWhere('status = :status')
             ->andWhere('price = :price')
             ->andWhere('price > :notFree')
