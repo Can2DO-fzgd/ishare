@@ -83,7 +83,7 @@ class UserController extends BaseController
             $this->get('session')->set('registed_email', $user['email']);
 
             if(isset($formData['roles'])){
-                $roles[] = 'ROLE_TEACHER';
+                $roles[] = 'ROLE_ISHARE';
                 array_push($roles, 'ROLE_USER');
                 $this->getUserService()->changeUserRoles($user['id'], $roles);
             }
@@ -140,7 +140,7 @@ class UserController extends BaseController
             $roles = $request->request->get('roles');
             $this->getUserService()->changeUserRoles($user['id'], $roles);
 
-            if (in_array('ROLE_TEACHER', $user['roles']) && !in_array('ROLE_TEACHER', $roles)) {
+            if (in_array('ROLE_ISHARE', $user['roles']) && !in_array('ROLE_ISHARE', $roles)) {
                 $this->getProductService()->cancelTeacherInAllProducts($user['id']);
             }
 

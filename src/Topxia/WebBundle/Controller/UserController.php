@@ -30,7 +30,7 @@ class UserController extends BaseController
     {
         $user = $this->tryGetUser($id);
 
-        if(in_array('ROLE_TEACHER', $user['roles'])) {
+        if(in_array('ROLE_ISHARE', $user['roles'])) {
             return $this->_teachAction($user);
         }
 

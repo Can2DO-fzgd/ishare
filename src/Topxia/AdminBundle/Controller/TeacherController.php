@@ -11,7 +11,7 @@ class TeacherController extends BaseController {
     {
         $fields = $request->query->all();
         $conditions = array(
-            'roles'=>'ROLE_TEACHER',
+            'roles'=>'ROLE_ISHARE',
         );
 
         $paginator = new Paginator(

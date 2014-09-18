@@ -21,7 +21,7 @@ class RecommendTeachersDataTag extends ProductBaseDataTag implements DataTag
 
         $this->checkCount($arguments);
         $conditions = array(
-            'roles'=>'ROLE_TEACHER',
+            'roles'=>'ROLE_ISHARE',
             'promoted'=>'1',
         );
     	$users = $this->getUserService()->searchUsers($conditions, array('promotedTime', 'DESC'), 0, $arguments['count']);

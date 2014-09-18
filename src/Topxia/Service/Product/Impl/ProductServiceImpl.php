@@ -373,7 +373,7 @@ class ProductServiceImpl extends BaseService implements ProductService
         	'smallPicture' => $smallFileRecord['uri'],
         	'middlePicture' => $middleFileRecord['uri'],
         	'largePicture' => $largeFileRecord['uri'],
-			'typeimg' => str_replace('public://productpic/', '', $largeFileRecord['uri']),//替换typeimg中的public://productpic/为空格
+			'typeimg' => str_replace('public://productpic/', '', $middleFileRecord['uri']),//替换typeimg中的public://productpic/为空格
     	);
 
     	@unlink($filePath);

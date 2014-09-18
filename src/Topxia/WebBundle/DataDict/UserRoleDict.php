@@ -9,7 +9,7 @@ class UserRoleDict implements DataDictInterface
     {
         return array(
             'ROLE_USER' => '会员',
-            'ROLE_TEACHER' => '享客',
+            'ROLE_ISHARE' => '享客',
 			'ROLE_MANUFACTURER' => '厂家',
 			'ROLE_MERCHANTS' => '商家',
 			'ROLE_AGENT' => '代理',

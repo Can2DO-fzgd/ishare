@@ -299,7 +299,7 @@ class ProductController extends BaseController
         $user = $this->getUserService()->getCurrentUser();
         $userProfile = $this->getUserService()->getUserProfile($user['id']);
 
-        if (false === $this->get('security.context')->isGranted('ROLE_TEACHER')) {
+        if (false === $this->get('security.context')->isGranted('ROLE_ISHARE')) {
             throw $this->createAccessDeniedException();
         }
 

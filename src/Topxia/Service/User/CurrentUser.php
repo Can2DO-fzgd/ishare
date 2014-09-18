@@ -114,7 +114,7 @@ class CurrentUser implements AdvancedUserInterface, EquatableInterface, \ArrayAc
 
     public function isTeacher()
     {
-        return in_array('ROLE_TEACHER', $this->getRoles());
+        return in_array('ROLE_ISHARE', $this->getRoles());
     }
 
     public function fromArray(array $user) {

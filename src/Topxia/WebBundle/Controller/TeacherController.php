@@ -11,7 +11,7 @@ class TeacherController extends BaseController
     {
 
         $conditions = array(
-            'roles'=>'ROLE_TEACHER',
+            'roles'=>'ROLE_ISHARE',
         );
 
         $paginator = new Paginator(

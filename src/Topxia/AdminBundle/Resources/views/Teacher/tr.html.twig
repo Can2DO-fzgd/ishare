@@ -26,7 +26,7 @@
       <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
         <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu pull-right">
         <li><a class="promote-user" href="javascript:" data-url="{{ path('admin_teacher_promote', {id:user.id}) }}">推荐享客</a></li>
         {% if user.promoted %}
           <li><a class="promote-user" href="javascript:" data-url="{{ path('admin_teacher_promote_cancel', {id:user.id}) }}">取消推荐享客</a></li>

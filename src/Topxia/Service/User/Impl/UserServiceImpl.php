@@ -244,15 +244,15 @@ class UserServiceImpl extends BaseService implements UserService
 		if ($registration['userTypeId'] == '1') {
 			$user['roles'] =  array('ROLE_USER');
 		} elseif($registration['userTypeId'] == '2') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE');
 		} elseif($registration['userTypeId'] == '3') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_MANUFACTURER');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_MANUFACTURER');
 		} elseif($registration['userTypeId'] == '4') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_MERCHANTS');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_MERCHANTS');
 		} elseif($registration['userTypeId'] == '5') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_AGENT');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_AGENT');
 		} elseif($registration['userTypeId'] == '6') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_TEACHER', 'ROLE_USER');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_USER');
 		} else {
 			$user['roles'] =  array('ROLE_USER');
 		}
@@ -312,6 +312,7 @@ class UserServiceImpl extends BaseService implements UserService
         if(in_array($type, array('default', 'phpwind', 'discuz'))) {
             $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
             $user['password'] = $this->getPasswordEncoder()->encodePassword($registration['password'], $user['salt']);
+			//$user['password'] = md5($registration['userName'].$registration['password']);
             $user['setup'] = 1;
         } else {
             $user['salt'] = '';
@@ -420,7 +421,7 @@ class UserServiceImpl extends BaseService implements UserService
             throw $this->createServiceException('用户角色必须包含ROLE_USER');
         }
 
-        $allowedRoles = array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_TEACHER','ROLE_MANUFACTURER','ROLE_MERCHANTS','ROLE_AGENT');
+        $allowedRoles = array('ROLE_USER','ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_ISHARE','ROLE_MANUFACTURER','ROLE_MERCHANTS','ROLE_AGENT');
 
         $notAllowedRoles = array_diff($roles, $allowedRoles);
         if (!empty($notAllowedRoles)) {
@@ -599,7 +600,7 @@ class UserServiceImpl extends BaseService implements UserService
 
     public function findLatestPromotedTeacher($start, $limit)
     {
-        return $this->searchUsers(array('roles' => 'ROLE_TEACHER', 'promoted' => 1), array('promotedTime', 'DESC'),  $start, $limit);
+        return $this->searchUsers(array('roles' => 'ROLE_ISHARE', 'promoted' => 1), array('promotedTime', 'DESC'),  $start, $limit);
     }
 
     public function waveUserCounter($userId, $name, $number)

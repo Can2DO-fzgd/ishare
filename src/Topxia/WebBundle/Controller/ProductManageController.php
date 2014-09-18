@@ -262,7 +262,7 @@ class ProductManageController extends BaseController
     public function teachersMatchAction(Request $request)
     {
         $likeString = $request->query->get('q');
-        $users = $this->getUserService()->searchUsers(array('userName'=>$likeString, 'roles'=> 'ROLE_TEACHER'), array('createdTime', 'DESC'), 0, 10);
+        $users = $this->getUserService()->searchUsers(array('userName'=>$likeString, 'roles'=> 'ROLE_ISHARE'), array('createdTime', 'DESC'), 0, 10);
 
         $teachers = array();
         foreach ($users as $user) {
