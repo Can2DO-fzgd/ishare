@@ -2,7 +2,7 @@
   {% for product in data('ProductRankByHit',{ count:20 }) %}
   <li class="product-item clearfix">
     <a class="product-picture-link" href="{{ path('product_show', {id:product.id}) }}">
-      {% if product.typeimg != '' %}
+      	  {% if product.typeimg != '' %}
             <img class="product-picture" src="/attach/productpic/{{ product.typeimg }}" alt="{{ product.name }}" />
           {% else %}
             <img class="product-picture" src="{{ file_path(product.middlePicture, 'product-large.png') }}" alt="{{ product.name }}">

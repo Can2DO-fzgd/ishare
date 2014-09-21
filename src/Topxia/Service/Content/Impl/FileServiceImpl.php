@@ -254,9 +254,21 @@ class FileServiceImpl extends BaseService implements FileService
 	    	throw $this->createServiceException('获取文件扩展名失败！');
 	    }
 
+		mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+        $charid = strtoupper(md5(uniqid(rand(), true)));
+        $hyphen = chr(45);// "-"
+        $uuid = //chr(123)// "{"
+                substr($charid, 0, 8).$hyphen
+                .substr($charid, 8, 4).$hyphen
+                .substr($charid,12, 4).$hyphen
+                .substr($charid,16, 4).$hyphen
+                .substr($charid,20,12);
+                //.chr(125);// "}"
+		
     	$uri = ($group['public'] ? 'public://' : 'private://') . $group['code'] . '/';
-        $uri .= date('Y') . '-' . date('m-d') . '-' . date('His');
-        $uri .= substr(uniqid(), - 6) . substr(uniqid('', true), - 6);
+		$uri .= $uuid;
+//        $uri .= date('Y') . '-' . date('m-d') . '-' . date('His');
+//        $uri .= substr(uniqid(), - 6) . substr(uniqid('', true), - 6);
         $uri .= '.' . $ext;
 		
         return $uri;
