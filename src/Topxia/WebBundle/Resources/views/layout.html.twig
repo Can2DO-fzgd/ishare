@@ -1,9 +1,9 @@
 {% import "TopxiaWebBundle::macro.html.twig" as web_macro %}
 <!DOCTYPE html>
-<!--[if lt IE 6]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+{#<!--[if lt IE 6]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->#}
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,17 +22,17 @@
     <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/web.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/member.css') }}" />
-    <!--[if lt IE 8]>
+    {#<!--[if lt IE 8]>
       <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
-    <![endif]-->
+    <![endif]-->#}
   {% endblock %}
-  <!--[if lt IE 9]>
+  {#<!--[if lt IE 9]>
     <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
   <![endif]-->
 
   <!--[if IE 8]>
     <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
-  <![endif]-->
+  <![endif]-->#}
 
   {% block head_scripts %}{% endblock %}
 
@@ -75,11 +75,23 @@
 			{% if app.user %}
 			<a href="#" class="dropdown-toggle navbar-brand dropdown hidden-lt-ie8" data-toggle="dropdown"> 微相关<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-				  <li><a href="#"> 欢迎您：{{ app.user.userName }} </a></li>
+				  <li><a href="#"> 欢迎您：
+				  
+				  {% if app.user.companyname != '' %} 
+				  	{{ app.user.companyname }} 
+				  {% elseif app.user.nichen != '' %}
+				  	{{ app.user.nichen}}
+				  {% elseif app.user.realName != '' %}
+				  	{{ app.user.realName }}
+				  {% else %} 
+				  	神秘人物
+				  {% endif %}
+				  
+				  </a></li>
 				  <li class="divider"></li>
 				  {{ render(controller('TopxiaWebBundle:Default:topNavigation')) }}
                 </ul>
-			<a class="navbar-brand" href="{{ path('my') }}">我的产品</a>
+			<a class="navbar-brand" href="{{ path('my') }}">我的分享</a>
 			<a class="navbar-brand" href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i></a>
 			<a class="navbar-brand" href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i></a>
 			{% else %}
@@ -118,9 +130,10 @@
               	  <li><a href="{{ path('admin_setting_site') }}">系统设置</a></li>
 				  {% endif %}
                 </ul>
-           <a class="navbar-brand" href="{{ path('admin_app_installed') }}">应用管理</a>
+           {#<a class="navbar-brand" href="{{ path('admin_app_installed') }}">应用管理</a>#}
+		   <a class="navbar-brand" href="{{ path('admin') }}">后台管理首页</a>
         </div>
-		{% endif %}<!--/.navbar-collapse -->
+		{% endif %}{#<!--/.navbar-collapse -->#}
 		
       </div>
     </div>
@@ -135,17 +148,17 @@
       </div>
     {% endif %}
     {% block content %}{% endblock %}
-  </div><!-- /container -->
+  </div>{#<!-- /container -->#}
 
   <div class="site-footer container clearfix">
 
     {{ render(controller('TopxiaWebBundle:Default:footNavigation')) }}
 
-    <!-- /<div class="text-gray" data-role="default-foot-bar">
+    {# <div class="text-gray" data-role="default-foot-bar">
       {% include "TopxiaWebBundle::powered-by.html.twig" %}
       {{ setting('site.analytics')|raw }}
       <div class="pull-right">{% if setting('site.copyright') %}产品内容版权均归<a href="/">{{ setting('site.copyright') }}</a>所有{% endif %}&nbsp;{% if setting('site.icp') %}<a href="http://www.can2do.com/" target="_blank">{{ setting('site.icp') }}</a>{% endif %}</div>
-    </div>-->
+    </div> #}
 	
   </div>
 

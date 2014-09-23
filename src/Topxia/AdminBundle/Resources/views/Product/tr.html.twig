@@ -6,11 +6,12 @@
     <br>
     <span class="text-muted text-sm">分类：{{ category.name|default('--') }}</span>
     {% if product.recommended %}
-      <span class="label label-default">荐:{{ product.recommendedTime|date('Y-m-d') }} / 序号:{{ product.recommendedSeq }}</span>
+      {#<span class="label label-default">荐:{{ product.recommendedTime|date('Y-m-d') }} / 序号:{{ product.recommendedSeq }}</span>#}
+	  <span class="label label-default">荐:序号:{{ product.recommendedSeq }}</span>
     {% endif %}
   </td>
   <td>{{ product.studentNum }}</td>
-  <td><span class="money-text">{{ product.income }}</span></td>
+  {#<td><span class="money-text">{{ product.income }}</span></td>#}
   <td>{{ dict_text('productStatus:html', product.status) }}</td>
   <td>
     {{ admin_macro.user_link(user) }}
@@ -32,17 +33,17 @@
           <li><a class="cancel-recommend-product" href="javascript:" data-url="{{ path('admin_product_cancel_recommend', {id:product.id}) }}"><span class="glyphicon glyphicon-hand-right"></span> 取消推荐</a></li>
         {% endif %}
 
-        <li><a href="{{ path('product_show', {id:product.id, previewAs:'guest'}) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> 预览：作为未购买用户</a></li>
-        <li><a href="{{ path('product_show', {id:product.id, previewAs:'member'}) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> 预览：作为已购买用户</a></li>
+        <li><a href="{{ path('product_show', {id:product.id, previewAs:'guest'}) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> 预览：作为未关注用户</a></li>
+        <li><a href="{{ path('product_show', {id:product.id, previewAs:'member'}) }}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> 预览：作为已关注用户</a></li>
 
         <li class="divider"></li>
 
         {% if product.status == 'published' %}
-          <li><a class="close-product" href="javascript:" data-url="{{ path('admin_product_close', {id:product.id}) }}"><span class="glyphicon glyphicon-ban-circle"></span> 下架产品</a></li>
+          <li><a class="close-product" href="javascript:" data-url="{{ path('admin_product_close', {id:product.id}) }}"><span class="glyphicon glyphicon-ban-circle"></span> 下线产品</a></li>
         {% endif %}
 
         {% if product.status != 'published' %}
-          <li><a class="publish-product" href="javascript:" data-url="{{ path('admin_product_publish', {id:product.id}) }}"><span class="glyphicon glyphicon-ok-circle"></span> 上架产品</a></li>
+          <li><a class="publish-product" href="javascript:" data-url="{{ path('admin_product_publish', {id:product.id}) }}"><span class="glyphicon glyphicon-ok-circle"></span> 上线产品</a></li>
         {% endif %}
 
         <li class="divider"></li>

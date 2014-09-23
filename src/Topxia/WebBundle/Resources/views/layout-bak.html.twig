@@ -1,9 +1,9 @@
 {% import "TopxiaWebBundle::macro.html.twig" as web_macro %}
 <!DOCTYPE html>
-<!--[if lt IE 6]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+{#<!--[if lt IE 6]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->#}
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,17 +22,17 @@
     <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/web.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/member.css') }}" />
-    <!--[if lt IE 8]>
+    {#<!--[if lt IE 8]>
       <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
-    <![endif]-->
+    <![endif]-->#}
   {% endblock %}
-  <!--[if lt IE 9]>
+  {#<!--[if lt IE 9]>
     <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
   <![endif]-->
 
   <!--[if IE 8]>
     <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
-  <![endif]-->
+  <![endif]-->#}
 
   {% block head_scripts %}{% endblock %}
 
@@ -120,7 +120,7 @@
                 </ul>
            <a class="navbar-brand" href="{{ path('admin_app_installed') }}">应用管理</a>
         </div>
-		{% endif %}<!--/.navbar-collapse -->
+		{% endif %}{#<!--/.navbar-collapse -->#}
 		
       </div>
     </div>
@@ -135,7 +135,7 @@
       </div>
     {% endif %}
     {% block content %}{% endblock %}
-  </div><!-- /container -->
+  </div>{#<!-- /container -->#}
 
   <div class="site-footer container clearfix">
 

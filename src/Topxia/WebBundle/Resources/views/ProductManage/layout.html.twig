@@ -24,7 +24,7 @@
 			    <li>
 			      <a href="{{ path('product_manage_detail', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 详细信息</a>
 			    </li>
-				<li>
+				{#<li>
 			      <a href="{{ path('product_manage_picture', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 产品图片</a>
 			    </li>
 				<li>
@@ -32,7 +32,7 @@
 			    </li>
 				<li>
 			      <a href="{{ path('product_manage_files', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 附件管理</a>
-			    </li>
+			    </li>#}
 			  </ul>
 			</div>
 			
@@ -41,19 +41,31 @@
 			  <i class="glyphicon glyphicon-th-large"></i> 产品设置 <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu" role="menu">
-			    <li>
+			    {#<li>
 			      <a href="{{ path('product_manage_price', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 价格设置</a>
-			    </li>
+			    </li>#}
 			    <li>
 			      <a href="{{ path('product_manage_teachers', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 享客设置</a>
 			    </li>
 				<li>
-			      <a href="{{ path('product_manage_students', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 买家管理</a>
+			      <a href="{{ path('product_manage_students', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 关注管理</a>
 			    </li>
 			  </ul>
 			</div>
 			
 			<div class="btn-group">
+			  <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
+			  <i class="glyphicon glyphicon-th-large"></i> 产品图片 <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu pull-right" role="menu">
+			    <li>
+			      <a href="{{ path('product_manage_picture', {id:product.id}) }}"><i class="glyphicon glyphicon-pencil"></i> 产品图片</a>
+			    </li>
+			  </ul>
+			</div>
+			
+			
+			{#<div class="btn-group">
 			  <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
 			  <i class="glyphicon glyphicon-th-large"></i> 问卷题库 <span class="caret"></span>
 			  </button>
@@ -71,7 +83,7 @@
 			      <a href="{{ path('product_manage_test_check', {id:product.id, status:'reviewing'}) }}"><i class="glyphicon glyphicon-pencil"></i> 问卷批阅</a>
 			    </li>
 			  </ul>
-			</div>
+			</div>#}
 			
 		</div>
 	</div>

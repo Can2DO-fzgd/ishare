@@ -1,6 +1,18 @@
 {% extends 'TopxiaWebBundle::layout.html.twig' %}
 
-{% block title %} {{user.userName}}的公共主页 - {{ parent() }}{% endblock %}
+{% block title %} 
+
+{% if user.companyname != '' %} 
+	{{ user.companyname }} 
+{% elseif user.nichen != '' %}
+	{{ user.nichen}}
+{% elseif user.realName != '' %}
+	{{ user.realName }}
+{% else %} 
+	神秘人物
+{% endif %}
+
+的公共主页 - {{ parent() }}{% endblock %}
 
 {% set bodyClass = 'userpage' %}
 {% set pageNav = pageNav|default(null) %}
@@ -13,7 +25,7 @@
 
 <div class="es-row-wrap container-gap userpage-body">
   <ul class="nav nav-pills userpage-nav clearfix">
-  	{% if 'ROLE_TEACHER' in user.roles %}
+  	{% if 'ROLE_ISHARE' in user.roles %}
 	    <li {% if pageNav == 'teach' %}class="active btn-success unfollow-btn" {% else %}class="btn-success unfollow-btn" {% endif %}><a href="{{ path('user_teach', {id: user.id}) }}">分享</a></li>
     {% endif %}
     <li {% if pageNav == 'learn' %}class="active btn-success unfollow-btn" {% else %}class="btn-success unfollow-btn" {% endif %}><a href="{{ path('user_learn', {id:user.id}) }}">关注</a></li>

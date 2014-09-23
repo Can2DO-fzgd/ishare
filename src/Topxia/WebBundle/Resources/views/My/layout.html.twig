@@ -11,16 +11,16 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<div>
-		<!--<div class="pull-right">-->
+		{#<!--<div class="pull-right">-->#}
 
 		{% if app.user.isTeacher() %}
 			<div class="btn-group">
 			  <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
-			  <i class="glyphicon glyphicon-th-large"></i> 我的产品 <span class="caret"></span>
+			  <i class="glyphicon glyphicon-th-large"></i> 我的分享 <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu" role="menu">
 			    <li>
-			      <a href="{{path('my_teaching_products')}}"><i class="glyphicon glyphicon-pencil"></i> 我的产品</a>
+			      <a href="{{path('my_teaching_products')}}"><i class="glyphicon glyphicon-pencil"></i> 我的分享</a>
 			    </li>
 			    <li>
 			      <a href="{{path('my_teaching_threads', {type:'question'}) }}"><i class="glyphicon glyphicon-pencil"></i> 会员问答</a>
@@ -28,16 +28,16 @@
 				<li>
 			      <a href="{{path('my_teaching_threads', {type:'discussion'}) }}"><i class="glyphicon glyphicon-pencil"></i> 会员话题</a>
 			    </li>
-				<li>
+				{#<li>
 			      <a href="{{path('product_manage_list_teacher_test_reviewing') }}"><i class="glyphicon glyphicon-pencil"></i> 我的批阅</a>
-			    </li>
+			    </li>#}
 			  </ul>
 			</div>
 		{% endif %}
 			
 			<div class="btn-group">
 			  <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown">
-			  <i class="glyphicon glyphicon-th-large"></i> 我的关注 <span class="caret"></span>
+			  <i class="glyphicon glyphicon-th-large"></i> 我的动态 <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu" role="menu">
 			    <li>
@@ -49,22 +49,22 @@
 				<li>
 			      <a href="{{path('my_discussions')}}"><i class="glyphicon glyphicon-pencil"></i> 我的话题</a>
 			    </li>
-				<li>
+				{#<li>
 			      <a href="{{path('my_notebooks')}}"><i class="glyphicon glyphicon-pencil"></i> 我的留言</a>
 			    </li>
 				<li>
 			      <a href="{{path('my_quiz')}}"><i class="glyphicon glyphicon-pencil"></i> 我的问卷</a>
-			    </li>
+			    </li>#}
 			  </ul>
 			</div>
 			
 			<div class="btn-group">
 			  <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
-			  <i class="glyphicon glyphicon-th-large"></i> 订单管理 <span class="caret"></span>
+			  <i class="glyphicon glyphicon-th-large"></i> 关注管理 <span class="caret"></span>
 			  </button>
 			  <ul class="dropdown-menu pull-right" role="menu">
 			    <li>
-			      <a href="{{path('my_orders')}}"><i class="glyphicon glyphicon-pencil"></i> 我的订单</a>
+			      <a href="{{path('my_orders')}}"><i class="glyphicon glyphicon-pencil"></i> 会员关注列表</a>
 			    </li>
 			  </ul>
 			</div>

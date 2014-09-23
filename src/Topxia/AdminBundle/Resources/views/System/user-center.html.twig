@@ -8,14 +8,14 @@
 {% block maincontent %}
 
 <div class="page-header">
-  {% if setting.mode !='default' %}<a href="{{ path('admin_setting_admin_sync') }}" class="pull-right btn btn-link">管理员帐号同步</a>{% endif %}
+  {#{% if setting.mode !='default' %}<a href="{{ path('admin_setting_admin_sync') }}" class="pull-right btn btn-link">管理员帐号同步</a>{% endif %}#}
   <h1>用户中心设置</h1>
 </div>
 
 {{ web_macro.flash_messages() }}
 
 <form class="form-horizontal" method="post" novalidate>
-  <div class="row form-group">
+  {#<div class="row form-group">
     <div class="col-md-3 control-label">
       <label >用户中心</label>
     </div>
@@ -23,7 +23,7 @@
       {{ radios('mode', {'default':'无', 'discuz':'Discuz (Ucenter)', 'phpwind':'phpwind (WindID)'}, setting.mode) }}
       <div class="help-block">支持phpwind 9系列，Discuz X2.5/X3.0/X3.1的用户中心</div>
     </div>
-  </div>
+  </div>#}
 
   <div class="row form-group with-discuz" style="display:none;">
     <div class="col-md-3 control-label"><label>Ucenter配置</label></div>

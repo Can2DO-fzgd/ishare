@@ -3,9 +3,9 @@
 	  <thead>
 	    <tr>
 	      <th>产品名称</th>
-	      <th>新增购买人数</th>
-	      <th>总购买人数</th>
-	      <th>新增收入</th>
+	      <th>新增关注人数</th>
+	      <th>总关注人数</th>
+	      {#<th>新增收入</th>#}
 	    </tr>
 	  </thead>
 		<tbody>
@@ -16,7 +16,7 @@
 					</td>
 					<td>{{ product['addedStudentNum'] }} 人 </td>
 					<td>{{ product['studentNum'] }} 人</td>
-					<td class="money-text">{{ product['addedMoney'] }} 元 </td>
+					{#<td class="money-text">{{ product['addedMoney'] }} 元 </td>#}
 				</tr>
 			{% endfor %}
 		</tbody>

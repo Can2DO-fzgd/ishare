@@ -427,7 +427,7 @@ class WebExtension extends \Twig_Extension
         return intval($number / $total * 100) . '%';
     }
 
-    public function getCategoryChoices($groupName, $indent = '　')
+    public function getCategoryChoices($groupName, $indent = '─')
     {
         $builder = new CategoryBuilder();
         return $builder->buildChoices($groupName, $indent);

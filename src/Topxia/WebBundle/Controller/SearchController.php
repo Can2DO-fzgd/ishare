@@ -18,7 +18,7 @@ class SearchController extends BaseController
 
         $conditions = array(
             'status' => 'published',
-            'title' => $keywords
+            'name' => $keywords
         );
 
         $paginator = new Paginator(

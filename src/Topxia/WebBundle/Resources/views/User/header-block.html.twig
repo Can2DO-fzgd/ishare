@@ -3,7 +3,19 @@
     <div class="col-md-12">
       <img class="avatar" src="{{ file_path(user.largeAvatar, 'avatar-large.png') }}">
       <div class="userpage-header-info">
-      <h3>{{user.userName}}</h3>
+      <h3>
+	  
+		{% if user.companyname != '' %} 
+			{{ user.companyname }} 
+		{% elseif user.nichen != '' %}
+			{{ user.nichen}}
+		{% elseif user.realName != '' %}
+			{{ user.realName }}
+		{% else %} 
+			神秘人物
+		{% endif %}
+		
+	</h3>
           <div class="actions">
             {% if (not app.user) or (app.user.id != user.id) %}
               <button class="btn btn-success unfollow-btn" data-url="{{ path('user_unfollow', {id:user.id}) }}" {% if isFollowed == false %} style="display:none;"{% endif %}>已关注</button>

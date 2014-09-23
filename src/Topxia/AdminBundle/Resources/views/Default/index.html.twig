@@ -9,12 +9,12 @@
 </div>
 
 <div class="row">
-	<!--系统更新通知-->
+	{#<!--系统更新通知-->
   <div class="col-md-12">
     <div id="app-upgrade-alert" class="alert alert-info alert-dismissable hide" data-url="{{path('admin_app_upgrades_count') }}" data-upgrade-url="{{ path('admin_app_upgrades') }}">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     </div>
-  </div>
+  </div>#}
 
   {{ render(controller('TopxiaAdminBundle:Default:latestUsersBlock')) }}
   <div id="popular-products-panel" class="col-md-6">
@@ -36,8 +36,8 @@
   {{ render(controller('TopxiaAdminBundle:Default:unsolvedQuestionsBlock')) }}
 </div>
 
-<div class="row">
+{#<div class="row">
   {{ render(controller('TopxiaAdminBundle:Default:latestPaidOrdersBlock')) }}
-</div>
+</div>#}
 
 {% endblock %}

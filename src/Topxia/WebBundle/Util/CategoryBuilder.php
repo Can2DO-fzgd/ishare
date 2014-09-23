@@ -5,7 +5,7 @@ use Topxia\Service\Common\ServiceKernel;
 
 class CategoryBuilder
 {
-	public function buildChoices($groupCode, $indent = '　')
+	public function buildChoices($groupCode, $indent = '─')
 	{
         $group = $this->getCategoryService()->getGroupByCode($groupCode);
         if (empty($group)) {
@@ -16,7 +16,7 @@ class CategoryBuilder
         $categories = $this->getCategoryService()->getCategoryTree($group['id']);
 
         foreach ($categories as $category) {
-            $choices[$category['id']] = str_repeat(is_null($indent) ? '' : $indent, ($category['depth']-1)) . $category['name'];
+            $choices[$category['id']] = str_repeat(is_null($indent) ? '└' : '└'.$indent, ($category['depth']-1)) . $category['name'];
         }
 
         return $choices;

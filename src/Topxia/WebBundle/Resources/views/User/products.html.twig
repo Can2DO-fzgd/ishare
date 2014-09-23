@@ -1,6 +1,18 @@
 {% extends 'TopxiaWebBundle:User:layout.html.twig' %}
 
-{% block title %} {{user.userName}}的公共主页 - {{ parent() }}{% endblock %}
+{% block title %} 
+
+{% if user.companyname != '' %} 
+	{{ user.companyname }} 
+{% elseif user.nichen != '' %}
+	{{ user.nichen}}
+{% elseif user.realName != '' %}
+	{{ user.realName }}
+{% else %} 
+	神秘人物
+{% endif %}
+
+的公共主页 - {{ parent() }}{% endblock %}
 
 {% set pageNav = type %}
 
@@ -12,7 +24,7 @@
 			{{ web_macro.paginator(paginator) }} 
 		{% else %}
 		  {% if pageNav == 'teach' %}
-			  <div class="empty">无上架的产品</div>
+			  <div class="empty">无分享的产品</div>
 			{% elseif pageNav == 'learn' %}
 			  <div class="empty">无关注的产品</div>
 			{% elseif pageNav == 'favorited' %}
