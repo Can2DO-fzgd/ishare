@@ -3,7 +3,43 @@
 {% block title %}产品基本信息 - {{ parent() }}{% endblock %}
 
 {% set side_nav = 'base' %}
+
 {% set script_controller = 'product-manage/base' %}
+
+{#<script language="JavaScript">
+
+var subcat = new Array();
+subcat = new Array({{ select_options(category_choices('product'), product.tagidt, '请选择产品二级分类标签') }});
+var subcat2 = new Array();
+subcat2 = new Array({{ select_options(category_choices('product'), product.tagidt, '请选择产品二级分类标签') }});
+
+function changeselect1(locationid)
+{
+ document.product-form.tagidt.length = 0;
+ document.product-form.tagidt.options[0] = new Option('请选择二级分类','');
+ for (i=0; i<subcat.length; i++)
+ {
+  if (subcat[i][0] == locationid)
+  {
+   document.product-form.tagidt.options[document.product-form.tagidt.length] = new Option(subcat[i][1], subcat[i][2]);
+  }
+ }
+}
+
+function changeselect2(locationid)
+{
+ document.product-form.tagids.length = 0;
+ document.product-form.tagids.options[0] = new Option('请选择三级分类','');
+ for (i=0; i<subcat2.length; i++)
+ {
+  if (subcat2[i][0] == locationid)
+  {
+   document.product-form.tagids.options[document.product-form.tagids.length] = new Option(subcat2[i][2], subcat2[i][0]);
+  }
+ }
+}
+</script>#}
+
 {% 
 	set script_arguments = {
 	  categoryUrl: path('category_all'),
@@ -16,7 +52,7 @@
 <div class="panel panel-default panel-col">
 	<div class="panel-heading">产品基本信息</div>
 	<div class="panel-body">
-		<form class="form-horizontal" id="product-form" method="post">
+		<form class="form-horizontal" id="product-form" method="post" name="product-form">
 
 		  {{ web_macro.flash_messages() }}
 
@@ -28,6 +64,108 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_categoryId" name="categoryId" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category_choices('product'), product.categoryId, '请选择产品分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品一级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagido" name="tagido" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category_choices('product'), product.tagido, '请选择产品一级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品二级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagidt" name="tagidt" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category_choices('product'), product.tagidt, '请选择产品二级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品三级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagids" name="tagids" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category_choices('product'), product.tagids, '请选择产品三级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			{#<div class="form-group">
+			  <label class="col-md-2 control-label">产品一级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagido" name="tagido" required="required" class="form-control width-input width-input-large" onChange="changeselect1(this.value)">
+					{{ select_options(category1_choices('product'), product.tagido, '请选择产品一级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品二级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagidt" name="tagidt" required="required" class="form-control width-input width-input-large" onChange="changeselect2(this.value)">
+			    	<option>-- 请选择--</option>
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品三级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagids" name="tagids" required="required" class="form-control width-input width-input-large">
+			    	<option>-- 请选择--</option>
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>#}
+			
+			{#<div class="form-group">
+			  <label class="col-md-2 control-label">产品一级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagido" name="tagido" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category1_choices('product'), product.tagido, '请选择产品一级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品二级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagidt" name="tagidt" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category2_choices('product', '2'), product.tagidt, '请选择产品二级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>
+			
+			<div class="form-group">
+			  <label class="col-md-2 control-label">产品三级分类标签</label>
+			  <div class="col-md-8 controls">
+			    <select id="product_tagids" name="tagids" required="required" class="form-control width-input width-input-large">
+			    	{{ select_options(category3_choices('product', '3'), product.tagids, '请选择产品三级分类标签') }}
+			    </select>
+			  	<div class="help-block" style="display:none;"></div>
+			  </div>
+			</div>#}
+			
 			<div class="form-group">
 				<label class="col-md-2 control-label">产品简介</label>
 				<div class="col-md-8 controls">
@@ -65,16 +203,6 @@
 				<div class="col-md-8 controls radios">
 					{{ radios('showStudentNumType', {'opened':'开启', 'closed':'关闭'}, product.showStudentNumType ) }}
 				</div>
-			</div>
-
-			<div class="form-group">
-			  <label class="col-md-2 control-label">产品分类</label>
-			  <div class="col-md-8 controls">
-			    <select id="product_categoryId" name="categoryId" required="required" class="form-control width-input width-input-large">
-			    	{{ select_options(category_choices('product'), product.categoryId, '请选择产品分类') }}
-			    </select>
-			  	<div class="help-block" style="display:none;"></div>
-			  </div>
 			</div>
 
 		  <div class="form-group">

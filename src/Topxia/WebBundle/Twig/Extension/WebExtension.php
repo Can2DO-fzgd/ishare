@@ -49,6 +49,9 @@ class WebExtension extends \Twig_Extension
             'setting' => new \Twig_Function_Method($this, 'getSetting') ,
             'percent' => new \Twig_Function_Method($this, 'calculatePercent') ,
             'category_choices' => new \Twig_Function_Method($this, 'getCategoryChoices') ,
+			'category1_choices' => new \Twig_Function_Method($this, 'getCategory1Choices') ,
+			'category2_choices' => new \Twig_Function_Method($this, 'getCategory2Choices') ,
+			'category3_choices' => new \Twig_Function_Method($this, 'getCategory3Choices') ,
             'dict' => new \Twig_Function_Method($this, 'getDict') ,
             'dict_text' => new \Twig_Function_Method($this, 'getDictText', array('is_safe' => array('html'))) ,
             'upload_max_filesize' => new \Twig_Function_Method($this, 'getUploadMaxFilesize') ,
@@ -431,6 +434,24 @@ class WebExtension extends \Twig_Extension
     {
         $builder = new CategoryBuilder();
         return $builder->buildChoices($groupName, $indent);
+    }
+	
+	public function getCategory1Choices($groupName, $indent = '─')
+    {
+        $builder = new CategoryBuilder();
+        return $builder->build1Choices($groupName, $indent);
+    }
+	
+	public function getCategory2Choices($groupName, $pid, $indent = '─')
+    {
+        $builder = new CategoryBuilder();
+        return $builder->build2Choices($groupName, $pid, $indent);
+    }
+	
+	public function getCategory3Choices($groupName, $pid, $indent = '─')
+    {
+        $builder = new CategoryBuilder();
+        return $builder->build3Choices($groupName, $pid, $indent);
     }
 
     public function getDict($type)

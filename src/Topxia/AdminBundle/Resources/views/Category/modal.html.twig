@@ -1,6 +1,6 @@
 {% extends 'TopxiaWebBundle::bootstrap-modal-layout.html.twig' %}
 
-{% block title %}{% if category.id %}编辑分类{% else %}添加分类{% endif %}{% endblock %}
+{% block title %}{% if category.id %}编辑分类标签{% else %}添加分类标签{% endif %}{% endblock %}
 
 {% block body %}
 	<form id="category-form" class="form-horizontal" action="{% if category.id %}{{ path('admin_category_edit', {id:category.id}) }}{% else %}{{ path('admin_category_create') }}{% endif %}" method="post">
@@ -15,7 +15,7 @@
 			<label class="col-md-2 control-label" for="category-orderNo-field">显示序号</label>
 			<div class="col-md-8 controls">
 				<input class="form-control" id="category-orderNo-field" type="text" name="orderNo" value="{{ category.orderNo }}" tabindex="2">
-				<div class="help-block">显示序号需为整数，分类按序号的顺序从小到大排序。</div>
+				<div class="help-block">显示序号需为整数，分类标签按序号的顺序从小到大排序。</div>
 			</div>
 		</div>
 
@@ -23,7 +23,7 @@
 			<label class="col-md-2 control-label" for="category-code-field">编码</label>
 			<div class="col-md-8 controls">
 				<input class="form-control" id="category-code-field" type="text" name="sn" value="{{ category.sn }}" data-url="{{ path('admin_category_checkcode', {exclude:category.sn}) }}" tabindex="3">
-				<div class="help-block">选填，建议使用分类名称的英文单词或缩写作为编码。</div>
+				<div class="help-block">选填，建议使用分类标签名称的英文单词或缩写作为编码。</div>
 			</div>
 		</div>
 		<input type="hidden" name="groupId" value="{{ category.groupId }}">

@@ -14,7 +14,7 @@
 		  </a>
          
           {% if product.status=='closed' %}  
-            <span class="label label-danger ">已下架</span>
+            <span class="label label-danger ">已下线</span>
           {% elseif product.status=='draft' %}
             <span class="label label-warning ">未发布</span>
           {% elseif product.status=='published' %}
@@ -49,14 +49,14 @@
 		  </a>
         <h1 class="title"><a href="{{ path('product_show', {id:product.id}) }}">{{ product.name }}</a> 
           {% if product.status=='closed' %}  
-            <span class="label label-danger ">已下架</span>
+            <span class="label label-danger ">已下线</span>
           {% elseif product.status=='draft' %}
             <span class="label label-warning ">未发布</span>
           {% elseif product.status=='published' %}
             {% if product.serializeMode=='serialize' %}
               <span class="label label-success ">更新中</span>
             {% elseif product.serializeMode=='finished' %}
-              <span class="label label-warning ">已上架</span>
+              <span class="label label-warning ">已上线</span>
             {% endif %}
           {% endif %}
         </h1>

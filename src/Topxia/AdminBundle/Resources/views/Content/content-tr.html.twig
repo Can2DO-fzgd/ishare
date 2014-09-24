@@ -5,7 +5,7 @@
 		  <span class="text-muted text-sm">地址：page/{{ content.alias|default(content.id) }}</span>
 		{% endif %}
 		{% if category %}
-			<span class="text-muted text-sm">分类：{{ category.name }}</span>
+			<span class="text-muted text-sm">分类标签：{{ category.name }}</span>
 		{% endif %}
 	</td>
 	<td>{{ dict_text('contentType', content.type) }}</td>

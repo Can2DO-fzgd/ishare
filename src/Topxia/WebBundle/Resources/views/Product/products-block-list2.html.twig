@@ -14,7 +14,7 @@
       {% if product.serializeMode=='serialize' %}
         <span class="label label-success ">更新中</span>
       {% elseif product.serializeMode=='finished' %}
-        <span class="label label-warning ">已上架</span>
+        <span class="label label-warning ">已上线</span>
       {% endif %}
       </h4>
       <div class="product-about ellipsis">{{ product.jianjie }}</div>
@@ -31,9 +31,9 @@
           <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
           <span class="divider"></span>
           {% if product.showStudentNumType == 'opened' %}
-          <span class="text-muted mrm mls"><strong>{{ product.studentNum }}</strong>会员</span>
+          <span class="text-muted mrm mls"><strong>{{ product.studentNum }}</strong>关注</span>
           {% endif %}
-          <span class="product-price">{% if product.price > 0 %}{{ product.price }}元{% else %}可以查看补充说明{% endif %}</span>
+          {#<span class="product-price">{% if product.price > 0 %}{{ product.price }}元{% else %}可以查看补充说明{% endif %}</span>#}
         </div>
       </div>
     </div>

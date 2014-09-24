@@ -4,7 +4,7 @@
   <td>
     <a href="{{ path('product_show', {id:product.id}) }}" target="_blank"><strong>{{ product.name }}</strong></a>
     <br>
-    <span class="text-muted text-sm">分类：{{ category.name|default('--') }}</span>
+    <span class="text-muted text-sm">分类标签：{{ category.name|default('--') }}</span>
     {% if product.recommended %}
       <span class="label label-default">荐:{{ product.recommendedTime|date('Y-m-d') }}</span>
     {% endif %}

@@ -150,7 +150,7 @@ class ProductController extends BaseController
         $member = $user ? $this->getProductService()->getProductMember($product['id'], $user['id']) : null;
 
         if(!$this->canShowProduct($product, $user)) {
-            return $this->createMessageResponse('info', '抱歉，产品已下架或未上架，不能购买，如有疑问请联系管理员！');
+            return $this->createMessageResponse('info', '抱歉，产品已下线或未上线，不能购买，如有疑问请联系管理员！');
         }
         
         $member = $this->previewAsMember($previewAs, $member, $product);
@@ -382,7 +382,7 @@ class ProductController extends BaseController
 
 
         }catch(Exception $e){
-            throw $this->createAccessDeniedException('抱歉，未上架产品不能购买！');
+            throw $this->createAccessDeniedException('抱歉，未上线产品不能购买！');
         }
         return $this->render('TopxiaWebBundle:Product:learn.html.twig', array(
             'product' => $product,

@@ -5,14 +5,14 @@ class DataDict
 {
 	private static $dict = array(
 		'productStatus' => array(
-			'draft' => '未上架',
-			'published' => '已上架',
-			'closed' => '已下架'
+			'draft' => '未上线',
+			'published' => '已上线',
+			'closed' => '已下线'
 		),
 		'productStatus:html' => array(
-			'draft' => '<span class="text-muted">未上架</span>',
-			'published' => '<span class="text-success">已上架</span>',
-			'closed' => '<span class="text-danger">已下架</span>'
+			'draft' => '<span class="text-muted">未上线</span>',
+			'published' => '<span class="text-success">已上线</span>',
+			'closed' => '<span class="text-danger">已下线</span>'
 		),
 		'couponType' => array(
 			'minus' => '抵价',

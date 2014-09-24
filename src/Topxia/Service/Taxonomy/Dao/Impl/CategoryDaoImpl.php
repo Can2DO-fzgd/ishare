@@ -60,7 +60,7 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
         $sql = "SELECT * FROM {$this->table} WHERE groupId = ? AND pid = ? ORDER BY orderNo ASC";
         return $this->getConnection()->fetchAll($sql, array($groupId, $pid)) ? : array();
     }
-
+	
 	public function findCategoriesCountByParentId($pid) 
     {
         $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  pid = ?";

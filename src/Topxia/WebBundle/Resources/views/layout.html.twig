@@ -22,8 +22,9 @@
     <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/web.css') }}" />
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/member.css') }}" />
-    {#<!--[if lt IE 8]>
-      <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+  
+  {#<!--[if lt IE 8]>
+    <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
     <![endif]-->#}
   {% endblock %}
   {#<!--[if lt IE 9]>
@@ -109,7 +110,7 @@
 			</div>
 		
         <div class="navbar-collapse collapse">
-		  <a href="#" class="dropdown-toggle navbar-brand dropdown hidden-lt-ie8" data-toggle="dropdown"> 产品分类<b class="caret"></b></a>
+		  <a href="#" class="dropdown-toggle navbar-brand dropdown hidden-lt-ie8" data-toggle="dropdown"> 产品标签<b class="caret"></b></a>
                 <ul class="dropdown-menu">
 				{% for category in categories %}
         		  <li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>

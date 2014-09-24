@@ -252,7 +252,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 			throw $this->createServiceException('缺少必要字段，创建产品失败！');
 		}
 
-		$product = ArrayToolkit::parts($product, array('name', 'specinfo', 'categoryId', 'tags', 'price', 'startTime', 'endTime', 'locationId', 'address'));
+		$product = ArrayToolkit::parts($product, array('name', 'specinfo', 'categoryId', 'tagido', 'tagidt', 'tagids', 'tags', 'price', 'startTime', 'endTime', 'locationId', 'address'));
 
 		mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
         $charid = strtoupper(md5(uniqid(rand(), true)));
@@ -338,6 +338,9 @@ class ProductServiceImpl extends BaseService implements ProductService
 			'showStudentNumType' => 'opened',
 			'serializeMode' => 'none',
 			'categoryId' => 0,
+			'tagido' => 0,
+			'tagidt' => 0,
+			'tagids' => 0,
 			'vipLevelId' => 0,
 			'efficacyinfo' => array(),
 			'yaodian' => array(),

@@ -7,7 +7,7 @@
 	{% if category %}
 		<span class="text-muted"><a href="{{ path('article_category',{categoryCode:category.code}) }}" target="_blank">{{ category.name }}</a></span>
 		{% else %}
-		<span class="text-muted">未分类</span>
+		<span class="text-muted">未分类标签</span>
 	{% endif %}
 	</td>
 	<td>{{ article.updatedTime|date('Y-n-d H:i') }}</td>

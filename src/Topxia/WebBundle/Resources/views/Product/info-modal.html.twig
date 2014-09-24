@@ -13,7 +13,7 @@
   <dd>{{ product.specinfo|raw }}</dd>
 
   {% if category %}
-  <dt>产品分类</dt>
+  <dt>产品分类标签</dt>
   <dd>
     <a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}" target="_blank">{{ category.name }}</a>
   </dd>
