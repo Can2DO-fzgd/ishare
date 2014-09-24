@@ -21,21 +21,21 @@
 		</div>
 
 		<div class="form-group">
-			<label class="col-md-2 control-label" for="category-parentId-field">父栏目</label>
+			<label class="col-md-2 control-label" for="category-pid-field">父栏目</label>
 			<div class="col-md-8 controls">
-				<select class="form-control" id="category-parentId-field" type="text" name="parentId" tabindex="2" data-url="{{ path('admin_article_category_checkparentid', {currentId:category.id}) }}">
+				<select class="form-control" id="category-pid-field" type="text" name="pid" tabindex="2" data-url="{{ path('admin_article_category_checkparentid', {currentId:category.id}) }}">
 					<option value=0>选择栏目</option>
 					{% for tree in categoryTree %}
-					<option value="{{ tree.id }}" {% if tree.id == category.parentId  %}selected{% endif %}>{% for i in 0..(tree.depth-1)*2 %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}└─ {{ tree.name }}</option>
+					<option value="{{ tree.id }}" {% if tree.id == category.pid  %}selected{% endif %}>{% for i in 0..(tree.depth-1)*2 %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}└─ {{ tree.name }}</option>
 					{% endfor %}
 				</select>
 			</div>		
 		</div>
 
 		<div class="form-group">
-			<label class="col-md-2 control-label" for="category-weight-field">显示顺序号</label>
+			<label class="col-md-2 control-label" for="category-orderNo-field">显示顺序号</label>
 			<div class="col-md-8 controls">
-				<input class="form-control" id="category-weight-field" type="text" name="weight" value="{{ category.weight }}" tabindex="3">
+				<input class="form-control" id="category-orderNo-field" type="text" name="orderNo" value="{{ category.orderNo }}" tabindex="3">
 				<div class="help-block">自然数，数字越小，位置越前</div>
 			</div>
 		</div>

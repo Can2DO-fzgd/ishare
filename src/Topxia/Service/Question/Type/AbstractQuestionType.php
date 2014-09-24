@@ -35,9 +35,9 @@ abstract class AbstractQuestionType extends BaseService
         $filtered['metas'] = empty($fields['metas']) ? array() : $fields['metas'];
         $filtered['score'] = empty($fields['score'])? 0 : $fields['score'];
         $filtered['categoryId'] = empty($fields['categoryId']) ? 0 : (int) $fields['categoryId'];
-        $filtered['parentId'] = empty($fields['parentId']) ? 0 : (int)$fields['parentId'];
+        $filtered['pid'] = empty($fields['pid']) ? 0 : (int)$fields['pid'];
         if ($mode == 'update') {
-            unset($filtered['parentId']);
+            unset($filtered['pid']);
         }
 
         $filtered['updatedTime'] = time();

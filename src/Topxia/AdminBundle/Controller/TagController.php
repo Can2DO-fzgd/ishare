@@ -67,7 +67,7 @@ class TagController extends BaseController
         if ($avaliable) {
             $response = array('success' => true, 'message' => '');
         } else {
-            $response = array('success' => false, 'message' => '标签已存在');
+            $response = array('success' => false, 'message' => '热词已存在');
         }
 
         return $this->createJsonResponse($response);
@@ -82,7 +82,7 @@ class TagController extends BaseController
 	{
 		$tag = $this->getTagService()->getTag($tagId);
 		if (empty($tag)) {
-			throw $this->createNotFoundException('标签不存在!');
+			throw $this->createNotFoundException('热词不存在!');
 		}
 		return $tag;
 	}

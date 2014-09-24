@@ -3,7 +3,7 @@
 
 {% block title %}问卷题目管理 - {{ parent() }}{% endblock %}
 
-{% set parentId = parentQuestion.id|default(0) %}
+{% set pid = parentQuestion.id|default(0) %}
 
 {% set side_nav = 'question' %}
 {% set script_controller = 'product-manage/list' %}
@@ -13,10 +13,10 @@
 <div class="panel panel-default panel-col">
   <div class="panel-heading">
     <div class="pull-right">
-      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'choice',parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 选择题</a>
-      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'fill',parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 填空题</a>
-      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'determine',parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 判断题</a>
-      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'essay',parentId:parentId, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 问答题</a>
+      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'choice',pid:pid, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 选择题</a>
+      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'fill',pid:pid, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 填空题</a>
+      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'determine',pid:pid, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 判断题</a>
+      <a href="{{ path('product_manage_question_create',{productId:product.id,type:'essay',pid:pid, goto:app.request.server.get('REQUEST_URI')}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 问答题</a>
       {% if not parentQuestion %}
         <a href="{{ path('product_manage_question_create',{productId:product.id,type:'material'}) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 材料题</a>
       {% endif %}

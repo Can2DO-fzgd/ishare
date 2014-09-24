@@ -18,7 +18,7 @@
     <ol class="breadcrumb">
       <li><a href="{{ path('product_manage_question',{productId:product.id}) }}">问卷题目管理</a></li>
       {% if parentQuestion %}
-        <li><a href="{{ path('product_manage_question',{productId:product.id, parentId: parentQuestion.id}) }}">{{ dict_text('questionType', parentQuestion.type) }}</a></li>
+        <li><a href="{{ path('product_manage_question',{productId:product.id, pid: parentQuestion.id}) }}">{{ dict_text('questionType', parentQuestion.type) }}</a></li>
       {% endif %}
       <li class="active">{% if question.id %}编辑{% else %}添加{% endif %}问卷题目</li>
     </ol>
@@ -30,7 +30,7 @@
 
       >
       <form id="question-create-form" data-role="question-form" class="form-horizontal quiz-question" method="post" 
-          action="{% if question.id %}{{ path('product_manage_question_update',{productId:product.id, id:question.id, goto:app.request.get('goto')}) }}{% else %}{{ path('product_manage_question_create',{productId:product.id, type:question.type, parentId:parentQuestion.id|default(0), goto:app.request.get('goto')}) }}{% endif %}"
+          action="{% if question.id %}{{ path('product_manage_question_update',{productId:product.id, id:question.id, goto:app.request.get('goto')}) }}{% else %}{{ path('product_manage_question_create',{productId:product.id, type:question.type, pid:parentQuestion.id|default(0), goto:app.request.get('goto')}) }}{% endif %}"
           >
         {{ web_macro.flash_messages() }}
 
@@ -113,13 +113,13 @@
               {% endif %}
               <button type="submit" data-role="submit" class="btn btn-primary submit-btn" data-submission="submit">保存</button>
             {% endblock %}
-            <a href="{{ path('product_manage_question', {productId:product.id, parentId:parentQuestion.id|default(0)}) }}" class="btn btn-link">返回</a>
+            <a href="{{ path('product_manage_question', {productId:product.id, pid:parentQuestion.id|default(0)}) }}" class="btn btn-link">返回</a>
           </div>
         </div>
 
         <input type="hidden" name="submission">
         <input type="hidden" name="type" value="{{ question.type }}">
-        <input type="hidden" name="parentId" value="{{ parentQuestion.id|default(0) }}">
+        <input type="hidden" name="pid" value="{{ parentQuestion.id|default(0) }}">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
 
       </form>

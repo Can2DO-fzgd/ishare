@@ -129,7 +129,7 @@ class QuestionTypeTestpaperBuilder extends BaseService implements TestpaperBuild
             $conditions['targetPrefix'] = $options['target'];
         }
 
-        $conditions['parentId'] = 0;
+        $conditions['pid'] = 0;
 
         $total = $this->getQuestionService()->searchQuestionsCount($conditions);
 
@@ -161,7 +161,7 @@ class QuestionTypeTestpaperBuilder extends BaseService implements TestpaperBuild
             'testId' => $testpaper['id'],
             'questionId' => $question['id'],
             'questionType' => $question['type'],
-            'parentId' => $question['parentId'],
+            'pid' => $question['pid'],
             'score' => $score,
             'missScore' => $missScore,
         );

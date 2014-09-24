@@ -8,7 +8,7 @@ use Topxia\Service\Taxonomy\Dao\CategoryDao;
 class CategoryDaoImpl extends BaseDao implements CategoryDao 
 {
 
-	protected $table = 'category';
+	protected $table = 't_module_front';
 
 	public function addCategory($category) 
     {
@@ -30,10 +30,10 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
         return $this->getConnection()->fetchAssoc($sql, array($id));
 	}
 
-	public function findCategoryByCode($code) 
+	public function findCategoryByCode($sn) 
     {
-        $sql = "SELECT * FROM {$this->table} WHERE code = ? LIMIT 1";
-        return $this->getConnection()->fetchAssoc($sql, array($code));
+        $sql = "SELECT * FROM {$this->table} WHERE sn = ? LIMIT 1";
+        return $this->getConnection()->fetchAssoc($sql, array($sn));
 	}
 
 	public function updateCategory($id, $category) 
@@ -44,27 +44,27 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
 
 	public function findCategoriesByGroupId($groupId) 
     {
-        $sql = "SELECT * FROM {$this->table} WHERE groupId = ? ORDER BY weight ASC";
+        $sql = "SELECT * FROM {$this->table} WHERE groupId = ? ORDER BY orderNo ASC";
         return $this->getConnection()->fetchAll($sql, array($groupId)) ? : array();
     }
 
-	public function findCategoriesByParentId($parentId, $orderBy = null, $start, $limit) 
+	public function findCategoriesByParentId($pid, $orderBy = null, $start, $limit) 
     {
         $this->filterStartLimit($start, $limit);
-        $sql = "SELECT * FROM {$this->table} WHERE parentId = ? ORDER BY {$orderBy} DESC LIMIT {$start}, {$limit}";
-        return $this->getConnection()->fetchAll($sql, array($parentId)) ? : array();
+        $sql = "SELECT * FROM {$this->table} WHERE pid = ? ORDER BY {$orderBy} DESC LIMIT {$start}, {$limit}";
+        return $this->getConnection()->fetchAll($sql, array($pid)) ? : array();
 	}
 
-    public function findCategoriesByGroupIdAndParentId($groupId, $parentId)
+    public function findCategoriesByGroupIdAndParentId($groupId, $pid)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE groupId = ? AND parentId = ? ORDER BY weight ASC";
-        return $this->getConnection()->fetchAll($sql, array($groupId, $parentId)) ? : array();
+        $sql = "SELECT * FROM {$this->table} WHERE groupId = ? AND pid = ? ORDER BY orderNo ASC";
+        return $this->getConnection()->fetchAll($sql, array($groupId, $pid)) ? : array();
     }
 
-	public function findCategoriesCountByParentId($parentId) 
+	public function findCategoriesCountByParentId($pid) 
     {
-        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  parentId = ?";
-        return $this->getConnection()->fetchColumn($sql, array($parentId));
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  pid = ?";
+        return $this->getConnection()->fetchColumn($sql, array($pid));
 	}
 
 	public function findCategoriesByIds(array $ids) 

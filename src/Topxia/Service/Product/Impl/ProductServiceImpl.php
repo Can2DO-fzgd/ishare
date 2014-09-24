@@ -965,10 +965,10 @@ class ProductServiceImpl extends BaseService implements ProductService
 		}
 
 		if ($chapter['type'] == 'unit') {
-			list($chapter['number'], $chapter['parentId']) = $this->getNextUnitNumberAndParentId($chapter['productId']);
+			list($chapter['number'], $chapter['pid']) = $this->getNextUnitNumberAndParentId($chapter['productId']);
 		} else {
 			$chapter['number'] = $this->getNextChapterNumber($chapter['productId']);
-			$chapter['parentId'] = 0;
+			$chapter['pid'] = 0;
 		}
 
 		$chapter['seq'] = $this->getNextProductItemSeq($chapter['productId']);
@@ -1021,11 +1021,11 @@ class ProductServiceImpl extends BaseService implements ProductService
 	{
 		$lastChapter = $this->getChapterDao()->getLastChapterByProductIdAndType($productId, 'chapter');
 
-		$parentId = empty($lastChapter) ? 0 : $lastChapter['id'];
+		$pid = empty($lastChapter) ? 0 : $lastChapter['id'];
 
-		$unitNum = 1 + $this->getChapterDao()->getChapterCountByProductIdAndTypeAndParentId($productId, 'unit', $parentId);
+		$unitNum = 1 + $this->getChapterDao()->getChapterCountByProductIdAndTypeAndParentId($productId, 'unit', $pid);
 
-		return array($unitNum, $parentId);
+		return array($unitNum, $pid);
 	}
 
 	public function getProductItems($productId)
@@ -1086,14 +1086,14 @@ class ProductServiceImpl extends BaseService implements ProductService
 					$item = $currentChapter = $items[$itemId];
 				    if ($item['type'] == 'unit') {
 				    	$unitNum ++;
-						$fields = array('number' => $unitNum, 'seq' => $seq, 'parentId' => $rootChapter['id']);
+						$fields = array('number' => $unitNum, 'seq' => $seq, 'pid' => $rootChapter['id']);
 				    } else {
 				    	$chapterNum ++;
 				    	$unitNum = 0;
 						$rootChapter = $item;
-						$fields = array('number' => $chapterNum, 'seq' => $seq, 'parentId' => 0);
+						$fields = array('number' => $chapterNum, 'seq' => $seq, 'pid' => 0);
 				    }
-					if ($fields['parentId'] != $item['parentId'] or $fields['number'] != $item['number'] or $fields['seq'] != $item['seq']) {
+					if ($fields['pid'] != $item['pid'] or $fields['number'] != $item['number'] or $fields['seq'] != $item['seq']) {
 						$this->getChapterDao()->updateChapter($item['id'], $fields);
 					}
 					break;

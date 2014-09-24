@@ -24,16 +24,16 @@ class ProductQuestionManageController extends BaseController
             $conditions['stem'] = $conditions['keyword'];
         }
 
-        if (!empty($conditions['parentId'])) {
+        if (!empty($conditions['pid'])) {
 
-            $parentQuestion = $this->getQuestionService()->getQuestion($conditions['parentId']);
+            $parentQuestion = $this->getQuestionService()->getQuestion($conditions['pid']);
             if (empty($parentQuestion)){
                 return $this->redirect($this->generateUrl('product_manage_question',array('productId' => $productId)));
             }
 
             $orderBy = array('createdTime' ,'ASC');
         } else {
-            $conditions['parentId'] = 0;
+            $conditions['pid'] = 0;
             $parentQuestion = null;
             $orderBy = array('createdTime' ,'DESC');
         }
@@ -77,7 +77,7 @@ class ProductQuestionManageController extends BaseController
             $question = $this->getQuestionService()->createQuestion($data);
 
             if ($data['submission'] == 'continue') {
-                $urlParams = ArrayToolkit::parts($question, array('target', 'difficulty', 'parentId'));
+                $urlParams = ArrayToolkit::parts($question, array('target', 'difficulty', 'pid'));
                 $urlParams['type'] = $type;
                 $urlParams['productId'] = $productId;
                 $urlParams['goto'] = $request->query->get('goto', null);
@@ -85,7 +85,7 @@ class ProductQuestionManageController extends BaseController
                 return $this->redirect($this->generateUrl('product_manage_question_create', $urlParams));
             } elseif ($data['submission'] == 'continue_sub') {
                 $this->setFlashMessage('success', '问卷题目添加成功，请继续添加子题。');
-                return $this->redirect($request->query->get('goto', $this->generateUrl('product_manage_question', array('productId' => $productId, 'parentId' => $question['id']))));
+                return $this->redirect($request->query->get('goto', $this->generateUrl('product_manage_question', array('productId' => $productId, 'pid' => $question['id']))));
             } else {
                 $this->setFlashMessage('success', '问卷题目添加成功。');
                 return $this->redirect($request->query->get('goto', $this->generateUrl('product_manage_question', array('productId' => $productId))));
@@ -97,11 +97,11 @@ class ProductQuestionManageController extends BaseController
             'type' => $type,
             'target' => $request->query->get('target'),
             'difficulty' => $request->query->get('difficulty', 'normal'),
-            'parentId' => $request->query->get('parentId', 0),
+            'pid' => $request->query->get('pid', 0),
         );
 
-        if ($question['parentId'] > 0) {
-            $parentQuestion = $this->getQuestionService()->getQuestion($question['parentId']);
+        if ($question['pid'] > 0) {
+            $parentQuestion = $this->getQuestionService()->getQuestion($question['pid']);
             if (empty($parentQuestion)){
                 return $this->createMessageResponse('error', '问卷 父题不存在，不能创建问卷子题！');
             }
@@ -138,12 +138,12 @@ class ProductQuestionManageController extends BaseController
 
             $this->setFlashMessage('success', '问卷题目修改成功！');
 
-            return $this->redirect($request->query->get('goto', $this->generateUrl('product_manage_question',array('productId' => $productId,'parentId' => $question['parentId']))));
+            return $this->redirect($request->query->get('goto', $this->generateUrl('product_manage_question',array('productId' => $productId,'pid' => $question['pid']))));
         }
 
         $question = $this->getQuestionService()->getQuestion($id);
-        if ($question['parentId'] > 0) {
-            $parentQuestion = $this->getQuestionService()->getQuestion($question['parentId']);
+        if ($question['pid'] > 0) {
+            $parentQuestion = $this->getQuestionService()->getQuestion($question['pid']);
         } else {
             $parentQuestion = null;
         }

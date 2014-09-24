@@ -46,10 +46,10 @@ class QuestionServiceImpl extends BaseService implements QuestionService
 
         $fields = QuestionTypeFactory::create($fields['type'])->filter($fields, 'create');
 
-        if ($fields['parentId'] > 0) {
-            $parentQuestion = $this->getQuestion($fields['parentId']);
+        if ($fields['pid'] > 0) {
+            $parentQuestion = $this->getQuestion($fields['pid']);
             if (empty($parentQuestion)) {
-                $fields['parentId'] = 0;
+                $fields['pid'] = 0;
             } else {
                 $fields['target'] = $parentQuestion['target'];
             }
@@ -57,9 +57,9 @@ class QuestionServiceImpl extends BaseService implements QuestionService
 
         $question = $this->getQuestionDao()->addQuestion($fields);
 
-        if ($question['parentId'] >0) {
-            $subCount = $this->getQuestionDao()->findQuestionsCountByParentId($question['parentId']);
-            $this->getQuestionDao()->updateQuestion($question['parentId'], array('subCount' => $subCount));
+        if ($question['pid'] >0) {
+            $subCount = $this->getQuestionDao()->findQuestionsCountByParentId($question['pid']);
+            $this->getQuestionDao()->updateQuestion($question['pid'], array('subCount' => $subCount));
         }
 
         return $question;
@@ -73,7 +73,7 @@ class QuestionServiceImpl extends BaseService implements QuestionService
         }
 
         $fields = QuestionTypeFactory::create($question['type'])->filter($fields, 'update');
-        if ($question['parentId'] > 0) {
+        if ($question['pid'] > 0) {
             unset($fields['target']);
         }
 
@@ -105,9 +105,9 @@ class QuestionServiceImpl extends BaseService implements QuestionService
             $this->getQuestionDao()->deleteQuestionsByParentId($id);
         }
 
-        if ($question['parentId'] > 0) {
-            $subCount = $this->getQuestionDao()->findQuestionsCountByParentId($question['parentId']);
-            $this->getQuestionDao()->updateQuestion($question['parentId'], array('subCount' => $subCount));
+        if ($question['pid'] > 0) {
+            $subCount = $this->getQuestionDao()->findQuestionsCountByParentId($question['pid']);
+            $this->getQuestionDao()->updateQuestion($question['pid'], array('subCount' => $subCount));
         }
     }
 

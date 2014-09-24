@@ -9,7 +9,7 @@ use Topxia\Common\ArrayToolkit;
 class TagController extends BaseController
 {
     /**
-     * 获取所有标签，以JSONM的方式返回数据
+     * 获取所有热词，以JSONM的方式返回数据
      * 
      * @return JSONM Response
      */

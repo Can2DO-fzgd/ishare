@@ -30,10 +30,10 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
         return $this->getConnection()->fetchAssoc($sql, array($id));
 	}
 
-    public function getCategoryByParentId($parentId)
+    public function getCategoryByParentId($pid)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE parentId = ? LIMIT 1";
-        return $this->getConnection()->fetchAssoc($sql, array($parentId));
+        $sql = "SELECT * FROM {$this->table} WHERE pid = ? LIMIT 1";
+        return $this->getConnection()->fetchAssoc($sql, array($pid));
     }
     
 	public function findCategoryByCode($code) 
@@ -48,17 +48,17 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
         return $this->getCategory($id);
 	}
 
-	public function findCategoriesByParentId($parentId, $orderBy = null, $start, $limit) 
+	public function findCategoriesByParentId($pid, $orderBy = null, $start, $limit) 
     {
         $this->filterStartLimit($start, $limit);
-        $sql = "SELECT * FROM {$this->table} WHERE parentId = ? ORDER BY {$orderBy} DESC LIMIT {$start}, {$limit}";
-        return $this->getConnection()->fetchAll($sql, array($parentId)) ? : array();
+        $sql = "SELECT * FROM {$this->table} WHERE pid = ? ORDER BY {$orderBy} DESC LIMIT {$start}, {$limit}";
+        return $this->getConnection()->fetchAll($sql, array($pid)) ? : array();
 	}
 
-	public function findCategoriesCountByParentId($parentId) 
+	public function findCategoriesCountByParentId($pid) 
     {
-        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  parentId = ?";
-        return $this->getConnection()->fetchColumn($sql, array($parentId));
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  pid = ?";
+        return $this->getConnection()->fetchColumn($sql, array($pid));
 	}
 
 	public function findCategoriesByIds(array $ids) 
@@ -71,7 +71,7 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
 
     public function findAllCategories()
     {
-        $sql = "SELECT * FROM {$this->table} ORDER BY weight ASC";
+        $sql = "SELECT * FROM {$this->table} ORDER BY orderNo ASC";
         return $this->getConnection()->fetchAll($sql) ? : array();
     }
 }

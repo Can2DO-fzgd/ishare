@@ -72,7 +72,7 @@ class TagServiceImpl extends BaseService implements TagService
 
         $tag = $this->getTagDao()->addTag($tag);
 
-        $this->getLogService()->info('tag', 'create', "添加标签{$tag['name']}(#{$tag['id']})");
+        $this->getLogService()->info('tag', 'create', "添加热词{$tag['name']}(#{$tag['id']})");
 
         return $tag;
     }
@@ -81,13 +81,13 @@ class TagServiceImpl extends BaseService implements TagService
     {
         $tag = $this->getTag($id);
         if (empty($tag)) {
-            throw $this->createServiceException("标签(#{$id})不存在，更新失败！");
+            throw $this->createServiceException("热词(#{$id})不存在，更新失败！");
         }
 
         $fields = ArrayToolkit::parts($fields, array('name'));
         $this->filterTagFields($fields, $tag);
 
-        $this->getLogService()->info('tag', 'update', "编辑标签{$fields['name']}(#{$id})");
+        $this->getLogService()->info('tag', 'update', "编辑热词{$fields['name']}(#{$id})");
 
         return $this->getTagDao()->updateTag($id, $fields);
     }
@@ -96,20 +96,20 @@ class TagServiceImpl extends BaseService implements TagService
     {
         $this->getTagDao()->deleteTag($id);
 
-        $this->getLogService()->info('tag', 'delete', "编辑标签#{$id}");
+        $this->getLogService()->info('tag', 'delete', "编辑热词#{$id}");
     }
 
     private function filterTagFields(&$tag, $relatedTag = null)
     {
         if (empty($tag['name'])) {
-            throw $this->createServiceException('标签名不能为空，添加失败！');
+            throw $this->createServiceException('热词名不能为空，添加失败！');
         }
 
         $tag['name'] = (string) $tag['name'];
 
         $exclude = $relatedTag ? $relatedTag['name'] : null;
         if (!$this->isTagNameAvalieable($tag['name'], $exclude)) {
-            throw $this->createServiceException('该标签名已存在，添加失败！');
+            throw $this->createServiceException('该热词名已存在，添加失败！');
         }
 
         return $tag;

@@ -12,7 +12,7 @@ class LocationController extends BaseController
 
     	$data = array();
     	foreach ($locations as $location) {
-    		$data[$location['id']] = array($location['name'], $location['parentId']);
+    		$data[$location['id']] = array($location['name'], $location['pid']);
     	}
 
     	return $this->createJsonmResponse($data);

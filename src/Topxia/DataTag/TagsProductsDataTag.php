@@ -8,10 +8,10 @@ class TagsProductsDataTag extends ProductBaseDataTag implements DataTag
 {
 
     /**
-     * 获取标签产品列表
+     * 获取热词产品列表
      *
      * 可传入的参数：
-     *   TagIds 可选 标签ID
+     *   TagIds 可选 热词ID
      *   count    必需 产品数量，取值不超过10
      * 
      * @param  array $arguments 参数

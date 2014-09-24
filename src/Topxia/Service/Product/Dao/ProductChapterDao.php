@@ -11,7 +11,7 @@ interface ProductChapterDao
 
     public function getChapterCountByProductIdAndType($productId, $type);
 
-    public function getChapterCountByProductIdAndTypeAndParentId($productId, $type, $parentId);
+    public function getChapterCountByProductIdAndTypeAndParentId($productId, $type, $pid);
 
     public function getLastChapterByProductIdAndType($productId, $type);
 

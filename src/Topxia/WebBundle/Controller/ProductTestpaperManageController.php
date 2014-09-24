@@ -214,8 +214,8 @@ class ProductTestpaperManageController extends BaseController
 
         $subItems = array();
         foreach ($items as $key => $item) {
-            if ($item['parentId'] > 0) {
-                $subItems[$item['parentId']][] = $item;
+            if ($item['pid'] > 0) {
+                $subItems[$item['pid']][] = $item;
                 unset($items[$key]);
             }
         }
@@ -282,7 +282,7 @@ class ProductTestpaperManageController extends BaseController
             $conditions['targetPrefix'] = "product-{$product['id']}";
         }
 
-        $conditions['parentId'] = 0;
+        $conditions['pid'] = 0;
         $conditions['excludeIds'] = empty($conditions['excludeIds']) ? array() : explode(',', $conditions['excludeIds']);
 
         if (!empty($conditions['keyword'])) {

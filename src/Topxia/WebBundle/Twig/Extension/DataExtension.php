@@ -22,7 +22,7 @@ class DataExtension extends \Twig_Extension
         $class = '\\Topxia\\DataTag\\' . $name . 'DataTag';
 
         if (!class_exists($class)) {
-            throw new \RuntimeException("尚未定义'{$name}'数据标签");
+            throw new \RuntimeException("尚未定义'{$name}'数据热词");
         }
 
         $obj = new $class();

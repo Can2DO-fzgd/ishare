@@ -167,7 +167,7 @@
               {% endif %}
               {% if tags %}
                 <div class="mtm">
-                <span class="text-muted">品牌标签：</span>{% for tag in tags %}
+                <span class="text-muted">产品热词：</span>{% for tag in tags %}
                 <a href="{{ path('tag_show', {name:tag.name}) }}" class="mrs">{{ tag.name }}</a>
                 {% endfor %}
                 </div>

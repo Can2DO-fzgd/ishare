@@ -54,7 +54,7 @@ class ProductLessonController extends BaseController
             $unit = $chapter;
             $json['unitNumber'] = $unit['number'];
 
-            $chapter = $this->getProductService()->getChapter($product['id'], $unit['parentId']);
+            $chapter = $this->getProductService()->getChapter($product['id'], $unit['pid']);
             $json['chapterNumber'] = empty($chapter) ? 0 : $chapter['number'];
 
         } else {

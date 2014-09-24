@@ -13,15 +13,15 @@ interface CategoryDao
 
 	public function findCategoryByCode($code);
 	
-	public function getCategoryByParentId($parentId);
+	public function getCategoryByParentId($pid);
 
 	public function findAllCategories();
 
 	public function updateCategory($id, $category);
 
-	public function findCategoriesByParentId($parentId, $orderBy = null, $start, $limit);
+	public function findCategoriesByParentId($pid, $orderBy = null, $start, $limit);
 
-	public function findCategoriesCountByParentId($parentId);
+	public function findCategoriesCountByParentId($pid);
 
 	public function findCategoriesByIds(array $ids);
 

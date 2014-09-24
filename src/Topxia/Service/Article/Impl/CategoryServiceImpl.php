@@ -25,10 +25,10 @@ class CategoryServiceImpl extends BaseService implements CategoryService
         $prepare = function($categories) {
             $prepared = array();
             foreach ($categories as $category) {
-                if (!isset($prepared[$category['parentId']])) {
-                    $prepared[$category['parentId']] = array();
+                if (!isset($prepared[$category['pid']])) {
+                    $prepared[$category['pid']] = array();
                 }
-                $prepared[$category['parentId']][] = $category;
+                $prepared[$category['pid']][] = $category;
             }
             return $prepared;
         };
@@ -39,12 +39,12 @@ class CategoryServiceImpl extends BaseService implements CategoryService
         return $tree;
     }
 
-    private function makeCategoryTree(&$tree, &$categories, $parentId)
+    private function makeCategoryTree(&$tree, &$categories, $pid)
     {
         static $depth = 0;
         static $leaf = false;
-        if (isset($categories[$parentId]) && is_array($categories[$parentId])) {
-            foreach ($categories[$parentId] as $category) {
+        if (isset($categories[$pid]) && is_array($categories[$pid])) {
+            foreach ($categories[$pid] as $category) {
                 $depth++;
                 $category['depth'] = $depth;
                 $tree[] = $category;
@@ -108,9 +108,9 @@ class CategoryServiceImpl extends BaseService implements CategoryService
         return $category ? false : true;
     }
 
-    public function getCategoryByParentId($parentId)
+    public function getCategoryByParentId($pid)
     {
-        return $this->getCategoryDao()->getCategoryByParentId($parentId);
+        return $this->getCategoryDao()->getCategoryByParentId($pid);
     }
 
     public function findCategoryBreadcrumbs($categoryId)
@@ -129,11 +129,11 @@ class CategoryServiceImpl extends BaseService implements CategoryService
             $category = $indexedCategories[$categoryId];
             $breadcrumbs[] = $category;
 
-            if (empty($category['parentId'])) {
+            if (empty($category['pid'])) {
                 break;
             }
 
-            $categoryId = $category['parentId'];
+            $categoryId = $category['pid'];
         }
 
         return array_reverse($breadcrumbs);
@@ -142,11 +142,11 @@ class CategoryServiceImpl extends BaseService implements CategoryService
     public function createCategory(array $category)
     {   
 
-        $category = ArrayToolkit::parts($category, array('name', 'code', 'weight'
-            ,'parentId', 'publishArticle','seoTitle','seoKeyword'
+        $category = ArrayToolkit::parts($category, array('name', 'code', 'orderNo'
+            ,'pid', 'publishArticle','seoTitle','seoKeyword'
             ,'seoDesc','published'));
 
-        if (!ArrayToolkit::requireds($category, array('name', 'code', 'weight', 'parentId'))) {
+        if (!ArrayToolkit::requireds($category, array('name', 'code', 'orderNo', 'pid'))) {
             throw $this->createServiceException("缺少必要参数，，添加栏目失败");
         }
 
@@ -168,7 +168,7 @@ class CategoryServiceImpl extends BaseService implements CategoryService
             throw $this->createNoteFoundException("栏目(#{$id})不存在，更新栏目失败！");
         }
 
-        $fields = ArrayToolkit::parts($fields, array('name', 'code', 'weight', 'parentId', 'publishArticle','seoTitle','seoKeyword'
+        $fields = ArrayToolkit::parts($fields, array('name', 'code', 'orderNo', 'pid', 'publishArticle','seoTitle','seoKeyword'
             ,'seoDesc','published'));
         if (empty($fields)) {
             throw $this->createServiceException('参数不正确，更新栏目失败！');
@@ -203,12 +203,12 @@ class CategoryServiceImpl extends BaseService implements CategoryService
         $fields = ArrayToolkit::filter($fields, array(
             'name' => '',
             'code' => '',
-            'weight' => 0,
+            'orderNo' => 0,
             'publishArticle' => '',
             'seoTitle' => '',
             'seoDesc' => '',
             'published' => 1,
-            'parentId' => 0,
+            'pid' => 0,
         ));
 
         if (empty($fields['name'])) {
@@ -230,9 +230,9 @@ class CategoryServiceImpl extends BaseService implements CategoryService
         return $fields;
     }
 
-    public function findCategoriesCountByParentId($parentId)
+    public function findCategoriesCountByParentId($pid)
     {
-       return $this->getCategoryDao()->findCategoriesCountByParentId($parentId);
+       return $this->getCategoryDao()->findCategoriesCountByParentId($pid);
     }
 
     private function getCategoryDao ()

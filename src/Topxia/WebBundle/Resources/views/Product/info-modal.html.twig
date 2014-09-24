@@ -20,13 +20,13 @@
   {% endif %}
 
   {% if product.tags %}
-    <dt>品牌标签</dt>
+    <dt>产品热词</dt>
     <dd>
       <ul class="list-inline">
         {% for tag in tags %}
           <li>{{ tag.name }}</li>
         {% else %}
-          <li>暂无产品品牌标签</li>
+          <li>暂无产品热词</li>
         {% endfor %}
       </ul>
     </dd>

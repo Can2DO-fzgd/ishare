@@ -39,7 +39,7 @@ class TestpaperItemDaoImpl extends BaseDao implements TestpaperItemDao
 
     public function deleteItemsByParentId($id)
     {
-        $sql = "DELETE FROM {$this->table} WHERE parentId = ?";
+        $sql = "DELETE FROM {$this->table} WHERE pid = ?";
         return $this->getConnection()->executeUpdate($sql, array($id));
     }
 
@@ -71,10 +71,10 @@ class TestpaperItemDaoImpl extends BaseDao implements TestpaperItemDao
         return $this->getConnection()->fetchColumn($sql, array($testId));
     }
 
-    public function getItemsCountByTestIdAndParentId($testId, $parentId)
+    public function getItemsCountByTestIdAndParentId($testId, $pid)
     {
-        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE `testId` = ? and `parentId` = ?";
-        return $this->getConnection()->fetchColumn($sql, array($testId, $parentId));
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE `testId` = ? and `pid` = ?";
+        return $this->getConnection()->fetchColumn($sql, array($testId, $pid));
     }
 
     public function getItemsCountByTestIdAndQuestionType($testId, $questionType)

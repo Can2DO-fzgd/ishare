@@ -10,7 +10,7 @@ interface CategoryService
 
     public function getCategoryTree();
 
-    public function getCategoryByParentId($parentId);
+    public function getCategoryByParentId($pid);
 
     public function findCategoryChildrenIds($id);
 
@@ -28,6 +28,6 @@ interface CategoryService
 
     public function deleteCategory($id);
 
-    public function findCategoriesCountByParentId($parentId);
+    public function findCategoriesCountByParentId($pid);
     
 }

@@ -22,7 +22,7 @@ interface TestpaperItemDao
 
     public function getItemsCountByTestId($testId);
 
-    public function getItemsCountByTestIdAndParentId($testId, $parentId);
+    public function getItemsCountByTestIdAndParentId($testId, $pid);
 
     public function getItemsCountByTestIdAndQuestionType($testId, $questionType);
 

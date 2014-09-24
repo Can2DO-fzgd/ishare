@@ -30,10 +30,10 @@ class CategoryController extends BaseController
         $category = array(
             'id' => 0,
             'name' => '',
-            'code' => '',
+            'sn' => '',
             'groupId' => (int) $request->query->get('groupId'),
-            'parentId' => (int) $request->query->get('parentId', 0),
-            'weight' => 0,
+            'pid' => (int) $request->query->get('pid', 0),
+            'orderNo' => 0,
         );
 
         return $this->render('TopxiaAdminBundle:Category:modal.html.twig', array(
@@ -72,10 +72,10 @@ class CategoryController extends BaseController
 
     public function checkCodeAction(Request $request)
     {
-        $code = $request->query->get('value');
+        $sn = $request->query->get('value');
         $exclude = $request->query->get('exclude');
 
-        $avaliable = $this->getCategoryService()->isCategoryCodeAvaliable($code, $exclude);
+        $avaliable = $this->getCategoryService()->isCategoryCodeAvaliable($sn, $exclude);
 
         if ($avaliable) {
             $response = array('success' => true, 'message' => '');

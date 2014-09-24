@@ -10,7 +10,7 @@ class CategoryController extends BaseController
 
         $data = array();
         foreach ($categories as $category) {
-            $data[$category['id']] = array($category['name'], $category['parentId']);
+            $data[$category['id']] = array($category['name'], $category['pid']);
         }
 
         return $this->createJsonResponse($data);

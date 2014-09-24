@@ -61,7 +61,7 @@ class ArticleController extends BaseController
 
         return $this->render('TopxiaAdminBundle:Article:article-modal.html.twig',array(
             'categoryTree'  => $categoryTree,
-            'category'  => array( 'id' =>0, 'parentId' =>0)
+            'category'  => array( 'id' =>0, 'pid' =>0)
         ));
     }
 

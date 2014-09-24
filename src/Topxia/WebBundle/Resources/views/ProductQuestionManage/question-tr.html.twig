@@ -27,7 +27,7 @@
       <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
         {% if question.type == 'material'%}
-          <li><a href="{{ path('product_manage_question',{productId:product.id, parentId:question.id}) }}"><span class="glyphicon glyphicon-list"></span> 管理问卷子题</a></li>
+          <li><a href="{{ path('product_manage_question',{productId:product.id, pid:question.id}) }}"><span class="glyphicon glyphicon-list"></span> 管理问卷子题</a></li>
         {% endif %}
         <li><a href="{{ path('product_manage_question_update', {productId:product.id,id:question.id, goto:app.request.server.get('REQUEST_URI')}) }}"><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>
         <li><a href="javascript:" data-name='问卷 题目{% if question.type == 'material'%}(含子题){% endif %}' data-role='item-delete' data-url="{{ path('product_manage_question_delete', {productId:product.id, id:question.id}) }}"><span class="glyphicon glyphicon-remove-circle"></span> 删除</a></li>

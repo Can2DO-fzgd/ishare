@@ -36,10 +36,10 @@ class ProductChapterDaoImpl extends BaseDao implements ProductChapterDao
         return $this->getConnection()->fetchColumn($sql, array($productId, $type));
     }
 
-    public function getChapterCountByProductIdAndTypeAndParentId($productId, $type, $parentId)
+    public function getChapterCountByProductIdAndTypeAndParentId($productId, $type, $pid)
     {
-        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  productId = ? AND type = ? AND parentId = ?";
-        return $this->getConnection()->fetchColumn($sql, array($productId, $type, $parentId));
+        $sql = "SELECT COUNT(*) FROM {$this->table} WHERE  productId = ? AND type = ? AND pid = ?";
+        return $this->getConnection()->fetchColumn($sql, array($productId, $type, $pid));
     }
 
     public function getLastChapterByProductIdAndType($productId, $type)

@@ -1,13 +1,13 @@
 {% extends 'TopxiaWebBundle:Default:layout.html.twig' %}
 
-{% block title %}产品品牌标签{% if tag %}:{{ tag.name }}{% endif %} - {{ parent() }}{% endblock %}
+{% block title %}产品热词{% if tag %}:{{ tag.name }}{% endif %} - {{ parent() }}{% endblock %}
 
 {% block content %}
 
 <div class="es-row-wrap container-gap">
   <div class="row">
     <div class="col-md-12">
-      <div class="page-header"><h1>产品品牌标签{% if tag %}:{{ tag.name }}{% endif %}</h1></div>
+      <div class="page-header"><h1>产品热词{% if tag %}:{{ tag.name }}{% endif %}</h1></div>
     </div>
   </div>
 
@@ -18,14 +18,14 @@
           {{ render(controller('TopxiaWebBundle:Product:productsBlock', {products:products, view: 'list'})) }}
           {{ web_macro.paginator(paginator) }} 
         {% else %}
-          <div class="empty">没有搜到相关产品，请换个产品品牌标签试试！</div>
+          <div class="empty">没有搜到相关产品，请换个产品热词试试！</div>
         {% endif %}
       {% else %}
-        <div class="empty">产品品牌标签不存在，请重新输入！</div>
+        <div class="empty">产品热词不存在，请重新输入！</div>
       {% endif %}
     </div>
     <div class="col-md-3">
-      <a href="{{ path('tag') }}">&raquo; 查看所有产品品牌标签</a>
+      <a href="{{ path('tag') }}">&raquo; 查看所有产品热词</a>
     </div>
   </div>
 

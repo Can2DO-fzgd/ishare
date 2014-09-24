@@ -6,7 +6,7 @@ interface CategoryService
 
     public function getCategory($id);
 
-    public function getCategoryByCode($code);
+    public function getCategoryByCode($sn);
 
     public function getCategoryTree($groupId);
 
@@ -20,7 +20,7 @@ interface CategoryService
 
     public function findAllCategories();
 
-    public function isCategoryCodeAvaliable($code, $exclude = null);
+    public function isCategoryCodeAvaliable($sn, $exclude = null);
 
     public function createCategory(array $category);
 

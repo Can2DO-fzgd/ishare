@@ -163,7 +163,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
             }
 
             $items[] = $this->getTestpaperItemDao()->addItem($item);
-            if ($item['parentId'] == 0 && !in_array($item['questionType'], $types)) {
+            if ($item['pid'] == 0 && !in_array($item['questionType'], $types)) {
                 $types[] = $item['questionType'];
             }
         }
@@ -284,12 +284,12 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
         foreach ($items as $questionId => $item) {
             $items[$questionId]['question'] = $questions[$questionId];
 
-            if ($item['parentId'] != 0) {
-                if (!array_key_exists('items', $items[$item['parentId']])) {
-                    $items[$item['parentId']]['items'] = array();
+            if ($item['pid'] != 0) {
+                if (!array_key_exists('items', $items[$item['pid']])) {
+                    $items[$item['pid']]['items'] = array();
                 }
-                $items[$item['parentId']]['items'][$questionId] = $items[$questionId];
-                $formatItems['material'][$item['parentId']]['items'][$item['seq']] = $items[$questionId];
+                $items[$item['pid']]['items'][$questionId] = $items[$questionId];
+                $formatItems['material'][$item['pid']]['items'][$item['seq']] = $items[$questionId];
                 unset($items[$questionId]);
             } else {
                 $formatItems[$item['questionType']][$item['questionId']] = $items[$questionId];
@@ -324,12 +324,12 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
             $items[$questionId]['question'] = $questions[$questionId];
 
-            if ($item['parentId'] != 0) {
-                if (!array_key_exists('items', $items[$item['parentId']])) {
-                    $items[$item['parentId']]['items'] = array();
+            if ($item['pid'] != 0) {
+                if (!array_key_exists('items', $items[$item['pid']])) {
+                    $items[$item['pid']]['items'] = array();
                 }
-                $items[$item['parentId']]['items'][$questionId] = $items[$questionId];
-                $formatItems['material'][$item['parentId']]['items'][$item['seq']] = $items[$questionId];
+                $items[$item['pid']]['items'][$questionId] = $items[$questionId];
+                $formatItems['material'][$item['pid']]['items'][$item['seq']] = $items[$questionId];
                 unset($items[$questionId]);
             } else {
                 $formatItems[$item['questionType']][$item['questionId']] = $items[$questionId];
@@ -494,7 +494,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
             if ($answer['status'] == 'right') {
                 $answers[$questionId]['score'] = $items[$questionId]['score'];
             } elseif ($answer['status'] == 'partRight') {
-                if ($items[$questionId]['parentId'] == 0 and $items[$questionId]['missScore'] > 0){
+                if ($items[$questionId]['pid'] == 0 and $items[$questionId]['missScore'] > 0){
                     $answers[$questionId]['score'] = $items[$questionId]['missScore'];
                 } else {
                     $answers[$questionId]['score'] = $items[$questionId]['score'] * $answer['percentage'] / 100;
@@ -722,8 +722,8 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
             }
         }
         foreach ($items as $questionId => $item) {
-            if ($questions[$questionId]['parentId'] >0 ) {
-                $items[$questions[$questionId]['parentId']]['score'] += $item['score'];
+            if ($questions[$questionId]['pid'] >0 ) {
+                $items[$questions[$questionId]['pid']]['score'] += $item['score'];
             }
         }
 
@@ -738,7 +738,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
 
             if (empty($existItems[$item['questionId']])) {
                 $item['questionType'] = $question['type'];
-                $item['parentId'] = $question['parentId'];
+                $item['pid'] = $question['pid'];
                 // @todo, wellming.
 
                 if (array_key_exists('missScore', $testpaper['metas']) and array_key_exists($question['type'], $testpaper['metas']['missScore'])) {
@@ -763,7 +763,7 @@ class TestpaperServiceImpl extends BaseService implements TestpaperService
                 unset($existItems[$item['questionId']]);
             }
 
-            if ($item['parentId'] == 0 && !in_array($item['questionType'], $types)) {
+            if ($item['pid'] == 0 && !in_array($item['questionType'], $types)) {
                 $types[] = $item['questionType'];
             }
         }

@@ -33,7 +33,7 @@ class QuestionDaoImpl extends BaseDao implements QuestionDao
 
     public function findQuestionsByParentId($id)
     {
-        $sql ="SELECT * FROM {$this->table} WHERE parentId = ? ORDER BY createdTime ASC";
+        $sql ="SELECT * FROM {$this->table} WHERE pid = ? ORDER BY createdTime ASC";
         $questions = $this->getConnection()->fetchAll($sql, array($id));
         return $this->createSerializer()->unserializes($questions, $this->serializeFields);
     }
@@ -62,10 +62,10 @@ class QuestionDaoImpl extends BaseDao implements QuestionDao
         return $builder->execute()->fetchColumn(0);
     }
 
-    public function findQuestionsCountByParentId($parentId)
+    public function findQuestionsCountByParentId($pid)
     {
-        $sql ="SELECT count(*) FROM {$this->table} WHERE parentId = ?";
-        return $this->getConnection()->fetchColumn($sql, array($parentId));
+        $sql ="SELECT count(*) FROM {$this->table} WHERE pid = ?";
+        return $this->getConnection()->fetchColumn($sql, array($pid));
     }
 
     public function addQuestion($fields)
@@ -92,7 +92,7 @@ class QuestionDaoImpl extends BaseDao implements QuestionDao
 
     public function deleteQuestionsByParentId($id)
     {
-        $sql = "DELETE FROM {$this->table} WHERE parentId = ?";
+        $sql = "DELETE FROM {$this->table} WHERE pid = ?";
         return $this->getConnection()->executeUpdate($sql, array($id));
     }
 
@@ -147,7 +147,7 @@ class QuestionDaoImpl extends BaseDao implements QuestionDao
                 ->andWhere('target = :targetPrefix OR target LIKE :targetLike');
         }
 
-        $builder->andWhere('parentId = :parentId')
+        $builder->andWhere('pid = :pid')
             ->andWhere('type = :type')
             ->andWhere('stem LIKE :stem');
 
