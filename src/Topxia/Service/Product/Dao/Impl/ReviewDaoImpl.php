@@ -7,7 +7,7 @@ use Topxia\Service\Product\Dao\ReviewDao;
 
 class ReviewDaoImpl extends BaseDao implements ReviewDao
 {
-    protected $table = 'product_review';
+    protected $table = 't_review';
 
     public function getReview($id)
     {
@@ -18,13 +18,13 @@ class ReviewDaoImpl extends BaseDao implements ReviewDao
     public function findReviewsByProductId($productId, $start, $limit)
     {
         $this->filterStartLimit($start, $limit);
-        $sql = "SELECT * FROM {$this->table} WHERE productId = ? ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
+        $sql = "SELECT * FROM {$this->table} WHERE contentid = ? ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
         return $this->getConnection()->fetchAll($sql, array($productId)) ? : array();
     }
 
     public function getReviewCountByProductId($productId)
     {
-        $sql = "SELECT COUNT(id) FROM {$this->table} WHERE productId = ?";
+        $sql = "SELECT COUNT(id) FROM {$this->table} WHERE contentid = ?";
         return $this->getConnection()->fetchColumn($sql, array($productId));
     }
 
@@ -45,13 +45,13 @@ class ReviewDaoImpl extends BaseDao implements ReviewDao
 
     public function getReviewByUserIdAndProductId($userId, $productId)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE productId = ? AND userId = ? LIMIT 1;";
+        $sql = "SELECT * FROM {$this->table} WHERE contentid = ? AND userId = ? LIMIT 1;";
         return $this->getConnection()->fetchAssoc($sql, array($productId, $userId)) ? : null;
     }
 
     public function getReviewRatingSumByProductId($productId)
     {
-        $sql = "SELECT sum(rating) FROM {$this->table} WHERE productId = ?";
+        $sql = "SELECT sum(rating) FROM {$this->table} WHERE contentid = ?";
         return $this->getConnection()->fetchColumn($sql, array($productId));
     }
 

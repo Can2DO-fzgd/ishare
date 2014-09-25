@@ -67,7 +67,7 @@ class ReviewServiceImpl extends BaseService implements ReviewService
 	
 	public function saveReview($fields)
 	{
-		if (!ArrayToolkit::requireds($fields, array('productId', 'userId', 'rating'))) {
+		if (!ArrayToolkit::requireds($fields, array('productId', 'userId', 'rating', 'username', 'contentid'))) {
 			throw $this->createServiceException('参数不正确，评价失败！');
 		}
 
@@ -91,6 +91,10 @@ class ReviewServiceImpl extends BaseService implements ReviewService
 				'rating' => $fields['rating'],
 				'content' => empty($fields['content']) ? '' : $fields['content'],
 				'createdTime' => time(),
+				'createdate' => date("y-m-d h:i:s"),
+				'username' => $fields['username'],
+				'contentid' => $fields['contentid'],
+				'contenttype' => $fields['contenttype'],
 			));
 		} else {
 			$review = $this->getReviewDao()->updateReview($review['id'], array(

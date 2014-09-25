@@ -53,6 +53,10 @@ class ProductReviewController extends BaseController
                 $fields['rating'] = $fields['rating'];
                 $fields['userId']= $currentUser['id'];
                 $fields['productId']= $id;
+				
+				$fields['username']= $currentUser['userName'];
+				$fields['contentid']= $id;
+				$fields['contenttype']= $product['categoryId'];
                 $this->getReviewService()->saveReview($fields);
                 return $this->createJsonResponse(true);
             }
