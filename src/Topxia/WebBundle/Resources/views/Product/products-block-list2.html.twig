@@ -17,7 +17,7 @@
         <span class="label label-warning ">已上线</span>
       {% endif %}
       </h4>
-      <div class="product-about ellipsis">{{ product.jianjie }}</div>
+      {#<div class="product-about ellipsis">{{ product.jianjie|raw }}</div>#}
       <div class="product-footer clearfix">
         {% set teacher = users[product.teacherIds|first]|default(null) %}
         {% if teacher %}

@@ -7,14 +7,14 @@
   {% for tag in tags %}{{ tag.name }}{% endfor %}
   {{ product.name }} {{ setting('site.name') }}
 {%- endblock -%}
-{% block description %}{{ product.specinfo|plain_text(150) }}{% endblock %}
+{% block description %}{{ product.specinfo|plain_text(150)|raw }}{% endblock %}
 
 
 {% set script_controller = 'product/show' %}
 
 {% block content %}
 
-{% if member and member.locked %}
+{#{% if member and member.locked %}
 <div class="row">
   <div class="col-md-12">
     <div class="mtl alert alert-warning">
@@ -23,20 +23,20 @@
     </div>
   </div>
 </div>
-{% endif %}
+{% endif %}#}
 
 <div class="es-row-wrap container-gap product-cover">
 <!--移动端不显示请用hidden-xs-->
-  <div class="row row-5-7 product-cover-heading">
-	<div class="col-sm-5">
+  <div class="row row-12 product-cover-heading">
+	<div class="col-sm-12">
       {% if product.typeimg != '' %}
-            <img src="/attach/productpic/{{ product.typeimg }}" class="img-responsive" />
-          {% else %}
-            <img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" class="img-responsive" />
-          {% endif %}
+         <img src="/attach/productpic/{{ product.typeimg }}" class="img-responsive" />
+      {% else %}
+         <img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" class="img-responsive" />
+      {% endif %}
 	  
     </div>
-    <div class="col-sm-7 info">
+    <div class="col-sm-12 info">
       {% if is_granted('ROLE_ADMIN') %}
       <div class="btn-group pull-right">
         <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"> <i class="glyphicon glyphicon-cog"></i>
@@ -49,9 +49,9 @@
       </div>
       {% endif %}
 	  <p><h1 class="title">{{ product.name }}</h1></p>
-      <div class="subtitle">{{ product.jianjie }}</div>
+      {#<div class="subtitle">{{ product.jianjie|raw }}</div>#}
       <div class="stats">
-        <p>
+        {#<p>
           价　格：
           {% if product.price > 0 %}
             <span class="money-num">{{ product.price }}</span>
@@ -59,7 +59,7 @@
           {% else %}
             <span class="money-num" style="font-size:16px;">免费</span>
           {% endif %}
-        </p>
+        </p>#}
         <p>
           评　价：
           <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
@@ -91,7 +91,7 @@
       <div class="actions clearfix">
         <div class="pull-left">
           {% if product.status != 'published' %}
-            <a class="btn btn-primary disabled" href="javascript:">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
+            <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}#}我要关注</a>
           {% else %}
             <a class="btn btn-primary btn-fat" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
 
@@ -131,40 +131,63 @@
     </div>
   </div>
 
-  <div class="row row-8-4">
-    <div class="col-md-8">
+  <div class="row row-12">
+    <div class="col-md-12">
 
       <div class="panel panel-default">
         <div class="panel-body">
           <ul class="nav nav-tabs mbl clearfix" id="product-nav-tabs">
             <li class="active">
-              <a href="#product-about-pane" data-toggle="tab">产品规格</a>
+              <a href="#product-jianjie-pane" data-toggle="tab">简介</a>
             </li>
+
+			{% if product.specinfo %}
             <li>
+              <a href="#product-specinfo-pane" data-toggle="tab">规格</a>
+            </li>
+            {% endif %}
+			
+            {% if product.efficacyinfo %}
+            <li>
+              <a href="#product-goal-pane" data-toggle="tab">功能</a>
+            </li>
+            {% endif %}
+			
+            {% if product.yaodian %}
+            <li>
+              <a href="#product-audience-pane" data-toggle="tab">要点</a>
+            </li>
+            {% endif %}
+			
+			{% if product.remark %}
+            <li>
+              <a href="#product-remark-pane" data-toggle="tab">补充</a>
+            </li>
+            {% endif %}
+			
+			{% if product.xgzx %}
+            <li>
+              <a href="#product-xgzx-pane" data-toggle="tab">资讯</a>
+            </li>
+            {% endif %}
+			
+			<li>
               <a id="product-review-tab" href="#product-review-pane" data-toggle="tab" data-url="{{ path('product_review_list', {id:product.id, previewAs:previewAs}) }}">
                 产品评价
                 <span class="badge">{{ product.ratingNum }}</span>
               </a>
             </li>
-            {% if product.efficacyinfo %}
-            <li>
-              <a href="#product-goal-pane" data-toggle="tab">产品功能</a>
-            </li>
-            {% endif %}
-            {% if product.yaodian %}
-            <li>
-              <a href="#product-audience-pane" data-toggle="tab">创新要点</a>
-            </li>
-            {% endif %}
+			
           </ul>
 
           <div class="tab-content">
-            <div class="tab-pane active" id="product-about-pane" class="text-left">
-              {% if product.specinfo %}
-                {{ product.specinfo|raw }}
+            <div class="tab-pane active" id="product-jianjie-pane" class="text-left">
+              {% if product.jianjie %}
+                {{ product.jianjie|raw }}
               {% else %}
-              <span class="text-muted">还没有产品补充说明...</span>
+              <span class="text-muted">还没有产品简介信息...</span>
               {% endif %}
+			  
               {% if tags %}
                 <div class="mtm">
                 <span class="text-muted">产品热词：</span>{% for tag in tags %}
@@ -173,7 +196,15 @@
                 </div>
               {% endif %}
             </div>
-            <div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
+            
+			<div class="tab-pane" id="product-specinfo-pane" class="text-left">
+              {% if product.specinfo %}
+                {{ product.specinfo|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品规格信息...</span>
+              {% endif %}
+            </div>
+			
             {% if product.efficacyinfo %}
             <div class="tab-pane" id="product-goal-pane">
               <ul class="media-list">
@@ -182,7 +213,7 @@
                   <div class="pull-left">
                     <span class="glyphicon glyphicon-flag media-object"></span>
                   </div>
-                  <div class="media-body">{{ goal }}</div>
+                  <div class="media-body">{{ goal|raw }}</div>
                 </li>
                 {% endfor %}
               </ul>
@@ -197,17 +228,36 @@
                   <div class="pull-left">
                     <span class="glyphicon glyphicon-user media-object"></span>
                   </div>
-                  <div class="media-body">{{ audience }}</div>
+                  <div class="media-body">{{ audience|raw }}</div>
                 </li>
                 {% endfor %}
               </ul>
             </div>
             {% endif %}
+			
+			<div class="tab-pane" id="product-remark-pane" class="text-left">
+              {% if product.remark %}
+                {{ product.remark|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品补充说明...</span>
+              {% endif %}
+            </div>
+			
+			<div class="tab-pane" id="product-xgzx-pane" class="text-left">
+              {% if product.xgzx %}
+                {{ product.xgzx|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品资讯...</span>
+              {% endif %}
+            </div>
+			
+			<div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
+			
           </div>
         </div>
       </div>
-      {% embed "TopxiaWebBundle:Bootstrap:panel.html.twig" %}
-        {% block heading %}
+      {#{% embed "TopxiaWebBundle:Bootstrap:panel.html.twig" %}
+      {% block heading %}
       <h3 class="panel-title">产品补充说明</h3>
       {% endblock %}
         {% block body %}
@@ -215,15 +265,16 @@
           {% include 'TopxiaWebBundle:ProductLesson:item-list-multi.html.twig' with {experience: true} %}
 
         {% endblock %}
-      {% endembed %}
+      {% endembed %}#}
 
-      {{ render(controller('TopxiaWebBundle:ProductReview:latestBlock',{product:product})) }}
+      {#{{ render(controller('TopxiaWebBundle:ProductReview:latestBlock',{product:product})) }}
 
       {% if setting('product.relatedProducts') == 1 %}
         {{ render(controller('TopxiaWebBundle:Product:relatedProductsBlock',{product:product})) }}
-      {% endif %}
+      {% endif %}#}
     </div>
-    <div class="col-md-4">
+	
+    {#<div class="col-md-4">
       {{ render(controller('TopxiaWebBundle:Product:teachersBlock',{product:product})) }}
 
       {{ render(controller('TopxiaWebBundle:ProductThread:latestBlock',{product:product})) }}
@@ -232,7 +283,7 @@
 
       {{ render(controller('TopxiaWebBundle:ProductAnnouncement:block',{product:product})) }}
 
-    </div>
+    </div>#}
   </div>
 
 </div>

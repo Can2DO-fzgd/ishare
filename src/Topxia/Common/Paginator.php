@@ -10,7 +10,7 @@ class Paginator {
 
     protected $currentPage;
 
-    protected $pageRange = 10;
+    protected $pageRange = 5;
 
     protected $baseUrl;
 
