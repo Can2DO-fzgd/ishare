@@ -141,6 +141,10 @@ class ProductController extends BaseController
             throw $this->createNotFoundException();
         }
 
+		//$productpictures = $product['code'];
+		$productpictures = $this->getProductPictureService()->findProductPicture($product['code'], 0, 12);
+		$productpicturescount = $this->getProductPictureService()->getProductPictureCount($product['code']);
+		
         $previewAs = $request->query->get('previewAs');
 
         $user = $this->getCurrentUser();
@@ -191,6 +195,8 @@ class ProductController extends BaseController
             'category' => $category,
             'previewAs' => $previewAs,
             'tags' => $tags,
+			'productpictures' => $productpictures,
+			'productpicturescount' => $productpicturescount
         ));
 
     }
@@ -580,6 +586,11 @@ class ProductController extends BaseController
     private function getProductService()
     {
         return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+	
+	private function getProductPictureService()
+    {
+        return $this->getServiceKernel()->createService('Product.ProductPictureService');
     }
 
     private function getOrderService()

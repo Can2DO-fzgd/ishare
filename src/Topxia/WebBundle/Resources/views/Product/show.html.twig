@@ -13,7 +13,7 @@
 {% set script_controller = 'product/show' %}
 
 {% block content %}
-
+  
 {#{% if member and member.locked %}
 <div class="row">
   <div class="col-md-12">
@@ -26,15 +26,22 @@
 {% endif %}#}
 
 <div class="es-row-wrap container-gap product-cover">
+	              
 <!--移动端不显示请用hidden-xs-->
   <div class="row row-12 product-cover-heading">
 	<div class="col-sm-12">
-      {% if product.typeimg != '' %}
-         <img src="/attach/productpic/{{ product.typeimg }}" class="img-responsive" />
-      {% else %}
-         <img src="{{ file_path(product.largePicture, 'product-default-475x250.png') }}" class="img-responsive" />
-      {% endif %}
-	  
+	  <ul class="product-wide-list">
+  		<li class="product-item clearfix">
+   		 <!--<a class="show-product-productpictures-pane" href="javascript:">-->
+		 <a class="product-picture-link" href="{{ path('product_show', {id:product.id}) }}">
+	  		{% if product.typeimg != '' %}
+            	<img class="product-picture" src="/attach/productpic/{{ product.typeimg }}" alt="{{ product.name }}" />
+          	{% else %}
+            	<img class="product-picture" src="{{ file_path(product.largePicture, 'product-large.png') }}" alt="{{ product.name }}">
+          	{% endif %}
+		 </a>
+		 </li>
+	</ul>
     </div>
     <div class="col-sm-12 info">
       {% if is_granted('ROLE_ADMIN') %}
@@ -141,6 +148,12 @@
               <a href="#product-jianjie-pane" data-toggle="tab">简介</a>
             </li>
 
+			{% if productpictures %}
+            <li>
+              <a id="product-productpictures-tab" href="#product-productpictures-pane" data-toggle="tab">图片</a>
+            </li>
+            {% endif %}
+			
 			{% if product.specinfo %}
             <li>
               <a href="#product-specinfo-pane" data-toggle="tab">规格</a>
@@ -197,6 +210,18 @@
               {% endif %}
             </div>
             
+			<div class="tab-pane" id="product-productpictures-pane" class="text-left">
+              {% if productpictures %}
+					{% for productpicture in productpictures %}
+						<div class="item">
+							<img alt="" src="/attach/productpic/{{ productpicture.path }}" class="img-responsive" />
+						</div>
+					{% endfor %}
+              {% else %}
+              <span class="text-muted">还没有产品图片...</span>
+              {% endif %}
+            </div>
+			
 			<div class="tab-pane" id="product-specinfo-pane" class="text-left">
               {% if product.specinfo %}
                 {{ product.specinfo|raw }}
