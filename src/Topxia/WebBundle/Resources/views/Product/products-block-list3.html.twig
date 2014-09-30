@@ -35,6 +35,28 @@
           {% endif %}
           {#<span class="product-price">{% if product.price > 0 %}{{ product.price }}元{% else %}可以查看补充说明{% endif %}</span>#}
         </div>
+		{#<div class="product-metas">
+		<span class="product-price">
+		  </br>
+		  <a href="javascript:" data-share="weibo" data-params="#product-social-share-params"><span class="social-icon-weibo"></span></a>
+		  <a href="javascript:" data-share="qq" data-params="#product-social-share-params"><span class="social-icon-qq"></span></a>
+		  <a href="javascript:" data-share="renren" data-params="#product-social-share-params"><span class="social-icon-renren"></span></a>
+		  <a href="javascript:" data-share="douban" data-params="#product-social-share-params"><span class="social-icon-douban"></span></a>
+		  </span>{% if product.typeimg != '' %}
+            	<div id="product-social-share-params" style="display:none;"
+                data-title="产品 《{{ product.name }}》"
+                data-picture="/attach/productpic/{{ product.typeimg }}"
+                data-url="{{ url('product_show', {id:product.id}) }}"
+                ></div>
+          		{% else %}
+           		<div id="product-social-share-params" style="display:none;"
+                data-title="产品 《{{ product.name }}》"
+                data-picture="{{ file_path(product.largePicture, 'product-large.png', true) }}"
+                data-url="{{ url('product_show', {id:product.id}) }}"
+                ></div>
+          		{% endif %}
+		</div>#}
+			
       </div>
     </div>
   </li>

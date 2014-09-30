@@ -14,7 +14,7 @@
     <div class="col-md-12">
       {#<div class="page-header"><h1>产品</h1></div>#}
 	  	 <div class="page-header"><h1>
-		 {% if not category.id %}更多领域{% endif %}
+		 {% if not category.id %}全部产品{% endif %}
 		{% for cat in categories %}
 		{% if category.id == cat.id %}
             {{ cat.name }}

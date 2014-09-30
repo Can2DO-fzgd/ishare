@@ -15,7 +15,7 @@
       {% for category in categories %}
         <li><a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
       {% endfor %}
-        <li><a href="{{ path('product_explore') }}"><span class="label label-success ">更多展馆</span></a></li>
+        <li><a href="{{ path('product_explore') }}"><span class="label label-success ">全部产品</span></a></li>
     </ul>
 
   <div class="row row-12">

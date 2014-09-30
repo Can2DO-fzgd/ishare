@@ -70,10 +70,16 @@ class ProductController extends BaseController
         $product = $this->getProductService()->getProduct($id);
         $category = $this->getCategoryService()->getCategory($product['categoryId']);
         $tags = $this->getTagService()->findTagsByIds($product['tags']);
+		
+		$productpictures = $this->getProductPictureService()->findProductPicture($product['code'], 0, 12);
+		$productpicturescount = $this->getProductPictureService()->getProductPictureCount($product['code']);
+		
         return $this->render('TopxiaWebBundle:Product:info-modal.html.twig', array(
             'product' => $product,
             'category' => $category,
             'tags' => $tags,
+			'productpictures' => $productpictures,
+			'productpicturescount' => $productpicturescount
         ));
     }
 

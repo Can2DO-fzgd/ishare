@@ -9,8 +9,8 @@
 {% block body %}
 
 <dl class="product-modal-infos">
-  <dt>产品规格</dt>
-  <dd>{{ product.specinfo|raw }}</dd>
+  <dt>产品简介</dt>
+  <dd>{{ product.jianjie|raw }}</dd>
 
   {% if category %}
   <dt>产品分类标签</dt>
@@ -32,12 +32,33 @@
     </dd>
   {% endif %}
 
+ 
+ {% if productpictures %}
+ <dt>产品图片</dt>
+ <dd>
+ <ul>
+	{% for productpicture in productpictures %}
+	<img alt="" src="/attach/productpic/{{ productpicture.path }}" class="img-responsive" />
+	{% endfor %}
+ </ul>
+ </dd>
+ {% endif %}
+
+ {% if product.specinfo %}
+ <dt>产品规格</dt>
+ <dd>
+ 	<ul>
+    	{{ product.specinfo|raw }}
+  	</ul>
+ </dd>
+ {% endif %}
+
   {% if product.efficacyinfo %}
     <dt>产品功能</dt>
     <dd>
       <ul>
         {% for goal in product.efficacyinfo %}
-          <li>{{ goal }}</li>
+          <li>{{ goal|raw }}</li>
         {% endfor %}
       </ul>
     </dd>
@@ -48,8 +69,26 @@
     <dd>
       <ul>
         {% for audience in product.yaodian %}
-          <li>{{ audience }}</li>
+          <li>{{ audience|raw }}</li>
         {% endfor %}
+      </ul>
+    </dd>
+  {% endif %}
+  
+  {% if product.remark %}
+    <dt>补充说明</dt>
+    <dd>
+      <ul>
+     {{ product.remark|raw }}
+      </ul>
+    </dd>
+  {% endif %}
+  
+  {% if product.xgzx %}
+    <dt>产品资讯</dt>
+    <dd>
+      <ul>
+     {{ product.xgzx|raw }}
       </ul>
     </dd>
   {% endif %}

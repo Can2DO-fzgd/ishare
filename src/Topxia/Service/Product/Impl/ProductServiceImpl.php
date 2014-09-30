@@ -266,8 +266,9 @@ class ProductServiceImpl extends BaseService implements ProductService
                 //.chr(125);// "}"
 				
 		$product['code'] = $uuid;
-		$product['state'] = '1';
-		$product['sync'] = '0';
+		$product['state'] = '0';
+		$product['linestate'] = '0';
+		$product['sync'] = '1';
 		$product['sort'] = '1';
 		$product['createDate'] = date("Ymd");
 		//$d=strtotime("tomorrow");
