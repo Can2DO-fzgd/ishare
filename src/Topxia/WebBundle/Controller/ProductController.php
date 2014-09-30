@@ -33,7 +33,7 @@ class ProductController extends BaseController
         $conditions = array(
             'status' => 'published',
             'categoryId' => $category['id'],
-            'recommended' => ($sort == 'recommendedSeq') ? 1 : null
+            'tuijian' => ($sort == 'recommendedSeq') ? 1 : null
         );
 
         $paginator = new Paginator(

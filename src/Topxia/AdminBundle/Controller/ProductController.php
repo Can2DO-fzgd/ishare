@@ -90,7 +90,7 @@ class ProductController extends BaseController
     {
         $conditions = array(
             'status' => 'published',
-            'recommended'=> 1
+            'tuijian'=> 1
         );
 
         $paginator = new Paginator(

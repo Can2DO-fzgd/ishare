@@ -21,9 +21,9 @@ class RecommendProductsDataTag extends ProductBaseDataTag implements DataTag
     {	
         $this->checkCount($arguments);
         if (empty($arguments['categoryId'])){
-            $conditions = array('status' => 'published', 'recommended' => 1 );
+            $conditions = array('status' => 'published', 'tuijian' => 1 );
         } else {
-            $conditions = array('status' => 'published', 'recommended' => 1 ,'categoryId' => $arguments['categoryId']);
+            $conditions = array('status' => 'published', 'tuijian' => 1 ,'categoryId' => $arguments['categoryId']);
         }
         
         if (!empty($arguments['categoryCode'])) {

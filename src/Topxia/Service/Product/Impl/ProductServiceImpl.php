@@ -59,7 +59,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		$conditions = $this->_prepareProductConditions($conditions);
 		if ($sort == 'popular') {
 			$orderBy =  array('hitNum', 'DESC');
-		} else if ($sort == 'recommended') {
+		} else if ($sort == 'tuijian') {
 			$orderBy = array('recommendedTime', 'DESC');
 		} else if ($sort == 'Rating') {
 			$orderBy = array('Rating' , 'DESC');
@@ -433,7 +433,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		}
 
 		$product = $this->getProductDao()->updateProduct($id, array(
-			'recommended' => 1,
+			'tuijian' => 1,
 			'recommendedSeq' => (int)$number,
 			'recommendedTime' => time(),
 		));
@@ -448,7 +448,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		$product = $this->tryAdminProduct($id);
 
 		$this->getProductDao()->updateProduct($id, array(
-			'recommended' => 0,
+			'tuijian' => 0,
 			'recommendedTime' => 0,
 		));
 

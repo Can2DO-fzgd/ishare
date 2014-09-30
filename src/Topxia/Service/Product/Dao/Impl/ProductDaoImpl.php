@@ -139,7 +139,7 @@ class ProductDaoImpl extends BaseDao implements ProductDao
             ->andWhere('price > :notFree')
             ->andWhere('name LIKE :nameLike')
             ->andWhere('userId = :userId')
-            ->andWhere('recommended = :recommended')
+            ->andWhere('tuijian = :tuijian')
             ->andWhere('tags LIKE :tagsLike')
             ->andWhere('startTime >= :startTimeGreaterThan')
             ->andWhere('startTime < :startTimeLessThan')

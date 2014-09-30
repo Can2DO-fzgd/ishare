@@ -5,7 +5,7 @@
     <a href="{{ path('product_show', {id:product.id}) }}" target="_blank"><strong>{{ product.name }}</strong></a>
     <br>
     <span class="text-muted text-sm">分类标签：{{ category.name|default('--') }}</span>
-    {% if product.recommended %}
+    {% if product.tuijian %}
       {#<span class="label label-default">荐:{{ product.recommendedTime|date('Y-m-d') }} / 序号:{{ product.recommendedSeq }}</span>#}
 	  <span class="label label-default">荐:序号:{{ product.recommendedSeq }}</span>
     {% endif %}
@@ -29,7 +29,7 @@
 
         <li><a class="recommend-product" href="#modal" data-toggle="modal" data-url="{{ path('admin_product_recommend', {id:product.id, ref:'productList'}) }}"><span class="glyphicon glyphicon-hand-up"></span> 推荐产品</a></li>
 
-        {% if product.recommended %}
+        {% if product.tuijian %}
           <li><a class="cancel-recommend-product" href="javascript:" data-url="{{ path('admin_product_cancel_recommend', {id:product.id}) }}"><span class="glyphicon glyphicon-hand-right"></span> 取消推荐</a></li>
         {% endif %}
 
