@@ -2,7 +2,7 @@
 
 {% set modalSize = 'large' %}
 
-{% block title %}添加会员{% endblock %}
+{% block title %}添加关注会员{% endblock %}
 {% block body %}
 
 <form id="student-create-form" class="form-horizontal" method="post" action="{{ path('product_manage_student_create', {id:product.id}) }}">
@@ -20,7 +20,7 @@
 
     <div class="row form-group">
       <div class="col-md-2 control-label">
-        <label for="buy-price">购买价格</label>
+        <label for="buy-price">产品价格</label>
       </div>
       <div class="col-md-7 controls">
         <input type="text" id="buy-price" name="price" value="0" class="form-control">

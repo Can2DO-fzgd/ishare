@@ -1,6 +1,6 @@
 {% extends 'TopxiaWebBundle:ProductManage:layout.html.twig' %}
 
-{% block title %}买家管理 - {{ parent() }}{% endblock %}
+{% block title %}关注管理 - {{ parent() }}{% endblock %}
 
 {% set side_nav = 'students' %}
 {% set script_controller = 'product-manage/students' %}
@@ -8,10 +8,10 @@
 {% block main %}
 
 <div class="panel panel-default panel-col">
-  <div class="panel-heading">买家管理
+  <div class="panel-heading">关注管理
     {% if app.user.isAdmin() %}
-      <a class="btn btn-info btn-sm pull-right mhs" href="{{ path('product_manage_student_export_csv', {id:product.id}) }}"><i class="glyphicon glyphicon-export"></i> 导出买家</a>
-      <button class="btn btn-info btn-sm pull-right mhs" id="student-add-btn" data-toggle="modal" data-target="#modal" data-url="{{ path('product_manage_student_create', {id:product.id}) }}"><i class="glyphicon glyphicon-plus"></i> 添加买家</button>
+      <a class="btn btn-info btn-sm pull-right mhs" href="{{ path('product_manage_student_export_csv', {id:product.id}) }}"><i class="glyphicon glyphicon-export"></i> 导出关注</a>
+      <button class="btn btn-info btn-sm pull-right mhs" id="student-add-btn" data-toggle="modal" data-target="#modal" data-url="{{ path('product_manage_student_create', {id:product.id}) }}"><i class="glyphicon glyphicon-plus"></i> 添加关注</button>
     {% endif %}
   </div>
   
@@ -19,7 +19,7 @@
     <table class="table table-striped" id="product-student-list">
       <thead>
         <tr>
-          <th width="40%">买家</th>
+          <th width="40%">用户</th>
           <th width="30%">关注进度</th>
           <th width="30%">操作</th>
         </tr>
