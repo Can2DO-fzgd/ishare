@@ -11,26 +11,26 @@
     </div>
   {% endif %}
 
-	<ul class="homepage-category-nav">
+	{#<ul class="homepage-category-nav">
       {% for category in categories %}
         <li><a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
       {% endfor %}
         <li><a href="{{ path('product_explore') }}"><span class="label label-success ">全部产品</span></a></li>
-    </ul>
+    </ul>#}
 
   <div class="row row-12">
 	
 	<div class="col-md-12">
       <div class="es-box">
-        <div class="es-box-heading"><h2>推荐产品</h2></div>
+        <div class="es-box-heading"><h2>今日置顶推荐产品</h2></div>
         <div class="es-box-body">
           {% if products %}
-            {{ render(controller('TopxiaWebBundle:Product:productsBlock1', {products:products, view: 'list1'})) }}
-            {% if products|length >= 12 %}
-              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多产品</a>
+            {{ render(controller('TopxiaWebBundle:Product:productsBlock1', {products:products, view: 'list4'})) }}
+            {% if products|length >= 1 %}
+              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多推荐产品</a>
             {% endif %}
           {% else %}
-            <div class="empty">还没有发布产品</div>
+            <div class="empty">还没有推荐产品</div>
           {% endif %}
         </div>
       </div>
@@ -38,15 +38,15 @@
 	
     <div class="col-md-12">
       <div class="es-box">
-        <div class="es-box-heading"><h2>最新产品</h2></div>
+        <div class="es-box-heading"><h2>今日置顶最新产品</h2></div>
         <div class="es-box-body">
           {% if products %}
-            {{ render(controller('TopxiaWebBundle:Product:productsBlock2', {products:products, view: 'list2'})) }}
-            {% if products|length >= 12 %}
-              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多产品</a>
+            {{ render(controller('TopxiaWebBundle:Product:productsBlock2', {products:products, view: 'list5'})) }}
+            {% if products|length >= 1 %}
+              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多最新产品</a>
             {% endif %}
           {% else %}
-            <div class="empty">还没有发布产品</div>
+            <div class="empty">还没有最新产品</div>
           {% endif %}
         </div>
       </div>
@@ -54,24 +54,24 @@
 	
 	<div class="col-md-12">
       <div class="es-box">
-        <div class="es-box-heading"><h2>产品排行</h2></div>
+        <div class="es-box-heading"><h2>今日置顶产品排行</h2></div>
         <div class="es-box-body">
           {% if products %}
-            {{ render(controller('TopxiaWebBundle:Product:productsBlock3', {products:products, view: 'list3'})) }}
-            {% if products|length >= 12 %}
-              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多产品</a>
+            {{ render(controller('TopxiaWebBundle:Product:productsBlock3', {products:products, view: 'list6'})) }}
+            {% if products|length >= 1 %}
+              <a class="btn btn-default btn-lg btn-block" href="{{ path('product_explore') }}">更多排行产品</a>
             {% endif %}
           {% else %}
-            <div class="empty">还没有发布产品</div>
+            <div class="empty">还没有排行产品</div>
           {% endif %}
         </div>
       </div>
     </div>
 
-    <div class="col-md-12">
+    {#<div class="col-md-12">
 	  {{ render(controller('TopxiaWebBundle:Default:promotedTeacherBlock')) }}
       {{ render(controller('TopxiaWebBundle:Default:latestReviewsBlock',{number:5})) }}
-    </div>
+    </div>#}
 
   </div>
 

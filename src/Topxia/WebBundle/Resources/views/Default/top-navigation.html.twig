@@ -1,7 +1,8 @@
 <!--<ul class="nav navbar-nav">-->
+<ul class="site-footer-links">
 	{% for nav in navigations %}
 	  {% if nav.isOpen %}
-		  <!--<li {% if siteNav == nav.url %}class="active"{% endif %}>--><li><a href="{{ nav.url|navigation_url }}" {% if nav.isNewWin %}target="_blank"{% endif %}>{{ nav.name }}</a></li><!--</li>-->
+	  <li><a href="{{ nav.url|navigation_url }}" {% if nav.isNewWin %}target="_blank"{% endif %}><span class="label label-success ">{{ nav.name }}</span></a></li>
 		{% endif %}
 	{% endfor %}
-<!--</ul>-->
+</ul>

@@ -1,5 +1,5 @@
 <ul class="product-wide-list">
-  {% for product in data('RecommendProducts',{ count:20 }) %}
+  {% for product in data('RecommendProducts',{ count:5 }) %}
   <li class="product-item clearfix">
     <a class="product-picture-link" href="{{ path('product_show', {id:product.id}) }}">
 	  {% if product.typeimg != '' %}
