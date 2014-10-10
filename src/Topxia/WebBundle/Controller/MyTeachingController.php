@@ -10,6 +10,8 @@ class MyTeachingController extends BaseController
     //我的产品
     public function productsAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         $paginator = new Paginator(
             $this->get('request'),
@@ -26,13 +28,15 @@ class MyTeachingController extends BaseController
 
         return $this->render('TopxiaWebBundle:MyTeaching:teaching.html.twig', array(
             'products'=>$products,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
 
 	public function threadsAction(Request $request, $type)
 	{
-
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
 		$user = $this->getCurrentUser();
 		$myTeachingProductCount = $this->getProductService()->findUserTeachProductCount($user['id'], true);
 
@@ -69,7 +73,7 @@ class MyTeachingController extends BaseController
     	return $this->render('TopxiaWebBundle:MyTeaching:threads.html.twig', array(
     		'paginator' => $paginator,
             'threads' => $threads,
-            'users'=> $users,
+            'users'=> $users,'categories' => $categories,
             'products' => $products,
             'lessons' => $lessons,
             'type'=>$type
@@ -89,6 +93,11 @@ class MyTeachingController extends BaseController
     protected function getProductService()
     {
         return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }

@@ -15,15 +15,20 @@ class TagController extends BaseController
      */
     public function indexAction()
     {   
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $tags = $this->getTagService()->findAllTags(0, 100);
 
         return $this->render('TopxiaWebBundle:Tag:index.html.twig',array(
+			'categories' => $categories,
             'tags'=>$tags
         ));
     }
 
     public function showAction(Request $request,$name)
     {   
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $products = $paginator = null;
 
         $tag = $this->getTagService()->getTagByName($name);
@@ -50,6 +55,7 @@ class TagController extends BaseController
 
         return $this->render('TopxiaWebBundle:Tag:show.html.twig',array(
             'tag'=>$tag,
+			'categories' => $categories,
             'products'=>$products,
             'paginator' => $paginator
         ));
@@ -86,6 +92,11 @@ class TagController extends BaseController
     protected function getProductService()
     {
         return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }

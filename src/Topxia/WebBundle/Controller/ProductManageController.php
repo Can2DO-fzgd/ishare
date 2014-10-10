@@ -19,11 +19,17 @@ class ProductManageController extends BaseController
 	//产品基本信息管理
 	public function indexAction(Request $request, $id)
 	{
-        return $this->forward('TopxiaWebBundle:ProductManage:base',  array('id' => $id));
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
+        return $this->forward('TopxiaWebBundle:ProductManage:base',  array(
+			'categories' => $categories,
+			'id' => $id));
 	}
 
 	public function baseAction(Request $request, $id)
-	{
+	{	
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
 		$product = $this->getProductService()->tryManageProduct($id);
 
 	    if($request->getMethod() == 'POST'){
@@ -38,6 +44,7 @@ class ProductManageController extends BaseController
 
 		return $this->render('TopxiaWebBundle:ProductManage:base.html.twig', array(
 			'product' => $product,
+			'categories' => $categories,
             'tags' => ArrayToolkit::column($tags, 'name')
 		));
 	}
@@ -68,7 +75,9 @@ class ProductManageController extends BaseController
 	//产品详细信息管理
 	public function detailAction(Request $request, $id)
 	{
-        //判断是否有权操作
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
+		//判断是否有权操作
 		$product = $this->getProductService()->tryManageProduct($id);
 
 	    if($request->getMethod() == 'POST'){
@@ -84,6 +93,7 @@ class ProductManageController extends BaseController
         }
 
 		return $this->render('TopxiaWebBundle:ProductManage:detail.html.twig', array(
+			'categories' => $categories,
 			'product' => $product
 		));
 	}
@@ -91,6 +101,8 @@ class ProductManageController extends BaseController
 	//产品图片上传
 	public function pictureAction(Request $request, $id)
 	{
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
 		//判断是否有权操作
 		$product = $this->getProductService()->tryManageProduct($id);
 
@@ -120,13 +132,16 @@ class ProductManageController extends BaseController
 
 		return $this->render('TopxiaWebBundle:ProductManage:picture.html.twig', array(
 			'product' => $product,
+			'categories' => $categories,
 		));
 	}
 	
 	//图片裁剪
     public function pictureCropAction(Request $request, $id)
     {
-        $product = $this->getProductService()->tryManageProduct($id);
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
+		$product = $this->getProductService()->tryManageProduct($id);
 
         //@todo 文件名的过滤
         $filename = $request->query->get('file');
@@ -162,6 +177,7 @@ class ProductManageController extends BaseController
         return $this->render('TopxiaWebBundle:ProductManage:picture-crop.html.twig', array(
             'product' => $product,
             'pictureUrl' => $pictureUrl,
+			'categories' => $categories,
             'naturalSize' => $naturalSize,
             'scaledSize' => $scaledSize,
         ));
@@ -169,6 +185,8 @@ class ProductManageController extends BaseController
 
     public function priceAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $product = $this->getProductService()->tryManageProduct($id);
 
         $canModifyPrice = true;
@@ -196,6 +214,7 @@ class ProductManageController extends BaseController
         return $this->render('TopxiaWebBundle:ProductManage:price.html.twig', array(
             'product' => $product,
             'canModifyPrice' => $canModifyPrice,
+			'categories' => $categories,
             'levels' => $this->makeLevelChoices($levels),
         ));
     }
@@ -211,7 +230,9 @@ class ProductManageController extends BaseController
 
     public function teachersAction(Request $request, $id)
     {
-        $product = $this->getProductService()->tryManageProduct($id);
+        $categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
+		$product = $this->getProductService()->tryManageProduct($id);
 
         if($request->getMethod() == 'POST'){
         	
@@ -249,6 +270,7 @@ class ProductManageController extends BaseController
         
         return $this->render('TopxiaWebBundle:ProductManage:teachers.html.twig', array(
             'product' => $product,
+			'categories' => $categories,
             'teachers' => $teachers
         ));
     }
@@ -293,6 +315,8 @@ class ProductManageController extends BaseController
 
     private function calculateUserLearnProgress($product, $member)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         if ($product['lessonNum'] == 0) {
             return array('percent' => '0%', 'number' => 0, 'total' => 0);
         }
@@ -301,7 +325,8 @@ class ProductManageController extends BaseController
 
         return array (
             'percent' => $percent,
-            'number' => $member['learnedNum'],
+            'categories' => $categories,
+			'number' => $member['learnedNum'],
             'total' => $product['lessonNum']
         );
     }

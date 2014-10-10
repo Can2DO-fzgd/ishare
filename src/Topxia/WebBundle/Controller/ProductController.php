@@ -55,6 +55,8 @@ class ProductController extends BaseController
         } else {
             $categories = $this->getCategoryService()->getCategoryTree($group['id']);
         }
+		
+		//$categories = $this->getCategoryService()->findGroupRootCategories('product');
      
         return $this->render('TopxiaWebBundle:Product:explore.html.twig', array(
             'products' => $products,
@@ -141,6 +143,14 @@ class ProductController extends BaseController
      */
     public function showAction(Request $request, $id)
     {
+		//$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		$group = $this->getCategoryService()->getGroupByCode('product');
+        if (empty($group)) {
+            $categories = array();
+        } else {
+            $categories = $this->getCategoryService()->getCategoryTree($group['id']);
+        }
+		
         $product = $this->getProductService()->getProduct($id);
         
         if (empty($product)) {
@@ -170,6 +180,7 @@ class ProductController extends BaseController
 
             return $this->render("TopxiaWebBundle:Product:dashboard.html.twig", array(
                 'product' => $product,
+				'categories' => $categories,
                 'member' => $member,
                 'items' => $items,
                 'learnStatuses' => $learnStatuses
@@ -193,6 +204,7 @@ class ProductController extends BaseController
 
         return $this->render("TopxiaWebBundle:Product:show.html.twig", array(
             'product' => $product,
+			'categories' => $categories,
             'member' => $member,
             'productMemberLevel' => $productMemberLevel,
             'checkMemberLevelResult' => $checkMemberLevelResult,
@@ -308,6 +320,8 @@ class ProductController extends BaseController
 
 	public function createAction(Request $request)
 	{  
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getUserService()->getCurrentUser();
         $userProfile = $this->getUserService()->getUserProfile($user['id']);
 
@@ -328,6 +342,7 @@ class ProductController extends BaseController
 
 		return $this->render('TopxiaWebBundle:Product:create.html.twig', array(
 			'form' => $form->createView(),
+			'categories' => $categories,
             'userProfile'=>$userProfile
 		));
 	}

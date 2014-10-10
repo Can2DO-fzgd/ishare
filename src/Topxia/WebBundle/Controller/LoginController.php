@@ -9,6 +9,8 @@ class LoginController extends BaseController
 	//用户登录
     public function indexAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         if ($user->isLogin()) {
             return $this->createMessageResponse('info', '你已经登录了', null, 3000, $this->generateUrl('homepage'));
@@ -23,6 +25,7 @@ class LoginController extends BaseController
         return $this->render('TopxiaWebBundle:Login:index.html.twig',array(
             'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
             'error'         => $error,
+			'categories' => $categories,
             'targetPath' => $this->getTargetPath($request),
         ));
     }
@@ -70,5 +73,10 @@ class LoginController extends BaseController
             $response = array('success' => false, 'message' => '该Email地址尚未注册');
         }
         return $this->createJsonResponse($response);
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 }

@@ -9,6 +9,8 @@ class RegisterController extends BaseController
 	//用户注册
     public function indexAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         if ($user->isLogin()) {
             return $this->createMessageResponse('info', '你已经登录了', null, 3000, $this->generateUrl('homepage'));
@@ -38,7 +40,8 @@ class RegisterController extends BaseController
         }
         $loginEnable  = $this->isLoginEnabled();
         return $this->render("TopxiaWebBundle:Register:index.html.twig", array(
-            'isLoginEnabled' => $loginEnable
+            'categories' => $categories,
+			'isLoginEnabled' => $loginEnable
         ));
     }
 
@@ -271,6 +274,11 @@ class RegisterController extends BaseController
     private function getWebExtension()
     {
         return $this->container->get('topxia.twig.web_extension');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }

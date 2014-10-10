@@ -10,6 +10,8 @@ class MyThreadController extends BaseController
 
     public function discussionsAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
 
         $conditions = array(
@@ -37,11 +39,14 @@ class MyThreadController extends BaseController
             'products'=>$products,
             'users'=>$users,
             'threads'=>$threads,
+			'categories' => $categories,
             'paginator' => $paginator));
     }
 
     public function questionsAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
 
         $conditions = array(
@@ -69,6 +74,7 @@ class MyThreadController extends BaseController
             'products'=>$products,
             'users'=>$users,
             'threads'=>$threads,
+			'categories' => $categories,
             'paginator' => $paginator));
     }
 
@@ -80,6 +86,11 @@ class MyThreadController extends BaseController
     protected function getProductService()
     {
         return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }

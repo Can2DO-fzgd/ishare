@@ -11,6 +11,8 @@ class ProductStudentManageController extends BaseController
 
     public function indexAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $product = $this->getProductService()->tryManageProduct($id);
 
         $paginator = new Paginator(
@@ -38,6 +40,7 @@ class ProductStudentManageController extends BaseController
             'students' => $students,
             'users'=>$users,
             'progresses' => $progresses,
+			'categories' => $categories,
             'followingIds' => $followingIds,
             'paginator' => $paginator,
             'canManage' => $this->getProductService()->canManageProduct($product['id']),
@@ -47,6 +50,8 @@ class ProductStudentManageController extends BaseController
 
     public function createAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $product = $this->getProductService()->tryAdminProduct($id);
 
         $currentUser = $this->getCurrentUser();
@@ -64,7 +69,7 @@ class ProductStudentManageController extends BaseController
 
             $order = $this->getOrderService()->createOrder(array(
                 'userId' => $user['id'],
-                'title' => "购买产品《{$product['name']}》(管理员添加)",
+                'title' => "关注产品《{$product['name']}》(管理员添加)",
                 'targetType' => 'product',
                 'targetId' => $product['id'],
                 'amount' => $data['price'],
@@ -95,24 +100,28 @@ class ProductStudentManageController extends BaseController
 
 
 
-            $this->getLogService()->info('product', 'add_student', "产品《{$product['name']}》(#{$product['id']})，添加购买会员{$user['userName']}(#{$user['id']})，备注：{$data['remark']}");
+            $this->getLogService()->info('product', 'add_student', "产品《{$product['name']}》(#{$product['id']})，添加关注会员{$user['userName']}(#{$user['id']})，备注：{$data['remark']}");
 
             return $this->createStudentTrResponse($product, $member);
         }
 
         return $this->render('TopxiaWebBundle:ProductStudentManage:create-modal.html.twig',array(
-            'product'=>$product
+            'categories' => $categories,
+			'product'=>$product
         ));
     }
 
     public function removeAction(Request $request, $productId, $userId)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $product = $this->getProductService()->tryAdminProduct($productId);
 
         $this->getProductService()->removeStudent($productId, $userId);
 
         $this->getNotificationService()->notify($userId, 'student-remove', array(
             'productId' => $product['id'], 
+			'categories' => $categories,
             'productName' => $product['name'],
         ));
 
@@ -138,7 +147,7 @@ class ProductStudentManageController extends BaseController
             $progresses[$student['userId']] = $this->calculateUserLearnProgress($product, $student);
         }
 
-        $str = "用户名,购买时间,关注进度,姓名,Email,公司,头衔,电话,微信号,QQ号"."\r\n";
+        $str = "用户名,关注时间,关注进度,姓名,Email,公司,头衔,电话,微信号,QQ号"."\r\n";
 
         $students = array();
 
@@ -175,6 +184,8 @@ class ProductStudentManageController extends BaseController
 
     public function remarkAction(Request $request, $productId, $userId)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $product = $this->getProductService()->tryManageProduct($productId);
         $user = $this->getUserService()->getUser($userId);
         $member = $this->getProductService()->getProductMember($productId, $userId);
@@ -188,6 +199,7 @@ class ProductStudentManageController extends BaseController
         return $this->render('TopxiaWebBundle:ProductStudentManage:remark-modal.html.twig',array(
             'member'=>$member,
             'user'=>$user,
+			'categories' => $categories,
             'product'=>$product
         ));
     }
@@ -202,7 +214,7 @@ class ProductStudentManageController extends BaseController
             $user = $this->getUserService()->getUserByUserName($userName);
             $isProductStudent = $this->getProductService()->isProductStudent($id, $user['id']);
             if($isProductStudent){
-                $response = array('success' => false, 'message' => '该用户已是本产品的买家了');
+                $response = array('success' => false, 'message' => '该用户已是本产品的关注用户了');
             } else {
                 $response = array('success' => true, 'message' => '');
             }
@@ -217,17 +229,22 @@ class ProductStudentManageController extends BaseController
 
     public function showAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getUserService()->getUser($id);
         $profile = $this->getUserService()->getUserProfile($id);
         $profile['title'] = $user['title'];
         return $this->render('TopxiaWebBundle:ProductStudentManage:show-modal.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'profile' => $profile,
         ));
     }
 
     private function calculateUserLearnProgress($product, $member)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         if ($product['lessonNum'] == 0) {
             return array('percent' => '0%', 'number' => 0, 'total' => 0);
         }
@@ -236,6 +253,7 @@ class ProductStudentManageController extends BaseController
 
         return array (
             'percent' => $percent,
+			'categories' => $categories,
             'number' => $member['learnedNum'],
             'total' => $product['lessonNum']
         );
@@ -243,6 +261,8 @@ class ProductStudentManageController extends BaseController
 
     private function createStudentTrResponse($product, $student)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getUserService()->getUser($student['userId']);
         $isFollowing = $this->getUserService()->isFollowed($this->getCurrentUser()->id, $student['userId']);
         $progress = $this->calculateUserLearnProgress($product, $student);
@@ -250,6 +270,7 @@ class ProductStudentManageController extends BaseController
         return $this->render('TopxiaWebBundle:ProductStudentManage:tr.html.twig', array(
             'product' => $product,
             'student' => $student,
+			'categories' => $categories,
             'user'=>$user,
             'progress' => $progress,
             'isFollowing' => $isFollowing,
@@ -269,5 +290,10 @@ class ProductStudentManageController extends BaseController
     private function getOrderService()
     {
         return $this->getServiceKernel()->createService('Order.OrderService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 }

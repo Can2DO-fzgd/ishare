@@ -187,6 +187,11 @@ class UserController extends BaseController
     {
         return $this->getServiceKernel()->createService('User.NotificationService');
     }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
+    }
 
     private function tryGetUser($id)
     {
@@ -221,6 +226,8 @@ class UserController extends BaseController
 
     private function _teachAction($user)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $paginator = new Paginator(
             $this->get('request'),
             $this->getProductService()->findUserTeachProductCount($user['id']),
@@ -235,6 +242,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'products' => $products,
             'paginator' => $paginator,
             'type' => 'teach',

@@ -1,0 +1,452 @@
+{% import "TopxiaWebBundle::macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+{#<!--[if lt IE 6]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->#}
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} {{ setting('site.name', 'MeBUS') }} - {% if setting('site.slogan') %}{{ setting('site.slogan') }} -{% endif %} Powered by Can2DO{% endblock %}</title>
+  <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+  <meta name="description" content="{% block description %}{% endblock %}" />
+  <meta content="{{ csrf_token('site') }}" name="csrf-token" />
+  {{ setting('login_bind.verify_code', '')|raw }}
+  {% if setting('site.favicon') %}
+  <link href="{{ asset(setting('site.favicon')) }}" rel="shortcut icon" />
+  {% endif %}
+  {% block stylesheets %}
+    <link href="{{ asset('assets/libs/gallery2/bootstrap/3.1.1/css/bootstrap.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/common.css') }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/web.css') }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/member.css') }}" />
+
+    <link href="{{ asset('bundles/topxiaweb/css/web2.css') }}" rel="stylesheet" />
+  
+  {#<!--[if lt IE 8]>
+    <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+    <![endif]-->#}
+  {% endblock %}
+  {#<!--[if lt IE 9]>
+    <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
+  <![endif]-->
+
+  <!--[if IE 8]>
+    <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
+  <![endif]-->#}
+
+  {% block head_scripts %}{% endblock %}
+
+</head>
+<body {% if bodyClass|default('') %}class="{{ bodyClass }}"{% endif %}>
+
+{% block body %}
+<div class="navbar navbar-inverse site-navbar navbar-fixed-top" id="site-navbar" data-counter-url="{{ path('user_remind_counter') }}" width="100%">
+    <div class="container" width="100%">
+      <div class="container-gap" width="100%">
+	  	
+		{#<div class="navbar-header" width="100%">#}
+		 <table width="100%">
+		 <tr width="100%">
+		  <td>
+		  	<div class="btn-group">
+			<a class="btn btn-sm navbar-brand-logo dropdown-toggle" href="#"  data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/my.png?1.0.0') }}"/></a>
+			<ul class="dropdown-menu">
+				{% if app.user %}
+				  	<li><a href="{{ path('user_show', {id:app.user.id}) }}"> 欢迎您：
+				  	{% if app.user.companyname != '' %} 
+				  			{{ app.user.companyname }} 
+				  	{% elseif app.user.nichen != '' %}
+				  			{{ app.user.nichen}}
+				  	{% elseif app.user.realName != '' %}
+				  			{{ app.user.realName }}
+				  	{% else %} 
+				  			神秘人物
+				  	{% endif %}
+				  	</a></li>
+				  	<li class="divider"></li>
+					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的空间</a></li>
+					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-home"></i>我的微站</a></li>
+					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>
+					<li><a href="{{ path('product_create') }}"><i class="glyphicon glyphicon-camera"></i>发布分享</a></li>
+		 			<li><a href="{{ path('notification') }}">
+                	<span class="glyphicon glyphicon-bullhorn hidden-lt-ie8"></span>我的通知
+                	{#<span class="visible-lt-ie8">通知</span>#}
+                	{% if app.user.newNotificationNum > 0 %}<span class="badge">{{ app.user.newNotificationNum }}</span>{% endif %}
+		  			</a></li>
+		  			<li><a href="{{ path('message') }}" >
+                	<span class="glyphicon glyphicon-envelope hidden-lt-ie8"></span>我的私信
+                	{#<span class="visible-lt-ie8">私信</span>#}
+                	{% if app.user.newMessageNum > 0 %}<span class="badge">{{ app.user.newMessageNum }}</span>{% endif %}
+          			</a></li>
+					<li class="divider"></li>
+					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
+					<li><a href="{{ path('settings_avatar') }}"><i class="glyphicon glyphicon-picture"></i>用户头像设置</a></li>
+					<li><a href="{{ path('settings_password') }}"><i class="glyphicon glyphicon-edit"></i>用户密码修改</a></li>
+					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="divider"></li>
+				  		<li><a href="{{ path('admin') }}"><i class="glyphicon glyphicon-th-large"></i>后台首页</a></li>
+                  		{#<li><a href="{{ path('admin_product') }}"><i class="glyphicon glyphicon-th-large"></i>产品管理</a></li>
+              	  		<li><a href="{{ path('admin_user') }}"><i class="glyphicon glyphicon-th-large"></i>用户管理</a></li>
+				  		<li><a href="{{ path('admin_navigation') }}"><i class="glyphicon glyphicon-th-large"></i>资讯管理</a></li>
+						{% if is_granted('ROLE_SUPER_ADMIN') %}
+              	  			<li><a href="{{ path('admin_setting_site') }}"><i class="glyphicon glyphicon-th-large"></i>系统设置</a></li>
+						{% endif %}#}
+					{% endif %}
+					<li class="divider"></li>
+					<li><a href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i>退出登录</a></li>
+		  		{% else %}
+				  	<li><a href="{{ path('login') }}"> 游客您好！请先注册登录 </a></li>
+				  	<li class="divider"></li>
+                  	<li><a href="{{ path('login') }}"><i class="glyphicon glyphicon-user"></i>用户登录</a></li>
+              	  	<li><a href="{{ path('register') }}"><i class="glyphicon glyphicon-user"></i>用户注册</a></li>
+					<li class="divider"></li>
+					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的空间</a></li>
+					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-home"></i>我的微站</a></li>
+					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>
+					<li><a href="{{ path('product_create') }}"><i class="glyphicon glyphicon-camera"></i>发布分享</a></li>
+					<li class="divider"></li>
+					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
+					<li><a href="{{ path('settings_avatar') }}"><i class="glyphicon glyphicon-picture"></i>用户头像设置</a></li>
+					<li><a href="{{ path('settings_password') }}"><i class="glyphicon glyphicon-edit"></i>用户密码修改</a></li>
+					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>
+		  		{% endif %}
+		
+			</ul></div>
+		  </td>
+		  
+		  <td>
+		  <div class="btn-group">
+		  <a class="btn btn-sm navbar-brand-logo dropdown-toggle" href="#"  data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/tuijian.png?1.0.0') }}"/></a>
+			<ul class="dropdown-menu">
+			<li><a href="{{ path('homepage') }}recommend"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">推荐产品</span>#}推荐产品</a></li>
+			<li><a href="{{ path('homepage') }}new"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">最新产品</span>#}最新产品</a></li>
+			<li><a href="{{ path('homepage') }}hot"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">产品排行</span>#}产品排行</a></li>
+			</ul>
+		  </div>
+		  </td>
+		  
+		  <td>
+		  <div class="btn-group">
+		  
+		  <a class="btn btn-sm navbar-brand-logo dropdown-toggle" href="#"  data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
+			<ul class="dropdown-menu">
+			{% for category in categories %}
+			<li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
+      			{% endfor %}
+			</ul>
+		  </div>
+		  </td>
+		  
+		  <td><a class="navbar-brand-logo" href="{{ path('search') }}"><img src="{{ asset('bundles/topxiaweb/img/search.png?1.0.0') }}"/></a></td>
+		  {#<td><a class="navbar-brand-logo" href="{{ path('settings') }}"><img src="{{ asset('bundles/topxiaweb/img/setting.png?1.0.0') }}"/></a></td>#}	  
+		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/setting.png?1.0.0') }}"/></a>
+			<ul class="dropdown-menu">
+			<li>平台资讯:</li>
+			<li class="divider"></li>
+			{{ render(controller('TopxiaWebBundle:Default:topNavigation')) }}
+			<li class="divider"></li>
+			<li>平台规格:</li>
+			<li class="divider"></li>
+			{{ render(controller('TopxiaWebBundle:Default:footNavigation')) }}
+			<li class="divider"></li>
+			<li>手势密码:</li>
+			<li class="divider"></li>
+			功能正在开发中!
+			<li>LBS设置:</li>
+			<li class="divider"></li>
+			功能正在开发中!
+			<li>字体设置:</li>
+			<li class="divider"></li>
+			功能正在开发中!
+			<li>背景设置:</li>
+			<li class="divider"></li>
+			功能正在开发中!
+			<li>版权申明:</li>
+			<li class="divider"></li>
+			<div class="site-footer container clearfix">
+			<div class="text-gray" data-role="default-foot-bar">
+      		{% include "TopxiaWebBundle::powered-by.html.twig" %}
+			<br>
+      		{{ setting('site.analytics')|raw }}
+			<br>
+      		<div class="pull-left">{% if setting('site.copyright') %}产品内容版权均归<a href="/">{{ setting('site.copyright') }}</a>所有{% endif %}&nbsp;{% if setting('site.icp') %}<a href="http://www.can2do.com/" target="_blank">{{ setting('site.icp') }}</a>{% endif %}</div>
+    		</div>
+			</div>
+			</ul>
+		  </td>
+		  </tr>
+		  </table>
+		{#</div>#}
+
+      </div>
+    </div>
+  </div>
+
+  <div id="content-container" class="container">
+    {% if app.user and app.user.setup == 0 and (hideSetupHint is not defined or hideSetupHint != true) %}
+      <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        为了帐号的安全，以及更好的使用体验，请设置您的Email地址。
+        <a href="{{ path('settings_setup') }}">现在就去设置</a>
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </div>{#<!-- /container -->#}
+
+	{#<div class="site-footer container clearfix">
+	<ul>
+			<li><a href="#"><i class="glyphicon glyphicon-asterisk"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-plus"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-euro"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-minus"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-cloud"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-envelope"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-pencil"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-glass"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-music"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-search"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-heart"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-star"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-star-empty"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-user"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-film"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-th-large"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-th"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-th-list"></i></a
+			<a href="#"><i class="glyphicon glyphicon-ok"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-remove"></i></a
+			<a href="#"><i class="glyphicon glyphicon-zoom-in"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-zoom-out"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-off"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-signal"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-file"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-home"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-trash"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-cog"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-time"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-road"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-download-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-download"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-repeat"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-play-circle"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-inbox"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-upload"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-refresh"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-list-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-lock"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-flag"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-volume-up"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-volume-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-volume-off"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-headphones"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-qrcode"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-barcode"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tag"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tags"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-camera"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-print"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-bookmark"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-book"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-font"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-bold"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-italic"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-text-height"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-align-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-align-center"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-align-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-text-width"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-align-justify"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-list"></i></a></li>
+			<a href="#"><i class="glyphicon glyphicon-indent-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-indent-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-adjust"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-map-marker"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-picture"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-facetime-video"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tint"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-edit"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-share"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-check"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-backward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-fast-backward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-step-backward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-move"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-play"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-pause"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-stop"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-forward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-chevron-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-eject"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-step-forward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-fast-forward"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-chevron-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-plus-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-minus-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-remove-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-info-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-question-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-ok-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-screenshot"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-remove-circle"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-ok-circle"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-ban-circle"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-arrow-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-arrow-up"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-arrow-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-arrow-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-share-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-resize-full"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-resize-small"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-fire"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-leaf"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-gift"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i></a><
+			<a href="#"><i class="glyphicon glyphicon-eye-open"></i></a><
+			<a href="#"><i class="glyphicon glyphicon-eye-close"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-warning-sign"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-plane"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-magnet"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-comment"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-random"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-calendar"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-chevron-up"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-chevron-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-retweet"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-shopping-cart"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-resize-vertical"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-folder-open"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-folder-close"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-resize-horizontal"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-hdd"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-bullhorn"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-bell"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-hand-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-thumbs-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-thumbs-up"></i></a><
+			<a href="#"><i class="glyphicon glyphicon-certificate"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-hand-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-hand-up"></i></a><
+			<a href="#"><i class="glyphicon glyphicon-hand-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-circle-arrow-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-circle-arrow-up"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-circle-arrow-left"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-globe"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-wrench"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tasks"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-filter"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-paperclip"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-dashboard"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-fullscreen"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-briefcase"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-heart-empty"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-link"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-phone"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-pushpin"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-alphabet"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-gbp"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-usd"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-order"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-order-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-unchecked"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-attributes-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sort-by-attributes"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-expand"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-collapse-down"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-collapse-up"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-log-in"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-record"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-new-windo"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-log-out"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-flash"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-save"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-open"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-saved"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-import"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-floppy-saved"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-floppy-disk"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-send"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-export"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-floppy-remove"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-floppy-save"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-floppy-open"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-credit-card"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-compressed"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-header"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-cutlery"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-transfer"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-earphone"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-phone-alt"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tower"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-stats"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sound-stere"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-subtitles"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-hd-video"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sd-video"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sound-dolby"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sound-5-1"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sound-6-1"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-sound-7-1"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-copyright-mark"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-registration-mark"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-cloud-download"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tree-deciduous"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-tree-conifer"></i></a>
+			<a href="#"><i class="glyphicon glyphicon-cloud-upload"></i></a></li>
+			</ul>
+  	</div>#}
+
+  {% block bottom %}{% endblock %}
+
+  <div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
+  <div id="modal" class="modal"></div>
+{% endblock %}
+
+{% include 'TopxiaWebBundle::script_boot.html.twig' with {script_main: asset('bundles/topxiaweb/js/app.js')} %}
+
+
+<div class="navbar navbar-inverse site-navbar1 navbar-fixed-bottom table-responsive" id="site-navbar" width="100%">
+    <div class="container" width="100%">
+      <div class="container-gap" width="100%">
+	  	
+	
+{#<div class="table-responsive  navbar-fixed-bottom">#}
+		 <table width="100%">
+		 <tr width="100%">
+		  <td>
+		  {% if setting('site.logo') %}
+            <a class="navbar-brand-logo" href="{{ path('homepage') }}"><img src="{{ asset(setting('site.logo')) }}"></a>
+          {% else %}
+		  	<a class="navbar-brand-logo" href="{{ path('homepage') }}"><img src="{{ asset('bundles/topxiaweb/img/logo.png?1.0.0') }}"/></a>
+		  {% endif %}
+		  </td>
+		  <td><a class="navbar-brand-logo" href="{{ path('teacher') }}"><img src="{{ asset('bundles/topxiaweb/img/shareer.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('product_create') }}"><img src="{{ asset('bundles/topxiaweb/img/camer.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('tag') }}"><img src="{{ asset('bundles/topxiaweb/img/tag.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('homepage') }}page/aboutus"><img src="{{ asset('bundles/topxiaweb/img/help.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('login') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-user.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('my') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-share.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('user_show', {id:app.user.id}) }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-home.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('my') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-shopping-cart.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('product_create') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-camera.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('settings') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-cog.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('settings_avatar') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-picture.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('settings_password') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-edit.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('settings_email') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-envelope.png?1.0.0') }}"/></a></td>
+		  
+		  </tr>
+		  </table>
+{#</div>#}
+
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>

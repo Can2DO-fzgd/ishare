@@ -20,6 +20,8 @@ class MyProductController extends BaseController
 
     public function learningAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $currentUser = $this->getCurrentUser();
         $paginator = new Paginator(
             $this->get('request'),
@@ -35,12 +37,15 @@ class MyProductController extends BaseController
 
         return $this->render('TopxiaWebBundle:MyProduct:learning.html.twig', array(
             'products'=>$products,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
 
     public function learnedAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $currentUser = $this->getCurrentUser();
         $paginator = new Paginator(
             $this->get('request'),
@@ -63,12 +68,15 @@ class MyProductController extends BaseController
         return $this->render('TopxiaWebBundle:MyProduct:learned.html.twig', array(
             'products'=>$products,
             'users'=>$users,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
 
     public function favoritedAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $currentUser = $this->getCurrentUser();
         $paginator = new Paginator(
             $this->get('request'),
@@ -91,6 +99,7 @@ class MyProductController extends BaseController
         return $this->render('TopxiaWebBundle:MyProduct:favorited.html.twig', array(
             'products'=>$products,
             'users'=>$users,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
@@ -103,6 +112,11 @@ class MyProductController extends BaseController
     protected function getSettingService()
     {
         return $this->getServiceKernel()->createService('System.SettingService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }

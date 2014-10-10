@@ -9,7 +9,8 @@ class TeacherController extends BaseController
 {
     public function indexAction()
     {
-
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $conditions = array(
             'roles'=>'ROLE_ISHARE',
         );
@@ -32,7 +33,13 @@ class TeacherController extends BaseController
         return $this->render('TopxiaWebBundle:Teacher:index.html.twig', array(
             'teachers' => $teachers ,
             'profiles' => $profiles,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 }

@@ -12,6 +12,8 @@ class NotificationController extends BaseController
 
     public function indexAction (Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         if (!$user->isLogin()) {
             throw $this->createAccessDeniedException();
@@ -33,6 +35,7 @@ class NotificationController extends BaseController
 
         return $this->render('TopxiaWebBundle:Notification:index.html.twig', array(
             'notifications' => $notifications,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
@@ -51,4 +54,10 @@ class NotificationController extends BaseController
     {
         return $this->getServiceKernel()->createService('User.NotificationService');
     }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
+    }
+	
 }

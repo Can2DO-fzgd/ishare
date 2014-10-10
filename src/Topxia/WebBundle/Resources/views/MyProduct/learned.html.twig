@@ -12,7 +12,7 @@
 		  	 {% include 'TopxiaWebBundle:MyProduct:nav-pill.html.twig' %}
 
  {% if products %}
-		{{ render(controller('TopxiaWebBundle:Product:productsBlock', {products:products, view: 'grid', mode:'learn'})) }}
+		{{ render(controller('TopxiaWebBundle:Product:productsBlock', {products:products, view: 'list1', mode:'learn'})) }}
 		{{ web_macro.paginator(paginator) }} 
   {% else %}
     <div class="empty">暂无已关注的产品</div>

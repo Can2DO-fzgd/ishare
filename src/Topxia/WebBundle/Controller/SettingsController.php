@@ -19,6 +19,8 @@ class SettingsController extends BaseController
 
 	public function profileAction(Request $request)
 	{
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
 		$user = $this->getCurrentUser();
 
         $profile = $this->getUserService()->getUserProfile($user['id']);
@@ -34,12 +36,15 @@ class SettingsController extends BaseController
         }
 
         return $this->render('TopxiaWebBundle:Settings:profile.html.twig', array(
-            'profile' => $profile
+            'categories' => $categories,
+			'profile' => $profile
         ));
 	}
 
     public function approvalSubmitAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         if ($request->getMethod() == 'POST') {
             $faceImg = $request->files->get('faceImg');
@@ -55,11 +60,14 @@ class SettingsController extends BaseController
             return $this->redirect($this->generateUrl('settings'));
         }
         return $this->render('TopxiaWebBundle:Settings:approval.html.twig',array(
+			'categories' => $categories
         ));
     }
 
     public function userNameAction(Request $request)
-    {
+    {	
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         
         $is_userName = $this->getSettingService()->get('user_partner');
@@ -76,6 +84,7 @@ class SettingsController extends BaseController
             return $this->redirect($this->generateUrl('settings'));
         }
         return $this->render('TopxiaWebBundle:Settings:userName.html.twig',array(
+			'categories' => $categories
         ));
     }
 
@@ -100,6 +109,8 @@ class SettingsController extends BaseController
 
 	public function avatarAction(Request $request)
 	{
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
 
         $form = $this->createFormBuilder()
@@ -141,13 +152,16 @@ class SettingsController extends BaseController
 
 		return $this->render('TopxiaWebBundle:Settings:avatar.html.twig', array(
             'form' => $form->createView(),
+			'categories' => $categories,
             'user' => $this->getUserService()->getUser($user['id']),
             'partnerAvatar' => $partnerAvatar,
         ));
 	}
 
     public function avatarCropAction(Request $request)
-    {
+    {	
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $currentUser = $this->getCurrentUser();
         $filename = $request->query->get('file');
         $filename = str_replace('!', '.', $filename);
@@ -175,6 +189,7 @@ class SettingsController extends BaseController
 
         return $this->render('TopxiaWebBundle:Settings:avatar-crop.html.twig', array(
             'pictureUrl' => $pictureUrl,
+			'categories' => $categories,
             'naturalSize' => $naturalSize,
             'scaledSize' => $scaledSize,
         ));
@@ -209,7 +224,9 @@ class SettingsController extends BaseController
     }
 
 	public function passwordAction(Request $request)
-	{
+	{	
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
 
         if (empty($user['setup'])) {
@@ -238,12 +255,15 @@ class SettingsController extends BaseController
         }
 
 		return $this->render('TopxiaWebBundle:Settings:password.html.twig', array(
+			'categories' => $categories,
 			'form' => $form->createView()
 		));
 	}
 
 	public function emailAction(Request $request)
-	{
+	{	
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         $mailer = $this->getSettingService()->get('mailer', array());
         if (empty($user['setup'])) {
@@ -301,6 +321,7 @@ class SettingsController extends BaseController
 
         return $this->render("TopxiaWebBundle:Settings:email.html.twig", array(
             'form' => $form->createView(),
+			'categories' => $categories,
             'mailer' =>$mailer
         ));
 	}
@@ -513,5 +534,10 @@ class SettingsController extends BaseController
     protected function getSettingService()
     {
         return $this->getServiceKernel()->createService('System.SettingService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 }

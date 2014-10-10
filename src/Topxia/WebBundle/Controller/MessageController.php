@@ -14,6 +14,8 @@ class MessageController extends BaseController
 
     public function indexAction (Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         
         $paginator = new Paginator(
@@ -34,6 +36,7 @@ class MessageController extends BaseController
         return $this->render('TopxiaWebBundle:Message:index.html.twig', array(
             'conversations' => $conversations,
             'users' => $users,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
@@ -55,6 +58,8 @@ class MessageController extends BaseController
 
     public function showConversationAction(Request $request, $conversationId)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         $conversation = $this->getMessageService()->getConversation($conversationId);
         if (empty($conversation) or $conversation['toId'] != $user['id']) {
@@ -89,12 +94,15 @@ class MessageController extends BaseController
             'messages'=>$messages, 
             'receiver'=>$this->getUserService()->getUser($conversation['fromId']),
             'form' => $form->createView(),
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
     
     public function createAction(Request $request, $toId)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
 
         $receiver = $this->getUserService()->getUser($toId);
@@ -114,11 +122,14 @@ class MessageController extends BaseController
         }
         return $this->render('TopxiaWebBundle:Message:send-message-modal.html.twig', array(
                 'form' => $form->createView(),
+				'categories' => $categories,
                 'userId'=>$toId));
     }
 
     public function sendAction(Request $request) 
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->getCurrentUser();
         $receiver = array();
         $form = $this->createForm(new MessageType());
@@ -136,7 +147,8 @@ class MessageController extends BaseController
             return $this->redirect($this->generateUrl('message'));
         }
         return $this->render('TopxiaWebBundle:Message:create.html.twig', array(
-                'form' => $form->createView()));
+                'categories' => $categories,
+				'form' => $form->createView()));
     }
 
     public function sendToAction(Request $request, $receiverId) 
@@ -217,4 +229,10 @@ class MessageController extends BaseController
     protected function getMessageService(){
         return $this->getServiceKernel()->createService('User.MessageService');
     }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
+    }
+	
 }

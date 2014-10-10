@@ -50,7 +50,7 @@
 		{#<div class="navbar-header" width="100%">#}
 		 <table width="100%">
 		 <tr width="100%">
-		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/my.png?1.0.0') }}"/></a>
+		  <td class="btn-group"><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/my.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 				{% if app.user %}
 				  	<li><a href="{{ path('user_show', {id:app.user.id}) }}"> 欢迎您：
@@ -117,7 +117,7 @@
 			</ul>
 		  </td>
 		  
-		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/tuijian.png?1.0.0') }}"/></a>
+		  <td class="btn-group"><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/tuijian.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			<li><a href="{{ path('homepage') }}recommend"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">推荐产品</span>#}推荐产品</a></li>
 			<li><a href="{{ path('homepage') }}new"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">最新产品</span>#}最新产品</a></li>
@@ -125,13 +125,23 @@
 			</ul>
 		  </td>
 		  
+		  {% if categories|length >= 10 %}
 		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			{% for category in categories %}
-			<li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
+			<a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a>
       			{% endfor %}
 			</ul>
 		  </td>
+		  {% else %}
+		  <td class="btn-group"><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
+			<ul class="dropdown-menu">
+			{% for category in categories %}
+			<li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><i class="glyphicon glyphicon-th-list"></i>{{ category.name }}</a></li>
+      			{% endfor %}
+			</ul>
+		  </td>
+		  {% endif %}
 		  
 		  <td><a class="navbar-brand-logo" href="{{ path('search') }}"><img src="{{ asset('bundles/topxiaweb/img/search.png?1.0.0') }}"/></a></td>
 		  {#<td><a class="navbar-brand-logo" href="{{ path('settings') }}"><img src="{{ asset('bundles/topxiaweb/img/setting.png?1.0.0') }}"/></a></td>#}	  

@@ -28,7 +28,7 @@ class ProductOrderServiceImpl extends BaseService implements ProductOrderService
         $order = array();
 
         $order['userId'] = $user->id;
-        $order['title'] = "购买产品《{$product['name']}》";
+        $order['title'] = "关注产品《{$product['name']}》";
         $order['targetType'] = 'product';
         $order['targetId'] = $product['id'];
         $order['payment'] = $info['payment'];

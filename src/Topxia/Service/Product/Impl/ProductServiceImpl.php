@@ -1550,7 +1550,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		}
 
 		if (empty($member) or !in_array($member['role'], array('teacher', 'student'))) {
-			throw $this->createAccessDeniedException('您不是产品会员，不能查看产品介绍内容，请先购买产品！');
+			throw $this->createAccessDeniedException('您不是产品会员，不能查看产品介绍内容，请先关注产品！');
 		}
 
 		return array($product, $member);

@@ -9,6 +9,8 @@ class SearchController extends BaseController
 {
     public function indexAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $products = $paginator = null;
 
         $keywords = $request->query->get('q');
@@ -38,6 +40,7 @@ class SearchController extends BaseController
         return $this->render('TopxiaWebBundle:Search:index.html.twig', array(
             'products' => $products,
             'paginator' => $paginator,
+			'categories' => $categories,
             'keywords' => $keywords,
         ));
     }
@@ -51,6 +54,10 @@ class SearchController extends BaseController
     {
         return $this->getServiceKernel()->createService('Product.ThreadService');
     }
-
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
+    }
 
 }

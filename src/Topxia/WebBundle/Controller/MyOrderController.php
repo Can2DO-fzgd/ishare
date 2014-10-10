@@ -10,6 +10,8 @@ class MyOrderController extends BaseController
 
     public function indexAction (Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
     	$user = $this->getCurrentUser();
 
     	$conditions = array(
@@ -31,12 +33,15 @@ class MyOrderController extends BaseController
 
         return $this->render('TopxiaWebBundle:MyOrder:index.html.twig',array(
         	'orders' => $orders,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
 
     public function refundsAction(Request $request)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
     	$user = $this->getCurrentUser();
 
         $paginator = new Paginator(
@@ -56,6 +61,7 @@ class MyOrderController extends BaseController
         return $this->render('TopxiaWebBundle:MyOrder:refunds.html.twig',array(
         	'refunds' => $refunds,
         	'orders' => $orders,
+			'categories' => $categories,
             'paginator' => $paginator
         ));
     }
@@ -79,6 +85,11 @@ class MyOrderController extends BaseController
     private function getProductService()
     {
         return $this->getServiceKernel()->createService('Product.ProductService');
+    }
+	
+	protected function getCategoryService()
+    {
+        return $this->getServiceKernel()->createService('Taxonomy.CategoryService');
     }
 
 }
