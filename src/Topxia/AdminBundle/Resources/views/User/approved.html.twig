@@ -12,6 +12,7 @@
 {% include 'TopxiaAdminBundle:User:approval-header.html.twig' %}
 
 {% if users %}
+<div class="table-responsive">
 <table id="user-table" class="table table-striped">
   <thead>
     <tr>
@@ -40,7 +41,7 @@
   {% endfor %}
   </tbody>
 </table>
-
+</div>
 {{ web_macro.paginator(paginator) }}
 {% else %}
   <div class="empty">暂无已经审核成功的实名认证用户</div>

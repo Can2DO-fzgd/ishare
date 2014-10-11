@@ -101,6 +101,14 @@
             <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}#}我要关注</a>
           {% else %}
             <a class="btn btn-primary btn-fat" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
+			
+			<button type="button" onclick="authBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">登录授权</button>
+			<button type="button" onclick="hasAuthBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">是否授权</button>
+			<button type="button" onclick="userInfoBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">获取用户信息</button>
+			<button type="button" onclick="shareContentClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">分享内容</button>
+			<button type="button" onclick="oneKeyShareContentClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">一键分享内容</button>
+			<button type="button" onclick="showShareMenuClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">显示分享菜单</button>
+			<button type="button" onclick="showShareViewClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">显示分享界面</button>
 
             {% if productMemberLevel %}
               {% if checkMemberLevelResult == 'not_login' %}
@@ -145,42 +153,18 @@
         <div class="panel-body">
           <ul class="nav nav-tabs mbl clearfix" id="product-nav-tabs">
             <li class="active">
-              <a href="#product-jianjie-pane" data-toggle="tab">简介</a>
+              <a href="#product-audience-pane" data-toggle="tab">创新看点</a>
             </li>
 
-			{% if productpictures %}
+			{% if product.jianjie %}
             <li>
-              <a id="product-productpictures-tab" href="#product-productpictures-pane" data-toggle="tab">图片</a>
+              <a href="#product-jianjie-pane" data-toggle="tab">产品介绍</a>
             </li>
             {% endif %}
 			
 			{% if product.specinfo %}
             <li>
-              <a href="#product-specinfo-pane" data-toggle="tab">规格</a>
-            </li>
-            {% endif %}
-			
-            {% if product.efficacyinfo %}
-            <li>
-              <a href="#product-goal-pane" data-toggle="tab">功能</a>
-            </li>
-            {% endif %}
-			
-            {% if product.yaodian %}
-            <li>
-              <a href="#product-audience-pane" data-toggle="tab">要点</a>
-            </li>
-            {% endif %}
-			
-			{% if product.remark %}
-            <li>
-              <a href="#product-remark-pane" data-toggle="tab">补充</a>
-            </li>
-            {% endif %}
-			
-			{% if product.xgzx %}
-            <li>
-              <a href="#product-xgzx-pane" data-toggle="tab">资讯</a>
+              <a href="#product-specinfo-pane" data-toggle="tab">商城信息</a>
             </li>
             {% endif %}
 			
@@ -191,14 +175,49 @@
               </a>
             </li>
 			
+			{% if productpictures %}
+            <li>
+              <a id="product-productpictures-tab" href="#product-productpictures-pane" data-toggle="tab">产品图片</a>
+            </li>
+            {% endif %}
+			
+			{% if product.xgzx %}
+            <li>
+              <a href="#product-xgzx-pane" data-toggle="tab">相关资讯</a>
+            </li>
+            {% endif %}
+			
+            {% if product.efficacyinfo %}
+            <li>
+              <a href="#product-goal-pane" data-toggle="tab">产品功能</a>
+            </li>
+            {% endif %}
+			
+			{% if product.remark %}
+            <li>
+              <a href="#product-remark-pane" data-toggle="tab">其它</a>
+            </li>
+            {% endif %}
+		
+			
           </ul>
 
           <div class="tab-content">
-            <div class="tab-pane active" id="product-jianjie-pane" class="text-left">
-              {% if product.jianjie %}
-                {{ product.jianjie|raw }}
+			
+            <div class="tab-pane active" id="product-audience-pane" class="text-left">
+              {% if product.yaodian %}
+                <ul class="media-list">
+                {% for audience in product.yaodian %}
+                <li class="media">
+                  <div class="pull-left">
+                    <span class="glyphicon glyphicon-user media-object"></span>
+                  </div>
+                  <div class="media-body">{{ audience|raw }}</div>
+                </li>
+                {% endfor %}
+              </ul>
               {% else %}
-              <span class="text-muted">还没有产品简介信息...</span>
+              <span class="text-muted">还没有产品看点信息...</span>
               {% endif %}
 			  
               {% if tags %}
@@ -210,6 +229,24 @@
               {% endif %}
             </div>
             
+			<div class="tab-pane" id="product-jianjie-pane" class="text-left">
+              {% if product.jianjie %}
+                {{ product.jianjie|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品介绍信息...</span>
+              {% endif %}
+            </div>
+			
+			<div class="tab-pane" id="product-specinfo-pane" class="text-left">
+              {% if product.specinfo %}
+                {{ product.specinfo|raw }}
+              {% else %}
+              <span class="text-muted">还没有产品商城信息...</span>
+              {% endif %}
+            </div>
+			
+			<div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
+			
 			<div class="tab-pane" id="product-productpictures-pane" class="text-left">
               {% if productpictures %}
 					{% for productpicture in productpictures %}
@@ -222,11 +259,11 @@
               {% endif %}
             </div>
 			
-			<div class="tab-pane" id="product-specinfo-pane" class="text-left">
-              {% if product.specinfo %}
-                {{ product.specinfo|raw }}
+			<div class="tab-pane" id="product-xgzx-pane" class="text-left">
+              {% if product.xgzx %}
+                {{ product.xgzx|raw }}
               {% else %}
-              <span class="text-muted">还没有产品规格信息...</span>
+              <span class="text-muted">还没有产品相关资讯...</span>
               {% endif %}
             </div>
 			
@@ -244,39 +281,14 @@
               </ul>
             </div>
             {% endif %}
-
-            {% if product.yaodian %}
-            <div class="tab-pane" id="product-audience-pane">
-              <ul class="media-list">
-                {% for audience in product.yaodian %}
-                <li class="media">
-                  <div class="pull-left">
-                    <span class="glyphicon glyphicon-user media-object"></span>
-                  </div>
-                  <div class="media-body">{{ audience|raw }}</div>
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
-            {% endif %}
 			
 			<div class="tab-pane" id="product-remark-pane" class="text-left">
               {% if product.remark %}
                 {{ product.remark|raw }}
               {% else %}
-              <span class="text-muted">还没有产品补充说明...</span>
+              <span class="text-muted">还没有产品其它信息...</span>
               {% endif %}
             </div>
-			
-			<div class="tab-pane" id="product-xgzx-pane" class="text-left">
-              {% if product.xgzx %}
-                {{ product.xgzx|raw }}
-              {% else %}
-              <span class="text-muted">还没有产品资讯...</span>
-              {% endif %}
-            </div>
-			
-			<div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
 			
           </div>
         </div>

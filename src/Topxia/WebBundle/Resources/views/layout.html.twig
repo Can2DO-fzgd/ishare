@@ -24,7 +24,114 @@
     <link rel="stylesheet" media="screen" href="{{ asset('bundles/topxiaweb/css/member.css') }}" />
 
     <link href="{{ asset('bundles/topxiaweb/css/web2.css') }}" rel="stylesheet" />
-  
+  	<script src="{{ asset('bundles/topxiaweb/js/ShareSDK.js') }}"></script>
+	
+	<script language="javascript" type="text/javascript">
+
+        function init()
+        {
+            $sharesdk.open("iosv1101", true);
+
+            var sinaConf = {};
+            sinaConf["app_key"] = "568898243";
+            sinaConf["app_secret"] = "38a4f8204cc784f81f9f0daaf31e02e3";
+            sinaConf["redirect_uri"] = "http://www.sharesdk.cn";
+            $sharesdk.setPlatformConfig($sharesdk.platformID.SinaWeibo, sinaConf);
+
+        }
+
+        function authBtnClickHandler()
+        {
+            $sharesdk.authorize($sharesdk.platformID.SinaWeibo, function (platform, state, error){
+                {#alert("state = " + state + "\nerror = " + error);#}
+            });
+        }
+
+        function hasAuthBtnClickHandler()
+        {
+            $sharesdk.hasAuthorized($sharesdk.platformID.SinaWeibo, function (platform, hasAuth) {
+                {#alert("hasAuth = " + hasAuth);#}
+            });
+        }
+
+        function userInfoBtnClickHandler()
+        {
+            $sharesdk.getUserInfo($sharesdk.platformID.SinaWeibo, function (platform, state, user, error) {
+                {#alert("state = " + state + "\nuser = " + user + "\nerror = " + error);#}
+            });
+        }
+
+        function shareContentClickHandler()
+        {
+            var params = {
+                "text" : "{{ setting('site.name') }}产品分享:【产品名称：{{ product.name }} 简介：{{ product.jianjie|plain_text(600)|raw }}】(平台网址： http://www.can2do.net  )",
+                "imageUrl" : "http://www.can2do.net{% if product.typeimg != '' %}/attach/productpic/{{ product.typeimg }}{% else %}{{ file_path(product.largePicture, 'product-large.png') }}{% endif %}",
+                "title" : "{{ setting('site.name') }}产品分享",
+                "titleUrl" : "http://www.can2do.net/toProductDetail.html?id={{ product.id }}",
+                "description" : "中国.南京凯之渡信息技术有限公司-iSare创新分享平台",
+                "site" : "{{ setting('site.name') }}",
+                "siteUrl" : "http://www.can2do.net",
+                "type" : $sharesdk.contentType.Text
+            };
+            $sharesdk.shareContent($sharesdk.platformID.SinaWeibo, params, function (platform, state, shareInfo, error) {
+                {#alert("state = " + state + "\nshareInfo = " + shareInfo + "\nerror = " + error);#}
+            });
+        }
+
+        function oneKeyShareContentClickHandler()
+        {
+            var params = {
+                "text" : "{{ setting('site.name') }}产品分享:【产品名称：{{ product.name }} 简介：{{ product.jianjie|plain_text(600)|raw }}】(平台网址：  http://www.can2do.net  )",
+                "imageUrl" : "http://www.can2do.net{% if product.typeimg != '' %}/attach/productpic/{{ product.typeimg }}{% else %}{{ file_path(product.largePicture, 'product-large.png') }}{% endif %}",
+                "title" : "{{ setting('site.name') }}产品分享",
+                "titleUrl" : "http://www.can2do.net/toProductDetail.html?id={{ product.id }}",
+                "description" : "中国.南京凯之渡信息技术有限公司-iSare创新分享平台",
+                "site" : "{{ setting('site.name') }}",
+                "siteUrl" : "http://www.can2do.net",
+                "type" : 1
+            };
+            $sharesdk.oneKeyShareContent([$sharesdk.platformID.SinaWeibo, $sharesdk.platformID.TencentWeibo], params, function (platform, state, shareInfo, error) {
+                {#alert("state = " + state + "\nshareInfo = " + shareInfo + "\nerror = " + error);#}
+            });
+        }
+
+        function showShareMenuClickHandler()
+        {
+            var params = {
+                "text" : "{{ setting('site.name') }}产品分享:【产品名称：{{ product.name }} 简介：{{ product.jianjie|plain_text(600)|raw }}】(平台网址： http://www.can2do.net  )",
+                "imageUrl" : "http://www.can2do.net{% if product.typeimg != '' %}/attach/productpic/{{ product.typeimg }}{% else %}{{ file_path(product.largePicture, 'product-large.png') }}{% endif %}",
+                "title" : "{{ setting('site.name') }}产品分享",
+                "titleUrl" : "http://www.can2do.net/toProductDetail.html?id={{ product.id }}",
+                "description" : "中国.南京凯之渡信息技术有限公司-iSare创新分享平台",
+                "site" : "{{ setting('site.name') }}",
+                "siteUrl" : "http://www.can2do.net",
+                "type" : 1
+            };
+            $sharesdk.showShareMenu(null, params, 100, 100, $sharesdk.shareMenuArrowDirection.Any, function (platform, state, shareInfo, error) {
+                {#alert("state = " + state + "\nshareInfo = " + shareInfo + "\nerror = " + error);#}
+            });
+        }
+
+        function showShareViewClickHandler()
+        {
+            var params = {
+                "text" : "{{ setting('site.name') }}产品分享:【产品名称：{{ product.name }} 简介：{{ product.jianjie|plain_text(600)|raw }}】(平台网址： http://www.can2do.net  )",
+                "imageUrl" : "http://www.can2do.net{% if product.typeimg != '' %}/attach/productpic/{{ product.typeimg }}{% else %}{{ file_path(product.largePicture, 'product-large.png') }}{% endif %}",
+                "title" : "{{ setting('site.name') }}产品分享",
+                "titleUrl" : "http://www.can2do.net/toProductDetail.html?id={{ product.id }}",
+                "description" : "中国.南京凯之渡信息技术有限公司-iSare创新分享平台",
+                "site" : "{{ setting('site.name') }}",
+                "siteUrl" : "http://www.can2do.net",
+                "type" : 1
+            };
+            $sharesdk.showShareView($sharesdk.platformID.SinaWeibo, params, function (platform, state, shareInfo, error) {
+                {#alert("state = " + state + "\nshareInfo = " + shareInfo + "\nerror = " + error);#}
+            });
+        }
+
+    </script>
+	
+	
   {#<!--[if lt IE 8]>
     <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
     <![endif]-->#}
@@ -40,7 +147,7 @@
   {% block head_scripts %}{% endblock %}
 
 </head>
-<body {% if bodyClass|default('') %}class="{{ bodyClass }}"{% endif %}>
+<body onload="init()" {% if bodyClass|default('') %}class="{{ bodyClass }}"{% endif %}>
 
 {% block body %}
 <div class="navbar navbar-inverse site-navbar navbar-fixed-top" id="site-navbar" data-counter-url="{{ path('user_remind_counter') }}" width="100%">

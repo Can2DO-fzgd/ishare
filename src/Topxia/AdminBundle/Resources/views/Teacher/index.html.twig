@@ -10,6 +10,7 @@
   <h1>享客管理</h1>
 </div>
 
+<div class="table-responsive">
 <table id="teacher-table" class="table table-striped table-hover" data-search-form="#user-search-form">
   <thead>
     <tr>
@@ -29,5 +30,6 @@
     {% endif %}
   </tbody>
 </table>
+</div>
  {{ web_macro.paginator(paginator) }} 
 {% endblock %}

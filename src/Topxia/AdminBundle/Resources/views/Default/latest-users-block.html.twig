@@ -25,11 +25,11 @@
               </td>
               <td>
               	{{ dict_text('userType', user.type) }}
+				<br>
+              	<a class="text-muted text-sm" href="http://www.baidu.com/s?wd={{ user.createdIp }}" target="_blank">{{user.createdIp}}</a>
               </td>
               <td>
               	<span class="text-sm">{{user.createdTime | date('Y-n-d H:i:s') }}</span>
-              	<br>
-              	<a class="text-muted text-sm" href="http://www.baidu.com/s?wd={{ user.createdIp }}" target="_blank">{{user.createdIp}}</a>
               </td>
         		</tr>
         	{% endfor %}
