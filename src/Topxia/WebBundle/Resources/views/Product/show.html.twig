@@ -69,8 +69,8 @@
         </p>#}
         <p>
           评　价：
-          <span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
-          <span class="rating-num">{{ product.rating|number_format(1) }}分</span>
+          {#<span class="stars-{{ (product.rating)|number_format }}">&nbsp;</span>
+          <span class="rating-num">{{ product.rating|number_format(1) }}分</span>#}
           <a class="rating-user-num show-product-review-pane" href="javascript:">({{ product.ratingNum }}人评价)</a>
         </p>
         {% if product.showStudentNumType == 'opened' %}
@@ -98,17 +98,18 @@
       <div class="actions clearfix">
         <div class="pull-left">
           {% if product.status != 'published' %}
-            <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}#}我要关注</a>
+            <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}#}关注</a>
           {% else %}
-            <a class="btn btn-primary btn-fat" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}</a>
+            <a class="btn btn-primary btn-danger" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}关注{% endif %}</a>
 			
 			{#button type="button" onclick="authBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">登录授权</button>
 			<button type="button" onclick="hasAuthBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">是否授权</button>
-			<button type="button" onclick="userInfoBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">获取用户信息</button>#}
+			<button type="button" onclick="userInfoBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">获取用户信息</button>
 			<button type="button" onclick="shareContentClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">分享内容</button>
 			<button type="button" onclick="oneKeyShareContentClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">一键分享内容</button>
 			<button type="button" onclick="showShareMenuClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">显示分享菜单</button>
-			<button type="button" onclick="showShareViewClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">显示分享界面</button>
+			<button type="button" onclick="showShareViewClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">显示分享界面</button>#}
+			<button type="button" onclick="showShareMenuClickHandler()" class="btn btn-primary btn-danger" data-toggle="dropdown">分享</button>
 
             {% if productMemberLevel %}
               {% if checkMemberLevelResult == 'not_login' %}
@@ -153,47 +154,47 @@
         <div class="panel-body">
           <ul class="nav nav-tabs mbl clearfix" id="product-nav-tabs">
             <li class="active">
-              <a href="#product-audience-pane" data-toggle="tab">创新看点</a>
+              <a href="#product-audience-pane" data-toggle="tab">看点</a>
             </li>
 
 			{% if product.jianjie %}
             <li>
-              <a href="#product-jianjie-pane" data-toggle="tab">产品介绍</a>
+              <a href="#product-jianjie-pane" data-toggle="tab">介绍</a>
             </li>
             {% endif %}
 			
-			{% if product.specinfo %}
+			{#{% if product.specinfo %}
             <li>
-              <a href="#product-specinfo-pane" data-toggle="tab">商城信息</a>
+              <a href="#product-specinfo-pane" data-toggle="tab">商城</a>
             </li>
-            {% endif %}
+            {% endif %}#}
 			
 			<li>
               <a id="product-review-tab" href="#product-review-pane" data-toggle="tab" data-url="{{ path('product_review_list', {id:product.id, previewAs:previewAs}) }}">
-                产品评价
-                <span class="badge">{{ product.ratingNum }}</span>
+                评价
+                {#<span class="badge">{{ product.ratingNum }}</span>#}
               </a>
             </li>
 			
-			{% if productpictures %}
+			{#{% if productpictures %}
             <li>
-              <a id="product-productpictures-tab" href="#product-productpictures-pane" data-toggle="tab">产品图片</a>
+              <a id="product-productpictures-tab" href="#product-productpictures-pane" data-toggle="tab">其他</a>
             </li>
-            {% endif %}
+            {% endif %}#}
 			
 			{% if product.xgzx %}
             <li>
-              <a href="#product-xgzx-pane" data-toggle="tab">相关资讯</a>
+              <a href="#product-xgzx-pane" data-toggle="tab">资讯</a>
             </li>
             {% endif %}
 			
             {% if product.efficacyinfo %}
             <li>
-              <a href="#product-goal-pane" data-toggle="tab">产品功能</a>
+              <a href="#product-goal-pane" data-toggle="tab">功能</a>
             </li>
             {% endif %}
 			
-			{% if product.remark %}
+			{% if product.remark or productpictures %}
             <li>
               <a href="#product-remark-pane" data-toggle="tab">其它</a>
             </li>
@@ -237,17 +238,17 @@
               {% endif %}
             </div>
 			
-			<div class="tab-pane" id="product-specinfo-pane" class="text-left">
+			{#<div class="tab-pane" id="product-specinfo-pane" class="text-left">
               {% if product.specinfo %}
                 {{ product.specinfo|raw }}
               {% else %}
               <span class="text-muted">还没有产品商城信息...</span>
               {% endif %}
-            </div>
+            </div>#}
 			
 			<div class="tab-pane" id="product-review-pane">正在载入产品评价数据...</div>
 			
-			<div class="tab-pane" id="product-productpictures-pane" class="text-left">
+			{#<div class="tab-pane" id="product-productpictures-pane" class="text-left">
               {% if productpictures %}
 					{% for productpicture in productpictures %}
 						<div class="item">
@@ -257,7 +258,7 @@
               {% else %}
               <span class="text-muted">还没有产品图片...</span>
               {% endif %}
-            </div>
+            </div>#}
 			
 			<div class="tab-pane" id="product-xgzx-pane" class="text-left">
               {% if product.xgzx %}
@@ -288,7 +289,16 @@
               {% else %}
               <span class="text-muted">还没有产品其它信息...</span>
               {% endif %}
+			  
+			   {% if productpictures %}
+					{% for productpicture in productpictures %}
+						<div class="item">
+							<img alt="" src="/attach/productpic/{{ productpicture.path }}" class="img-responsive" />
+						</div>
+					{% endfor %}
+              {% endif %}
             </div>
+			
 			
           </div>
         </div>

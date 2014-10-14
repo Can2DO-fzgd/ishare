@@ -172,25 +172,24 @@
 				  	{% endif %}
 				  	</a></li>
 				  	<li class="divider"></li>
-					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的空间</a></li>
+					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的分享</a></li>
 					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-home"></i>我的微站</a></li>
-					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>
+					{#<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>#}
 					<li><a href="{{ path('product_create') }}"><i class="glyphicon glyphicon-camera"></i>发布分享</a></li>
-		 			<li><a href="{{ path('notification') }}">
+		 			{#<li><a href="{{ path('notification') }}">
                 	<span class="glyphicon glyphicon-bullhorn hidden-lt-ie8"></span>我的通知
-                	{#<span class="visible-lt-ie8">通知</span>#}
                 	{% if app.user.newNotificationNum > 0 %}<span class="badge">{{ app.user.newNotificationNum }}</span>{% endif %}
 		  			</a></li>
 		  			<li><a href="{{ path('message') }}" >
                 	<span class="glyphicon glyphicon-envelope hidden-lt-ie8"></span>我的私信
-                	{#<span class="visible-lt-ie8">私信</span>#}
                 	{% if app.user.newMessageNum > 0 %}<span class="badge">{{ app.user.newMessageNum }}</span>{% endif %}
-          			</a></li>
+          			</a></li>#}
 					<li class="divider"></li>
-					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
+					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>我的空间</a></li>
+					{#<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
 					<li><a href="{{ path('settings_avatar') }}"><i class="glyphicon glyphicon-picture"></i>用户头像设置</a></li>
 					<li><a href="{{ path('settings_password') }}"><i class="glyphicon glyphicon-edit"></i>用户密码修改</a></li>
-					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>
+					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>#}
 					{% if is_granted('ROLE_ADMIN') %}
 					<li class="divider"></li>
 				  		<li><a href="{{ path('admin') }}"><i class="glyphicon glyphicon-th-large"></i>后台首页</a></li>
@@ -206,18 +205,19 @@
 		  		{% else %}
 				  	<li><a href="{{ path('login') }}"> 游客您好！请先注册登录 </a></li>
 				  	<li class="divider"></li>
-                  	<li><a href="{{ path('login') }}"><i class="glyphicon glyphicon-user"></i>用户登录</a></li>
-              	  	<li><a href="{{ path('register') }}"><i class="glyphicon glyphicon-user"></i>用户注册</a></li>
+                  	<li><a href="{{ path('login') }}"><i class="glyphicon glyphicon-user"></i>注册登录</a></li>
+              	  	{#<li><a href="{{ path('register') }}"><i class="glyphicon glyphicon-user"></i>用户注册</a></li>#}
 					<li class="divider"></li>
-					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的空间</a></li>
+					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-share"></i>我的分享</a></li>
 					<li><a href="{{ path('user_show', {id:app.user.id}) }}"><i class="glyphicon glyphicon-home"></i>我的微站</a></li>
-					<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>
+					{#<li><a href="{{ path('my') }}"><i class="glyphicon glyphicon-shopping-cart"></i>我的商城</a></li>#}
 					<li><a href="{{ path('product_create') }}"><i class="glyphicon glyphicon-camera"></i>发布分享</a></li>
 					<li class="divider"></li>
-					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
+					<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>我的空间</a></li>
+					{#<li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-cog"></i>用户基础信息</a></li>
 					<li><a href="{{ path('settings_avatar') }}"><i class="glyphicon glyphicon-picture"></i>用户头像设置</a></li>
 					<li><a href="{{ path('settings_password') }}"><i class="glyphicon glyphicon-edit"></i>用户密码修改</a></li>
-					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>
+					<li><a href="{{ path('settings_email') }}"><i class="glyphicon glyphicon-envelope"></i>用户邮箱设置</a></li>#}
 		  		{% endif %}
 				
 				
@@ -539,7 +539,7 @@
 		  <td><a class="navbar-brand-logo" href="{{ path('product_create') }}"><img src="{{ asset('bundles/topxiaweb/img/camer.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('tag') }}"><img src="{{ asset('bundles/topxiaweb/img/tag.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('homepage') }}page/aboutus"><img src="{{ asset('bundles/topxiaweb/img/help.png?1.0.0') }}"/></a></td>
-		  <td><a class="navbar-brand-logo" href="{{ path('login') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-user.png?1.0.0') }}"/></a></td>
+		  {#<td><a class="navbar-brand-logo" href="{{ path('login') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-user.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('my') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-share.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('user_show', {id:app.user.id}) }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-home.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('my') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-shopping-cart.png?1.0.0') }}"/></a></td>
@@ -547,7 +547,7 @@
 		  <td><a class="navbar-brand-logo" href="{{ path('settings') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-cog.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('settings_avatar') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-picture.png?1.0.0') }}"/></a></td>
 		  <td><a class="navbar-brand-logo" href="{{ path('settings_password') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-edit.png?1.0.0') }}"/></a></td>
-		  <td><a class="navbar-brand-logo" href="{{ path('settings_email') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-envelope.png?1.0.0') }}"/></a></td>
+		  <td><a class="navbar-brand-logo" href="{{ path('settings_email') }}"><img src="{{ asset('bundles/topxiaweb/img/glyphicon-envelope.png?1.0.0') }}"/></a></td>#}
 		  
 		  </tr>
 		  </table>
