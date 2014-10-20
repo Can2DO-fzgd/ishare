@@ -27,11 +27,10 @@ class ProductController extends BaseController
             $category = array('id' => null);
         }
 
-
         $sort = $request->query->get('sort', 'latest');
 
         $conditions = array(
-            'status' => 'published',
+            'state' => '1',
             'categoryId' => $category['id'],
             'tuijian' => ($sort == 'recommendedSeq') ? 1 : null
         );
@@ -51,12 +50,12 @@ class ProductController extends BaseController
 
         $group = $this->getCategoryService()->getGroupByCode('product');
         if (empty($group)) {
-            $categories = array();
+            $categories1 = array();
         } else {
-            $categories = $this->getCategoryService()->getCategoryTree($group['id']);
+            $categories1 = $this->getCategoryService()->getCategoryTree($group['id']);
         }
 		
-		//$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
      
         return $this->render('TopxiaWebBundle:Product:explore.html.twig', array(
             'products' => $products,
@@ -64,6 +63,7 @@ class ProductController extends BaseController
             'sort' => $sort,
             'paginator' => $paginator,
             'categories' => $categories,
+			'categories1' => $categories1,
         ));
     }
 
@@ -143,12 +143,13 @@ class ProductController extends BaseController
      */
     public function showAction(Request $request, $id)
     {
-		//$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
 		$group = $this->getCategoryService()->getGroupByCode('product');
         if (empty($group)) {
-            $categories = array();
+            $categories1 = array();
         } else {
-            $categories = $this->getCategoryService()->getCategoryTree($group['id']);
+            $categories1 = $this->getCategoryService()->getCategoryTree($group['id']);
         }
 		
         $product = $this->getProductService()->getProduct($id);
@@ -175,12 +176,13 @@ class ProductController extends BaseController
         
         $member = $this->previewAsMember($previewAs, $member, $product);
         
-        if ($member && empty($member['locked'])) {
+        if ($member && empty($member['state'])) {
             $learnStatuses = $this->getProductService()->getUserLearnLessonStatuses($user['id'], $product['id']);
 
             return $this->render("TopxiaWebBundle:Product:dashboard.html.twig", array(
                 'product' => $product,
 				'categories' => $categories,
+				'categories1' => $categories1,
                 'member' => $member,
                 'items' => $items,
                 'learnStatuses' => $learnStatuses
@@ -221,7 +223,7 @@ class ProductController extends BaseController
 
     private function canShowProduct($product, $user)
     {
-        return ($product['status'] == 'published') or 
+        return ($product['state'] == '1') or 
             $user->isAdmin() or 
             $this->getProductService()->isProductTeacher($product['id'],$user['id']) or
             $this->getProductService()->isProductStudent($product['id'],$user['id']);
@@ -247,7 +249,7 @@ class ProductController extends BaseController
                     'seq' => 0,
                     'isVisible' => 0,
                     'role' => 'teacher',
-                    'locked' => 0,
+                    'state' => 1,
                     'createdTime' => time(),
                     'deadline' => 0
                 );
@@ -574,7 +576,7 @@ class ProductController extends BaseController
     public function relatedProductsBlockAction($product)
     {   
 
-        $products = $this->getProductService()->findProductsByAnyTagIdsAndStatus($product['tags'], 'published', array('Rating' , 'DESC'), 0, 4);
+        $products = $this->getProductService()->findProductsByAnyTagIdsAndStatus($product['tags'], '1', array('Rating' , 'DESC'), 0, 4);
         
         return $this->render("TopxiaWebBundle:Product:related-products-block.html.twig", array(
             'products' => $products,

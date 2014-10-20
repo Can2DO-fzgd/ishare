@@ -20,7 +20,7 @@ class PopularProductsByCategoryDataTag extends ProductBaseDataTag implements Dat
     public function getData(array $arguments)
     {	
         $this->checkCount($arguments);
-        $conditions = array('status' => 'published', 'categoryId' => $arguments['categoryId']);
+        $conditions = array('state' => '1', 'categoryId' => $arguments['categoryId']);
         $products = $this->getProductService()->searchProducts($conditions,'studentNum', 0, $arguments['count']);
 
         return $this->getProductTeachersAndCategories($products);

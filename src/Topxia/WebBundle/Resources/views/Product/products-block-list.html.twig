@@ -11,11 +11,13 @@
     </a>
     <div class="product-body">
       <h4 class="product-title"><a href="{{ path('product_show', {id:product.id}) }}">{{ product.name }}</a>
-      {% if product.serializeMode=='serialize' %}
-        <span class="label label-success ">更新中</span>
+      {#{% if teacher %}
+	  {% if product.serializeMode=='serialize' %}
+        <span class="label label-success ">未上架</span>
       {% elseif product.serializeMode=='finished' %}
-        <span class="label label-warning ">已上线</span>
+        <span class="label label-warning ">已上架</span>
       {% endif %}
+	  {% endif %}#}
       </h4>
       {#<div class="product-about ellipsis">{{ product.jianjie|raw }}</div>#}
       <div class="product-footer clearfix">

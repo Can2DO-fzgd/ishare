@@ -42,7 +42,7 @@
           </td>
           {#<!-- /<td>{{ product.studentNum }}</td> 
           <td>{{ product.price }}</td>-->#}
-          <td>{{ dict_text('productStatus:html', product.status) }} </br>{{ product.studentNum }}关注</td>
+          <td>{{ dict_text('productStatus:html', product.state) }} </br>{{ product.studentNum }}关注</td>
           <td>
             <div class="btn-group">
               <a class="btn btn-default btn-sm" href="{{ path('product_manage', {id:product.id}) }}">管理</a>

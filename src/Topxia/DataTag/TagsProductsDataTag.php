@@ -28,13 +28,13 @@ class TagsProductsDataTag extends ProductBaseDataTag implements DataTag
              array_push($tagIds, $tagId['id']);
         }
 
-        if (empty($arguments['status'])) {
-            $status = 'published';
+        if (empty($arguments['state'])) {
+            $state = '1';
         } else {
-            $status = $arguments['status'];
+            $state = $arguments['state'];
         }
 
-        $products = $this->getProductService()->findProductsByTagIdsAndStatus($tagIds, $status, 0, $arguments['count']);
+        $products = $this->getProductService()->findProductsByTagIdsAndStatus($tagIds, $state, 0, $arguments['count']);
 
         return $this->getProductTeachersAndCategories($products);
     }

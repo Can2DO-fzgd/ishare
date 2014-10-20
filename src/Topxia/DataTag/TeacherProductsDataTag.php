@@ -24,7 +24,7 @@ class TeacherProductsDataTag extends ProductBaseDataTag implements DataTag
         $this->checkUserId($arguments);
         
         $conditions = array(
-            'status' => 'published', 
+            'state' => '1', 
             'userId' => $arguments['userId']
         );
         $products = $this->getProductService()->searchProducts($conditions,'latest', 0, $arguments['count']);

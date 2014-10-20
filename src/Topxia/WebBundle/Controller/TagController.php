@@ -35,7 +35,7 @@ class TagController extends BaseController
 
         if($tag) {  
             $conditions = array(
-                'status' => 'published',
+                'state' => '1',
                 'tagId' => $tag['id']
             );
 

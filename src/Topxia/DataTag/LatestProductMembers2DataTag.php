@@ -22,9 +22,9 @@ class LatestProductMembers2DataTag extends ProductBaseDataTag implements DataTag
     {	
         $this->checkCount($arguments);
         if (empty($arguments['categoryId'])) {
-            $conditions = array('status' => 'published');
+            $conditions = array('state' => '1');
         }else {
-            $conditions = array('status' => 'published', 'categoryId' => $arguments['categoryId']);        
+            $conditions = array('state' => '1', 'categoryId' => $arguments['categoryId']);        
         }
         $products = $this->getProductService()->searchProducts($conditions,'latest', 0, 1000);
         $productIds = ArrayToolkit::column($products, 'id');

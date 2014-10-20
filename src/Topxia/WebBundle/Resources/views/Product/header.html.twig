@@ -13,15 +13,15 @@
           {% endif %}
 		  </a>
          
-          {% if product.status=='closed' %}  
-            <span class="label label-danger ">已下线</span>
-          {% elseif product.status=='draft' %}
-            <span class="label label-warning ">未发布</span>
-          {% elseif product.status=='published' %}
+          {% if product.state=='2' %}  
+            <span class="label label-danger ">审核不通过</span>
+          {% elseif product.state=='0' %}
+            <span class="label label-warning ">等待审核</span>
+          {% elseif product.state=='1' %}
             {% if product.serializeMode=='serialize' %}
-              <span class="label label-success ">更新中</span>
+              <span class="label label-success ">未上架</span>
             {% elseif product.serializeMode=='finished' %}
-              <span class="label label-warning ">更新完</span>
+              <span class="label label-warning ">已上架</span>
             {% endif %}
           {% endif %}
         </h1>
@@ -48,15 +48,15 @@
           {% endif %}
 		  </a>
         <h1 class="title"><a href="{{ path('product_show', {id:product.id}) }}">{{ product.name }}</a> 
-          {% if product.status=='closed' %}  
-            <span class="label label-danger ">已下线</span>
-          {% elseif product.status=='draft' %}
-            <span class="label label-warning ">未发布</span>
-          {% elseif product.status=='published' %}
+          {% if product.state=='2' %}  
+            <span class="label label-danger ">审核不通过</span>
+          {% elseif product.state=='0' %}
+            <span class="label label-warning ">等待审核</span>
+          {% elseif product.state=='1' %}
             {% if product.serializeMode=='serialize' %}
-              <span class="label label-success ">更新中</span>
+              <span class="label label-success ">未上架</span>
             {% elseif product.serializeMode=='finished' %}
-              <span class="label label-warning ">已上线</span>
+              <span class="label label-warning ">已上架</span>
             {% endif %}
           {% endif %}
         </h1>
@@ -135,7 +135,7 @@
 
           {% else %}
 
-            {% if product.status == 'published' %}
+            {% if product.state == '1' %}
               <div class="btn-group">
                 <a class="btn btn-default btn-sm" href="{{ path('product_show', {id:product.id}) }}">返回产品主页</a>
               </div>
@@ -149,7 +149,7 @@
               </ul>
             </div>
 
-            {% if product.status != 'published' %}
+            {% if product.state != '1' %}
               <div class="btn-group">
                 <button class="btn btn-success btn-sm product-publish-btn" data-url="{{ path('product_manage_publish', {id:product.id}) }}">发布产品</button>
               </div>

@@ -77,20 +77,20 @@
               <div class="action"><span class="btn btn-primary btn-sm">继续关注</span></div>
             {% endif %}
           </div>
-          {% if product.status == 'draft' %}
-            <span class="label  label-warning product-status">未发布</span>
-          {% elseif product.status == 'closed' %}
-            <span class="label label-danger product-status">已上架</span>
+          {% if product.state == '0' %}
+            <span class="label  label-warning product-status">等待审核</span>
+          {% elseif product.state == '2' %}
+            <span class="label label-danger product-status">审核不通过</span>
           {% endif %}       
         {% endif %}
 
         {% if mode == 'teach' %}
-          {% if product.status == 'published' %}
-            <span class="label label-success product-status">已上架</span>
-          {% elseif product.status == 'draft' %}
-            <span class="label  label-warning product-status">未发布</span>
-          {% elseif product.status == 'closed' %}
-            <span class="label label-danger product-status">已上架</span>
+          {% if product.state == '1' %}
+            <span class="label label-success product-status">审核通过</span>
+          {% elseif product.state == '0' %}
+            <span class="label  label-warning product-status">等待审核</span>
+          {% elseif product.state == '2' %}
+            <span class="label label-danger product-status">审核不通过</span>
           {% endif %}
         {% endif %}
 

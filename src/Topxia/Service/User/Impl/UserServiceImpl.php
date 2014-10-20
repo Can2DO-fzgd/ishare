@@ -82,6 +82,7 @@ class UserServiceImpl extends BaseService implements UserService
     public function setEmailVerified($userId)
     {
         $this->getUserDao()->updateUser($userId, array('mailstate' => 1));
+		//$this->getUserDao()->updateUser($userId, array('mailstate' => 1,'state'  => 1));
     }
 
     public function changeUserName ($userId, $userName)
@@ -273,6 +274,8 @@ class UserServiceImpl extends BaseService implements UserService
         $user['type'] = $type;
         $user['createdIp'] = empty($registration['createdIp']) ? '' : $registration['createdIp'];
         $user['createdTime'] = time();
+		
+		$user['state'] = 0;
 
         if(in_array($type, array('default', 'phpwind', 'discuz'))) {
             $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -333,6 +336,8 @@ class UserServiceImpl extends BaseService implements UserService
         $user['type'] = $type;
         $user['createdIp'] = empty($registration['createdIp']) ? '' : $registration['createdIp'];
         $user['createdTime'] = time();
+		
+		$user['state'] = 0;
 
         if(in_array($type, array('default', 'phpwind', 'discuz'))) {
             $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -579,11 +584,11 @@ class UserServiceImpl extends BaseService implements UserService
     {
         $user = $this->getUser($id);
         if (empty($user)) {
-            throw $this->createServiceException('用户不存在，封禁失败！');
+            throw $this->createServiceException('用户不存在，审核不通过操作失败！');
         }
-        $this->getUserDao()->updateUser($user['id'], array('locked' => 1));
+        $this->getUserDao()->updateUser($user['id'], array('state' => 2));
 
-        $this->getLogService()->info('user', 'lock', "封禁用户{$user['userName']}(#{$user['id']})");
+        $this->getLogService()->info('user', 'lock', "审核不通过用户{$user['userName']}(#{$user['id']})");
 
         return true;
     }
@@ -592,11 +597,11 @@ class UserServiceImpl extends BaseService implements UserService
     {
         $user = $this->getUser($id);
         if (empty($user)) {
-            throw $this->createServiceException('用户不存在，解禁失败！');
+            throw $this->createServiceException('用户不存在，审核通过操作失败！');
         }
-        $this->getUserDao()->updateUser($user['id'], array('locked' => 0));
+        $this->getUserDao()->updateUser($user['id'], array('state' => 1));
 
-        $this->getLogService()->info('user', 'unlock', "解禁用户{$user['userName']}(#{$user['id']})");
+        $this->getLogService()->info('user', 'unlock', "审核通过用户{$user['userName']}(#{$user['id']})");
 
         return true;
     }

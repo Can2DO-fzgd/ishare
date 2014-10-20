@@ -72,7 +72,7 @@ class CurrentUser implements AdvancedUserInterface, EquatableInterface, \ArrayAc
     }
 
     public function isAccountNonLocked() {
-        return !$this->locked;
+        return $this->state;
     }
 
     public function isCredentialsNonExpired() {

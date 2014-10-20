@@ -21,7 +21,7 @@ class ProductRankByStudentDataTag extends ProductBaseDataTag implements DataTag
     {	
         $this->checkCount($arguments);
      
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
 
     	$products = $this->getProductService()->searchProducts($conditions,'studentNum', 0, $arguments['count']);
         

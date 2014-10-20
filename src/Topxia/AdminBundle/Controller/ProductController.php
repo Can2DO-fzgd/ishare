@@ -89,7 +89,7 @@ class ProductController extends BaseController
     public function recommendListAction(Request $request)
     {
         $conditions = array(
-            'status' => 'published',
+            'state' => '1',
             'tuijian'=> 1
         );
 

@@ -23,7 +23,7 @@ class LatestProductsDataTag extends ProductBaseDataTag implements DataTag
         $this->checkCount($arguments);
 
         $conditions = array();
-        $conditions['status'] = 'published';
+        $conditions['state'] = '1';
 
         if (!empty($arguments['categoryId'])) {
             $conditions['categoryId'] = $arguments['categoryId'];

@@ -4,7 +4,7 @@
 {% block body %}
 
 <form id="expiryday-set-form" class="form-horizontal" method="post" action="{{ path('product_set_expiryday', { productId:product.id, userId:user.id }) }}">
-  {% if product.status == 'published' %}
+  {% if product.state == '1' %}
     <div class="row form-group">
       <div class="col-md-2 control-label">
         <label for="product-title">产品标题</label>
@@ -36,7 +36,7 @@
       </div>
     </div>
   {% else %}
-    <div class="empty">{{dict_text('productStatus', product.status)}}产品不能增加会员有效期，请产品发布后再增加。</div>
+    <div class="empty">{{dict_text('productStatus', product.state)}}产品不能增加会员有效期，请产品发布后再增加。</div>
   {% endif %}
 
   <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block footer %}
-  {% if product.status == 'published' %}
+  {% if product.state == '1' %}
     <button type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#expiryday-set-form">保存</button>
   {% endif %}
   <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>

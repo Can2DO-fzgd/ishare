@@ -23,9 +23,9 @@ class FreeProductsDataTag extends ProductBaseDataTag implements DataTag
         $this->checkCount($arguments);
 
         if (empty($arguments['categoryId'])) {
-            $conditions = array('status' => 'published','price' => '0.00');
+            $conditions = array('state' => '1','price' => '0.00');
         } else {
-            $conditions = array('status' => 'published', 'price' =>'0.00' ,'categoryId' => $arguments['categoryId']);
+            $conditions = array('state' => '1', 'price' =>'0.00' ,'categoryId' => $arguments['categoryId']);
         }
 
         $products = $this->getProductService()->searchProducts($conditions,'latest', 0, $arguments['count']);

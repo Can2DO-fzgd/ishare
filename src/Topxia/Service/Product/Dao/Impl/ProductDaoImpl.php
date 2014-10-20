@@ -24,13 +24,13 @@ class ProductDaoImpl extends BaseDao implements ProductDao
         return $this->getConnection()->fetchAll($sql, $ids);
     }
 
-    public function findProductsByTagIdsAndStatus(array $tagIds, $status, $start, $limit)
+    public function findProductsByTagIdsAndStatus(array $tagIds, $state, $start, $limit)
     {
         if(empty($tagIds)){
             return array();
         }
 
-        $sql ="SELECT * FROM {$this->getTablename()} WHERE status = ?";
+        $sql ="SELECT * FROM {$this->getTablename()} WHERE state = ?";
 
         foreach ($tagIds as $tagId) {
             $sql .= " AND tags LIKE '%$tagId%'";
@@ -38,16 +38,16 @@ class ProductDaoImpl extends BaseDao implements ProductDao
 
         $sql .= " ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
       
-        return $this->getConnection()->fetchAll($sql, array($status));
+        return $this->getConnection()->fetchAll($sql, array($state));
     }
 
-    public function findProductsByAnyTagIdsAndStatus(array $tagIds, $status, $orderBy, $start, $limit)
+    public function findProductsByAnyTagIdsAndStatus(array $tagIds, $state, $orderBy, $start, $limit)
     {
         if(empty($tagIds)){
             return array();
         }
 
-        $sql ="SELECT * FROM {$this->getTablename()} WHERE status = ? ";
+        $sql ="SELECT * FROM {$this->getTablename()} WHERE state = ? ";
 
         foreach ($tagIds as $tagId) {
             $sql .= " OR tags LIKE '%|$tagId|%' ";
@@ -55,7 +55,7 @@ class ProductDaoImpl extends BaseDao implements ProductDao
 
         $sql .= " ORDER BY {$orderBy[0]} {$orderBy[1]} LIMIT {$start}, {$limit}";
         
-        return $this->getConnection()->fetchAll($sql, array($status));
+        return $this->getConnection()->fetchAll($sql, array($state));
 
     }
 
@@ -134,7 +134,7 @@ class ProductDaoImpl extends BaseDao implements ProductDao
 
         $builder = $this->createDynamicQueryBuilder($conditions)
             ->from(self::TABLENAME, 't_product')
-            ->andWhere('status = :status')
+            ->andWhere('state = :state')
             ->andWhere('price = :price')
             ->andWhere('price > :notFree')
             ->andWhere('name LIKE :nameLike')

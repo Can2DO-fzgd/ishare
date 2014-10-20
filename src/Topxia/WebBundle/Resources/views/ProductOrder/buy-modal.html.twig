@@ -1,6 +1,6 @@
 {% extends 'TopxiaWebBundle::bootstrap-modal-layout.html.twig' %}
 
-{% block title %}{#{% if product.price > 0 %}购买产品{% else %}我要关注{% endif %}#}我要关注{% endblock %}
+{% block title %}{#{% if product.price > 0 %}我要关注{% else %}我要关注{% endif %}#}我要关注{% endblock %}
 {% block body %}
   
   <form id="product-buy-form" class="form-horizontal" method="post" action="{{ path('product_order_pay') }}">

@@ -14,7 +14,7 @@
 
 {% block content %}
   
-{#{% if member and member.locked %}
+{#{% if member and member.state %}
 <div class="row">
   <div class="col-md-12">
     <div class="mtl alert alert-warning">
@@ -88,19 +88,19 @@
         </p>
         {% endif %}
         <p>
-          {% if product.status=='closed' %}  
-            状　态： <span class="label label-danger ">已下线</span>
-          {% elseif product.status=='draft' %}
-            状　态： <span class="label label-warning ">未发布</span>
+          {% if product.state=='2' %}  
+            状　态： <span class="label label-danger ">审核不通过</span>
+          {% elseif product.state=='0' %}
+            状　态： <span class="label label-warning ">等待审核</span>
           {% endif %}          
         </p>
       </div>
       <div class="actions clearfix">
         <div class="pull-left">
-          {% if product.status != 'published' %}
-            <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}购买产品{% else %}加入关注{% endif %}#}关注</a>
+          {% if product.state != '1' %}
+            <a class="btn btn-primary disabled" href="javascript:">{#{% if product.price > 0 %}关注{% else %}关注{% endif %}#}关注</a>
           {% else %}
-            <a class="btn btn-primary btn-danger" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}购买产品{% else %}关注{% endif %}</a>
+            <a class="btn btn-primary btn-danger" id="product-buy-btn" href="#modal" data-toggle="modal" data-url="{{ path('product_buy', {id:product.id}) }}">{% if product.price > 0 %}关注{% else %}关注{% endif %}</a>
 			
 			{#button type="button" onclick="authBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">登录授权</button>
 			<button type="button" onclick="hasAuthBtnClickHandler()" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">是否授权</button>
@@ -284,21 +284,17 @@
             {% endif %}
 			
 			<div class="tab-pane" id="product-remark-pane" class="text-left">
-              {% if product.remark %}
+              {% if product.remark or productpictures %}
                 {{ product.remark|raw }}
+				{% for productpicture in productpictures %}
+					<div class="item">
+						<img alt="" src="/attach/productpic/{{ productpicture.path }}" class="img-responsive" />
+					</div>
+				{% endfor %}
               {% else %}
-              <span class="text-muted">还没有产品其它信息...</span>
-              {% endif %}
-			  
-			   {% if productpictures %}
-					{% for productpicture in productpictures %}
-						<div class="item">
-							<img alt="" src="/attach/productpic/{{ productpicture.path }}" class="img-responsive" />
-						</div>
-					{% endfor %}
-              {% endif %}
+			  		<span class="text-muted">还没有产品其它信息...</span>
+			  {% endif %}
             </div>
-			
 			
           </div>
         </div>

@@ -1,14 +1,14 @@
 {% extends 'TopxiaWebBundle::bootstrap-modal-layout.html.twig' %}
 
-{% set typeTitles = {info:'提示信息', warning:'警告信息', error: '错误提示'} %}
+{% set typeTitles = {info:'享客应用提示信息!', warning:'享客应用警告信息!', error: '享客应用错误提示!'} %}
 
 {% set title = title|default(typeTitles[type]) %}
 
 {% block title %}{{ title }}{% endblock %}
 {% block body %}
- 
- <div id="page-message-container" class="page-message-container" data-goto="{{ goto }}" data-duration={{ duration }}>
-  <div class="page-message-panel">
+ {#  class="page-message-container" #}
+ <div id="page-message-container" data-goto="{{ goto }}" data-duration={{ duration }}>
+  <div class="page-message-panel"  style="min-height:400px;">
     <div class="page-message-body">{{ message|default('') }}</div>
   </div>
 </div>

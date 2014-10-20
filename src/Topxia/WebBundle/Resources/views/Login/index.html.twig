@@ -15,7 +15,7 @@
         {% if error %}
           <div class="alert alert-danger">{{ error.message|trans }}</div>
         {% endif %}
-{{ web_macro.flash_messages() }}
+		{{ web_macro.flash_messages() }}
         <div class="form-group">
           <label class="control-label" for="login_username">帐号</label>
           <div class="controls">
@@ -50,7 +50,7 @@
       <div class="ptl">
           <a href="{{ path('password_reset') }}">找回密码</a>
           <span class="text-muted mhs">|</span>
-          <span class="text-muted">还没有注册帐号？</span>
+          <span class="text-muted">还未注册帐号？</span>
           <a href="{{ path('register') }}">立即注册</a>
       </div>
 

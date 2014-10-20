@@ -19,8 +19,8 @@
       </select>
     </div>
     <div class="form-group">
-      <select class="form-control" name="status">
-        {{ select_options(dict('productStatus'), app.request.query.get('status'), '产品状态') }}
+      <select class="form-control" name="state">
+        {{ select_options(dict('productStatus'), app.request.query.get('state'), '产品状态') }}
       </select>
     </div>
     <div class="form-group">

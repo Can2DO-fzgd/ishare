@@ -26,18 +26,18 @@ class ProductServiceImpl extends BaseService implements ProductService
         return ArrayToolkit::index($products, 'id');
 	}
 
-	public function findProductsByTagIdsAndStatus(array $tagIds, $status, $start, $limit)
+	public function findProductsByTagIdsAndStatus(array $tagIds, $state, $start, $limit)
 	{
 		$products = ProductSerialize::unserializes(
-            $this->getProductDao()->findProductsByTagIdsAndStatus($tagIds, $status, $start, $limit)
+            $this->getProductDao()->findProductsByTagIdsAndStatus($tagIds, $state, $start, $limit)
         );
         return ArrayToolkit::index($products, 'id');
 	}
 
-	public function findProductsByAnyTagIdsAndStatus(array $tagIds, $status, $orderBy, $start, $limit)
+	public function findProductsByAnyTagIdsAndStatus(array $tagIds, $state, $orderBy, $start, $limit)
 	{
 		$products = ProductSerialize::unserializes(
-            $this->getProductDao()->findProductsByAnyTagIdsAndStatus($tagIds, $status, $orderBy, $start, $limit)
+            $this->getProductDao()->findProductsByAnyTagIdsAndStatus($tagIds, $state, $orderBy, $start, $limit)
         );
         return ArrayToolkit::index($products, 'id');
 	}
@@ -276,7 +276,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		$product['syncdatetime'] = date("Y-m-d h-i-s");
 		$product['tuijian'] = '0';
 		
-		$product['status'] = 'draft';
+		$product['status'] = '0';
         $product['specinfo'] = !empty($product['specinfo']) ? $this->getHtmlPurifier()->purify($product['specinfo']) : '';
         $product['tags'] = !empty($product['tags']) ? $product['tags'] : '';
 		$product['userId'] = $this->getCurrentUser()->id;
@@ -473,14 +473,14 @@ class ProductServiceImpl extends BaseService implements ProductService
 	public function publishProduct($id)
 	{
 		$product = $this->tryManageProduct($id);
-		$this->getProductDao()->updateProduct($id, array('status' => 'published'));
+		$this->getProductDao()->updateProduct($id, array('state' => '1'));
 		$this->getLogService()->info('product', 'publish', "发布产品《{$product['name']}》(#{$product['id']})");
 	}
 
 	public function closeProduct($id)
 	{
 		$product = $this->tryManageProduct($id);
-		$this->getProductDao()->updateProduct($id, array('status' => 'closed'));
+		$this->getProductDao()->updateProduct($id, array('state' => '2'));
 		$this->getLogService()->info('product', 'close', "关闭产品《{$product['name']}》(#{$product['id']})");
 	}
 
@@ -492,7 +492,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		}
 
 		$product = $this->getProduct($productId);
-		if($product['status']!='published'){
+		if($product['state']!='1'){
 			throw $this->createServiceException('不能收藏未发布产品');
 		}
 
@@ -653,7 +653,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 		}
 
 		// 产品处于发布状态时，新增产品介绍，产品介绍默认的状态为“未发布"
-		$lesson['status'] = $product['status'] == 'published' ? 'unpublished' : 'published';
+		$lesson['status'] = $product['state'] == '1' ? 'unpublished' : 'published';
 		$lesson['free'] = empty($lesson['free']) ? 0 : 1;
 		$lesson['number'] = $this->getNextLessonNumber($lesson['productId']);
 		$lesson['seq'] = $this->getNextProductItemSeq($lesson['productId']);
@@ -1289,7 +1289,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 			throw $this->createNotFoundException();
 		}
 
-		if($product['status'] != 'published') {
+		if($product['state'] != '1') {
 			throw $this->createServiceException('不能关注未发布产品');
 		}
 
@@ -1402,11 +1402,11 @@ class ProductServiceImpl extends BaseService implements ProductService
 			throw $this->createServiceException("用户(#{$userId})不是产品(#{$productId})的会员，封锁会员失败。");
 		}
 
-		if ($member['locked']) {
+		if ($member['state']) {
 			return ;
 		}
 
-		$this->getMemberDao()->updateMember($member['id'], array('locked' => 1));
+		$this->getMemberDao()->updateMember($member['id'], array('state' => 2));
 	}
 
 	public function unlockStudent($productId, $userId)
@@ -1421,11 +1421,11 @@ class ProductServiceImpl extends BaseService implements ProductService
 			throw $this->createServiceException("用户(#{$userId})不是产品(#{$productId})的会员，解封会员失败。");
 		}
 
-		if (empty($member['locked'])) {
+		if (empty($member['state'])) {
 			return ;
 		}
 
-		$this->getMemberDao()->updateMember($member['id'], array('locked' => 0));
+		$this->getMemberDao()->updateMember($member['id'], array('state' => 1));
 	}
 
 	public function increaseLessonQuizCount($lessonId){

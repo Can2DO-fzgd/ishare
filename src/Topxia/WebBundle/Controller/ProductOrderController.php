@@ -188,7 +188,7 @@ class ProductOrderController extends OrderController
                     'seq' => 0,
                     'isVisible' => 0,
                     'role' => 'teacher',
-                    'locked' => 0,
+                    'state' => 1,
                     'createdTime' => time(),
                     'deadline' => 0
                 );

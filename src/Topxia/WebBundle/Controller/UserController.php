@@ -11,6 +11,8 @@ class UserController extends BaseController
 
     public function headerBlockAction($user)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $userProfile = $this->getUserService()->getUserProfile($user['id']);
         $user = array_merge($user, $userProfile);
 
@@ -22,6 +24,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:header-block.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'isFollowed' => $isFollowed,
         ));
     }
@@ -51,6 +54,8 @@ class UserController extends BaseController
 
     public function favoritedAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->tryGetUser($id);
         $paginator = new Paginator(
             $this->get('request'),
@@ -66,6 +71,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'products' => $products,
             'paginator' => $paginator,
             'type' => 'favorited',
@@ -74,6 +80,8 @@ class UserController extends BaseController
 
     public function followingAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->tryGetUser($id);
         $this->getUserService()->findUserFollowingCount($user['id']);
 
@@ -91,6 +99,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:friend.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'friends' => $followings,
             'friendNav' => 'following',
         ));
@@ -99,6 +108,8 @@ class UserController extends BaseController
 
     public function followerAction(Request $request, $id)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $user = $this->tryGetUser($id);
         $this->getUserService()->findUserFollowerCount($user['id']);
 
@@ -116,6 +127,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:friend.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'friends' => $followers,
             'friendNav' => 'follower',
         ));
@@ -204,6 +216,8 @@ class UserController extends BaseController
 
     private function _learnAction($user)
     {
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
         $paginator = new Paginator(
             $this->get('request'),
             $this->getProductService()->findUserLearnProductCount($user['id']),
@@ -218,6 +232,7 @@ class UserController extends BaseController
 
         return $this->render('TopxiaWebBundle:User:products.html.twig', array(
             'user' => $user,
+			'categories' => $categories,
             'products' => $products,
             'paginator' => $paginator,
             'type' => 'learn',

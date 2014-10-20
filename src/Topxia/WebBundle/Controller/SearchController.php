@@ -19,7 +19,7 @@ class SearchController extends BaseController
         }
 
         $conditions = array(
-            'status' => 'published',
+            'state' => '1',
             'name' => $keywords
         );
 

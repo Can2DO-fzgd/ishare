@@ -2,7 +2,7 @@
 <tr id="user-table-tr-{{ user.id }}">
   <td>
     <strong>{{ admin_macro.user_link(user) }}</strong>
-    {% if user.locked %}
+    {% if user.state == 2 %}
       <label class="label label-danger">禁</label>
     {% endif %}
   </td>

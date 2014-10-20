@@ -6,7 +6,7 @@
 {% block body %}
 
 <form id="student-create-form" class="form-horizontal" method="post" action="{{ path('product_manage_student_create', {id:product.id}) }}">
-  {% if product.status == 'published' %}
+  {% if product.state == '1' %}
   	<div class="row form-group">
       <div class="col-md-2 control-label">
         <label for="student-username">会员帐号</label>
@@ -38,7 +38,7 @@
       </div>
     </div>
   {% else %}
-    <div class="empty">{{dict_text('productStatus', product.status)}}产品不能添加会员，请产品发布后再添加。</div>
+    <div class="empty">{{dict_text('productStatus', product.state)}}产品不能添加会员，请产品发布后再添加。</div>
   {% endif %}
 
   <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block footer %}
-  {% if product.status == 'published' %}
+  {% if product.state == '1' %}
     <button id="student-create-form-submit" type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#student-create-form" data-submiting-text="正在保存...">保存</button>
   {% endif %}
   <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>

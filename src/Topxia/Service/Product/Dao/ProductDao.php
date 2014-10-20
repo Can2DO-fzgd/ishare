@@ -10,9 +10,9 @@ interface ProductDao
 
     public function findProductsByIds(array $ids);
 
-    public function findProductsByTagIdsAndStatus(array $tagIds, $status, $start, $limit);
+    public function findProductsByTagIdsAndStatus(array $tagIds, $state, $start, $limit);
 
-    public function findProductsByAnyTagIdsAndStatus(array $tagIds, $status, $orderBy, $start, $limit);
+    public function findProductsByAnyTagIdsAndStatus(array $tagIds, $state, $orderBy, $start, $limit);
 
 	public function searchProducts($conditions, $orderBy, $start, $limit);
 

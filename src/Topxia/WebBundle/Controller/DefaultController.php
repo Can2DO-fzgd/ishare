@@ -10,7 +10,7 @@ class DefaultController extends BaseController
 	//首页产品
     public function indexAction ()
     {
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
         $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
         $categories = $this->getCategoryService()->findGroupRootCategories('product');
@@ -26,7 +26,7 @@ class DefaultController extends BaseController
 	//推荐产品
     public function index1Action ()
     {
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
         $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
         $categories = $this->getCategoryService()->findGroupRootCategories('product');
@@ -42,7 +42,7 @@ class DefaultController extends BaseController
 	//最新产品
     public function index2Action ()
     {
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
         $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
         $categories = $this->getCategoryService()->findGroupRootCategories('product');
@@ -58,7 +58,7 @@ class DefaultController extends BaseController
 	//产品排行
     public function index3Action ()
     {
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
         $products = $this->getProductService()->searchProducts($conditions, 'latest', 0, 12);
 
         $categories = $this->getCategoryService()->findGroupRootCategories('product');

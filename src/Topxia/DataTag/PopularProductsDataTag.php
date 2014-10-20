@@ -21,9 +21,9 @@ class PopularProductsDataTag extends ProductBaseDataTag implements DataTag
     {	
         $this->checkCount($arguments);
         if (empty($arguments['categoryId'])){
-            $conditions = array('status' => 'published');
+            $conditions = array('state' => '1');
         } else {
-            $conditions = array('status' => 'published', 'categoryId' => $arguments['categoryId']);
+            $conditions = array('state' => '1', 'categoryId' => $arguments['categoryId']);
         }
         $products = $this->getProductService()->searchProducts($conditions,'popular', 0, $arguments['count']);
 

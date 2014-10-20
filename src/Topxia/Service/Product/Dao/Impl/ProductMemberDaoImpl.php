@@ -38,7 +38,7 @@ class ProductMemberDaoImpl extends BaseDao implements ProductMemberDao
         $sql.= ' JOIN  '. ProductDao::TABLENAME . ' AS c ON m.userId = ? ';
         $sql .= " AND m.role =  ? AND m.productId = c.id ";
         if($onlyPublished){
-            $sql .= " AND c.status = 'published' ";
+            $sql .= " AND c.state = '1' ";
         }
 
         $sql .= " ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
@@ -52,7 +52,7 @@ class ProductMemberDaoImpl extends BaseDao implements ProductMemberDao
         $sql.= " JOIN  ". ProductDao::TABLENAME ." AS c ON m.userId = ? ";
         $sql.= " AND m.role =  ? AND m.productId = c.id ";
         if($onlyPublished){
-            $sql.= " AND c.status = 'published' ";
+            $sql.= " AND c.state = '1' ";
         }
         return $this->getConnection()->fetchColumn($sql,array($userId, $role));
     }
@@ -65,7 +65,7 @@ class ProductMemberDaoImpl extends BaseDao implements ProductMemberDao
         $sql.= ' JOIN  '. ProductDao::TABLENAME . ' AS c ON m.userId = ? ';
         $sql .= " AND m.role =  ? AND m.productId = c.id ";
         if($onlyPublished){
-            $sql .= " AND c.status = 'published' ";
+            $sql .= " AND c.state = '1' ";
         }
 
         // $sql .= " ORDER BY createdTime DESC LIMIT {$start}, {$limit}";

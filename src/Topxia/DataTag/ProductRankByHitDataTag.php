@@ -21,7 +21,7 @@ class ProductRankByHitDataTag extends ProductBaseDataTag implements DataTag
     {	
         $this->checkCount($arguments);
      
-        $conditions = array('status' => 'published');
+        $conditions = array('state' => '1');
 
     	$products = $this->getProductService()->searchProducts($conditions,'hitNum', 0, $arguments['count']);
 
