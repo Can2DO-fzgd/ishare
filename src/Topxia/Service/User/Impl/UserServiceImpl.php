@@ -290,7 +290,7 @@ class UserServiceImpl extends BaseService implements UserService
         $user = UserSerialize::unserialize(
             $this->getUserDao()->addUser(UserSerialize::serialize($user))
         );
-        $this->getProfileDao()->addProfile(array('id' => $user['id']));
+        //$this->getProfileDao()->addProfile(array('id' => $user['id']));
         if ($type != 'default') {
             $this->bindUser($type, $registration['token']['userId'], $user['id'], $registration['token']);
         }
@@ -352,7 +352,7 @@ class UserServiceImpl extends BaseService implements UserService
         $user = UserSerialize::unserialize(
             $this->getUserDao()->addUser(UserSerialize::serialize($user))
         );
-        $this->getProfileDao()->addProfile(array('id' => $user['id']));
+        //$this->getProfileDao()->addProfile(array('id' => $user['id']));
         if ($type != 'default') {
             $this->bindUser($type, $registration['token']['userId'], $user['id'], $registration['token']);
         }
@@ -385,7 +385,7 @@ class UserServiceImpl extends BaseService implements UserService
 
         $fields = ArrayToolkit::filter($fields, array(
             'realName' => '',
-            'gender' => 'secret',
+            'sex' => '0',
             'iam' => '',
             'birthday' => null,
             'area' => '',
@@ -412,7 +412,7 @@ class UserServiceImpl extends BaseService implements UserService
         }
         unset($fields['title']);
 
-        if (!empty($fields['gender']) && !in_array($fields['gender'], array('male', 'female', 'secret'))) {
+        if (!empty($fields['sex']) && !in_array($fields['sex'], array('1', '2', '0'))) {
             throw $this->createServiceException('性别不正确，更新用户失败。');
         }
 

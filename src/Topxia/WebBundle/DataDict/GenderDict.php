@@ -5,8 +5,8 @@ class GenderDict implements DataDictInterface
 {
     public function getDict() {
         return array(
-            'male' => '男',
-            'female' => '女',
+            '1' => '男',
+            '2' => '女',
         );
     }
 

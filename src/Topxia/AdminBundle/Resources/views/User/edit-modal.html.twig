@@ -64,17 +64,17 @@
 		  
   <div class="row form-group">
     <div class="col-md-2 control-label">
-      <label for="gender">性别</label>
+      <label for="sex">性别</label>
     </div>
     <div class="col-md-7 controls radios">
-      <div id="gender">
-        <input type="radio" id="gender_0" name="gender" value="male"
-        {% if profile.gender == 'male' %} checked="checked" {% endif %}>
-        <label for="gender_0">男</label>
+      <div id="sex">
+        <input type="radio" id="sex_0" name="sex" value="1"
+        {% if profile.sex == '1' %} checked="checked" {% endif %}>
+        <label for="sex_0">男</label>
 
-        <input type="radio" id="gender_1" name="gender" value="female"
-        {% if profile.gender == 'female' %} checked="checked" {% endif %}>
-        <label for="gender_1">女</label>
+        <input type="radio" id="sex_1" name="sex" value="2"
+        {% if profile.sex == '2' %} checked="checked" {% endif %}>
+        <label for="sex_1">女</label>
       </div>
 
     </div>

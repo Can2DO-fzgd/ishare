@@ -7,7 +7,7 @@ use Topxia\Service\User\Dao\UserProfileDao;
 
 class UserProfileDaoImpl extends BaseDao implements UserProfileDao
 {
-    protected $table = 'user_profile';
+    protected $table = 't_member';
 
     public function getProfile($id)
     {

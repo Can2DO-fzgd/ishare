@@ -66,11 +66,11 @@
           <div class="form-group">
             <label class="col-md-2 control-label">性别</label>
             <div class="col-md-7 controls radios">
-              <div id="profile_gender">
-                <input type="radio" id="profile_gender_0" name="profile[gender]" required="required" value="male" {% if profile.gender == 'male' %}checked="checked"{% endif %}>
-                <label for="profile_gender_0" class="required">男</label>
-                <input type="radio" id="profile_gender_1" name="profile[gender]" required="required" value="female" {% if profile.gender == 'female' %}checked="checked"{% endif %}>
-                <label for="profile_gender_1" class="required">女</label>
+              <div id="profile_sex">
+                <input type="radio" id="profile_sex_0" name="profile[sex]" required="required" value="1" {% if profile.sex == '1' %}checked="checked"{% endif %}>
+                <label for="profile_sex_0" class="required">男</label>
+                <input type="radio" id="profile_sex_1" name="profile[sex]" required="required" value="2" {% if profile.sex == '2' %}checked="checked"{% endif %}>
+                <label for="profile_sex_1" class="required">女</label>
               </div>
             </div>
           </div>
