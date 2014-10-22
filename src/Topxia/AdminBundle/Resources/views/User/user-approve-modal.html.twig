@@ -18,19 +18,19 @@
 
    <div class="row form-group">
     <div class="col-md-3 control-label">
-      <label for="truename">真实姓名</label>
+      <label for="realName">真实姓名</label>
     </div>
     <div style="margin-top: 7px;">
-      {{userApprovalInfo.truename}}
+      {{userApprovalInfo.realName}}
     </div>
   </div>
 
   <div class="row form-group">
     <div class="col-md-3 control-label">
-      <label for="idcard">身份证号码</label>
+      <label for="address">身份证号码</label>
     </div>
     <div style="margin-top: 7px;">
-      {{userApprovalInfo.idcard}}
+      {{userApprovalInfo.address}}
     </div>
   </div>
 
@@ -39,8 +39,8 @@
       <label for="faceImg">身份证正面照</label>
     </div>
     <div>
-     <a href="{{ url('show_idcard', {userId: user.id, type:'face'})}}" target="_blank">
-     <img src="{{url('show_idcard', {userId: user.id, type:'face'})}}" width="400" />
+     <a href="{{ url('show_address', {userId: user.id, type:'face'})}}" target="_blank">
+     <img src="{{url('show_address', {userId: user.id, type:'face'})}}" width="400" />
      </a>
     </div>
   </div>
@@ -50,8 +50,8 @@
       <label for="faceImg">身份证反面照</label>
     </div>
     <div>
-     <a href="{{url('show_idcard', {userId: user.id, type: 'back'})}}" target="_blank">
-          <img src="{{url('show_idcard', {userId: user.id, type: 'back'})}}" width="400" />
+     <a href="{{url('show_address', {userId: user.id, type: 'back'})}}" target="_blank">
+          <img src="{{url('show_address', {userId: user.id, type: 'back'})}}" width="400" />
       </a>
     </div>
   </div>

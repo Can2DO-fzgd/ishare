@@ -337,7 +337,7 @@ class UserServiceImpl extends BaseService implements UserService
         $user['createdIp'] = empty($registration['createdIp']) ? '' : $registration['createdIp'];
         $user['createdTime'] = time();
 		
-		$user['state'] = 0;
+		$user['state'] = 1;
 
         if(in_array($type, array('default', 'phpwind', 'discuz'))) {
             $user['salt'] = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -384,20 +384,20 @@ class UserServiceImpl extends BaseService implements UserService
         }
 
         $fields = ArrayToolkit::filter($fields, array(
-            'truename' => '',
+            'realName' => '',
             'gender' => 'secret',
             'iam' => '',
             'birthday' => null,
-            'city' => '',
-            'mobile' => '',
+            'area' => '',
+            'mphone' => '',
             'qq' => '',
             'school' => '',
             'class' => '',
-            'company' => '',
+            'companyname' => '',
             'job' => '',
-            'signature' => '',
+            'nichen' => '',
             'title' => '',
-            'about' => '',
+            'remark' => '',
             'weibo' => '',
             'weixin' => '',
             'site' => '',
@@ -420,7 +420,7 @@ class UserServiceImpl extends BaseService implements UserService
             throw $this->createServiceException('生日不正确，更新用户失败。');
         }
 
-        if (!empty($fields['mobile']) && !SimpleValidator::mobile($fields['mobile'])) {
+        if (!empty($fields['mphone']) && !SimpleValidator::mphone($fields['mphone'])) {
             throw $this->createServiceException('备用手机不正确，更新用户失败。');
         }
 
@@ -428,8 +428,8 @@ class UserServiceImpl extends BaseService implements UserService
             throw $this->createServiceException('QQ不正确，更新用户失败。');
         }
 
-        if(!empty($fields['about'])){
-            $fields['about'] = $this->purifyHtml($fields['about']);
+        if(!empty($fields['remark'])){
+            $fields['remark'] = $this->purifyHtml($fields['remark']);
         }
 
         return $this->getProfileDao()->updateProfile($id, $fields);
@@ -797,8 +797,8 @@ class UserServiceImpl extends BaseService implements UserService
         $lastestApproval = $this->getUserApprovalDao()->getLastestApprovalByUserIdAndStatus($user['id'],'approving');
 
         $this->getProfileDao()->updateProfile($userId, array(
-            'truename'=>$lastestApproval['truename'],
-            'idcard'=> $lastestApproval['idcard'])
+            'realName'=>$lastestApproval['realName'],
+            'address'=> $lastestApproval['address'])
         );
         
         $currentUser = $this->getCurrentUser();

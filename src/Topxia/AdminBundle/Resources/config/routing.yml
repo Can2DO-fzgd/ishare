@@ -646,8 +646,8 @@ admin_approval_cancel:
     defaults: { _controller: TopxiaAdminBundle:UserApproval:cancel }
     methods:  [POST]
 
-show_idcard:
-    pattern:   approvals/idcard/show/{userId}/{type}
+show_address:
+    pattern:   approvals/address/show/{userId}/{type}
     defaults: { _controller: TopxiaAdminBundle:UserApproval:showIdcard }
 
 admin_article_category:

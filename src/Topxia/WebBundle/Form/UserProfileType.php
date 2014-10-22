@@ -9,14 +9,14 @@ class UserProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('truename', 'text', array('required' => false));
+        $builder->add('realName', 'text', array('required' => false));
         $builder->add('gender', 'gender', array('expanded' => true, 'required' => true));
-        $builder->add('company', 'text', array('required' => false));
+        $builder->add('companyname', 'text', array('required' => false));
         $builder->add('job', 'text', array('required' => false));
         $builder->add('title', 'text', array('required' => false));
-        $builder->add('mobile', 'text', array('required' => false));
-        $builder->add('about', 'textarea', array('required' => false));
-        $builder->add('signature', 'text', array('required' => false));        
+        $builder->add('mphone', 'text', array('required' => false));
+        $builder->add('remark', 'textarea', array('required' => false));
+        $builder->add('nichen', 'text', array('required' => false));        
         $builder->add('site', 'text', array('required' => false)); 
         $builder->add('weibo', 'text', array('required' => false)); 
         $builder->add('qq', 'text', array('required' => false));

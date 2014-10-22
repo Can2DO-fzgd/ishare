@@ -35,12 +35,12 @@ class SimpleValidator
 		return !!preg_match('/^[\S]{5,20}$/u', $value);
 	}
 
-	public static function truename($value)
+	public static function realName($value)
 	{
 		return !!preg_match('/^[\x{4e00}-\x{9fa5}]{2,5}$/u', $value);
 	}
 
-	public static function idcard($value)
+	public static function address($value)
 	{
 		return !!preg_match('/^\d{17}[0-9xX]$/', $value);
 	}
@@ -50,7 +50,7 @@ class SimpleValidator
 		return !!preg_match('/^(\d{16}|\d{19})$/', $value);
 	}
 
-	public static function mobile($value)
+	public static function mphone($value)
 	{
 		return !!preg_match('/^1\d{10}$/', $value);
 	}

@@ -24,7 +24,7 @@
             {% endif %}
           </div>
           <h3><small>{{ user.title }}</small></h3>
-          <div class="about">{{ user.about|raw }}</div>
+          <div class="about">{{ user.remark|raw }}</div>
           <div class="links">
             {% if user %}
               {% if user.weibo %}

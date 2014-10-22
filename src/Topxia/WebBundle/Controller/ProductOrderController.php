@@ -55,10 +55,10 @@ class ProductOrderController extends OrderController
         }
 
         $userInfo = ArrayToolkit::parts($formData, array(
-            'truename',
-            'mobile',
+            'realName',
+            'mphone',
             'qq',
-            'company',
+            'companyname',
             'job'
         ));
         $userInfo = $this->getUserService()->updateUserProfile($user['id'], $userInfo);

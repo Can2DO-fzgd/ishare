@@ -9,13 +9,59 @@
 
   <div class="row form-group">
     <div class="col-md-2 control-label">
-      <label for="truename">姓名</label>
+      <label for="realName">姓名</label>
     </div>
     <div class="col-md-7 controls">
-      <input type="text" id="truename" name="truename" class="form-control" value="{{profile.truename}}" >
+      <input type="text" id="realName" name="realName" class="form-control" value="{{profile.realName}}" >
     </div>
   </div>
 
+  {#<div class="row form-group">
+    <div class="col-md-2 control-label">
+	   <label for="profile_iam">我是</label>
+	</div>
+    <div class="col-md-7 controls radios">
+       <div id="profile_iam">
+            <input type="radio" id="profile_iam_0" name="profile[iam]" required="required" value="student" {% if profile.iam == 'student' %}checked="checked"{% endif %}>
+            <label for="profile_iam_0" class="required">在校生</label>
+            <input type="radio" id="profile_iam_1" name="profile[iam]" required="required" value="notStudent" {% if profile.iam == 'notStudent' %}checked="checked"{% endif %}>
+         	<label for="profile_iam_1" class="required">非在校生</label>
+		</div>
+     </div>
+  </div> #}
+  
+ {# <div class="row form-group form-student-group">
+            <label class="col-md-2 control-label">学校</label>
+            <div class="col-md-7 controls">
+              <input type="text" id="profile_school" name="profile[school]" class="form-control" value="{{ profile.school|default('') }}">
+              <div class="help-block" style="display:none;"></div>
+            </div>
+          </div>
+
+          <div class="form-group form-forIam-group form-student-group">
+            <label class="col-md-2 control-label">班级</label>
+            <div class="col-md-7 controls">
+              <input type="text" id="profile_class" name="profile[class]" class="form-control" value="{{ profile.class|default('') }}">
+              <div class="help-block" style="display:none;"></div>
+            </div>
+          </div> 
+
+          <div class="form-group form-forIam-group form-notStudent-group">
+            <label class="col-md-2 control-label">公司</label>
+            <div class="col-md-7 controls">
+              <input type="text" id="profile_companyname" name="profile[companyname]" class="form-control" value="{{ profile.companyname|default('') }}">
+              <div class="help-block" style="display:none;"></div>
+            </div>
+          </div>
+
+          <div class="form-group form-forIam-group form-notStudent-group">
+            <label class="col-md-2 control-label">职业</label>
+            <div class="col-md-7 controls">
+              <input type="text" id="profile_job" name="profile[job]" class="form-control" value="{{ profile.job|default('') }}">
+              <div class="help-block" style="display:none;"></div>
+            </div>
+          </div>#}
+		  
   <div class="row form-group">
     <div class="col-md-2 control-label">
       <label for="gender">性别</label>
@@ -55,19 +101,19 @@
     <p></p>
     <div class="row form-group">
       <div class="col-md-2 control-label"> 
-        <label for="signature">个人签名</label>
+        <label for="nichen">个人签名</label>
       </div>
       <div class="col-md-7 controls">
-        <input type="text" id="signature" name="signature" class="form-control" value="{{profile.signature}}">
+        <input type="text" id="nichen" name="nichen" class="form-control" value="{{profile.nichen}}">
      </div>
     </div>
     <p></p>
     <div class="row form-group">
       <div class="col-md-2 control-label"> 
-        <label for="about">自我介绍</label>
+        <label for="remark">自我介绍</label>
       </div>
       <div class="col-md-7 controls">
-        <textarea id="about" name="about">{{profile.about}}</textarea>
+        <textarea id="remark" name="remark">{{profile.remark}}</textarea>
       </div>
     </div>
     <p></p>

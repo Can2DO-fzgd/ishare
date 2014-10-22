@@ -53,8 +53,8 @@
   <tr>
     <th>姓名</th>
     <td>
-      {% if profile.truename %}
-        {{ profile.truename }}
+      {% if profile.realName %}
+        {{ profile.realName }}
       {% else %}
         暂无
       {% endif %}
@@ -77,8 +77,9 @@
   <tr>
     <th>类型</th>
     <td>
-      {% if profile.iam %}
-        {{ profile.iam }}
+	  {% if profile.iam %}
+      	{% if profile.iam == 'student' %}在校生{% endif %}
+		{% if profile.iam == 'notStudent' %}在校生{% endif %}
       {% else %}
         暂无
       {% endif %}
@@ -110,8 +111,8 @@
   <tr>
     <th>公司</th>
     <td>
-      {% if profile.company %}
-        {{ profile.company }}
+      {% if profile.companyname %}
+        {{ profile.companyname }}
       {% else %}
         暂无
       {% endif %}
@@ -144,8 +145,8 @@
   <tr>
     <th>个人签名</th>
     <td>
-    {% if profile.signature %}
-        {{ profile.signature }}
+    {% if profile.nichen %}
+        {{ profile.nichen }}
       {% else %}
         暂无
       {% endif %}
@@ -155,8 +156,8 @@
   <tr>
     <th>自我介绍</th>
     <td>
-    {% if profile.about %}
-        {{ profile.about | raw }}
+    {% if profile.remark %}
+        {{ profile.remark | raw }}
       {% else %}
         暂无
       {% endif %}

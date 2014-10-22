@@ -21,7 +21,7 @@
             </div>
           </div>
 
-          {# <div class="form-group form-iam-group">
+           <div class="form-group form-iam-group">
             <label class="col-md-2 control-label">我是</label>
             <div class="col-md-7 controls radios">
               <div id="profile_iam">
@@ -30,12 +30,12 @@
                 <input type="radio" id="profile_iam_1" name="profile[iam]" required="required" value="notStudent" {% if profile.iam == 'notStudent' %}checked="checked"{% endif %}>
                 <label for="profile_iam_1" class="required">非在校生</label></div>
               </div>
-          </div> #}
+          </div> 
 
           <div class="form-group">
-          <label class="col-md-2 control-label" for="profile_truename">姓名</label>
+          <label class="col-md-2 control-label" for="profile_realName">姓名</label>
             <div class="col-md-7 controls">
-              <input type="text" id="profile_truename" name="profile[truename]" class="form-control" data-widget-cid="widget-1" data-explain="" value="{{ profile.truename|default('') }}">              
+              <input type="text" id="profile_realName" name="profile[realName]" class="form-control" data-widget-cid="widget-1" data-explain="" value="{{ profile.realName|default('') }}">              
               <div class="help-block" style="display:none;"></div>
             </div>
           </div>
@@ -75,7 +75,7 @@
             </div>
           </div>
 
-          {# <div class="form-group form-forIam-group form-student-group">
+           <div class="form-group form-forIam-group form-student-group">
             <label class="col-md-2 control-label">学校</label>
             <div class="col-md-7 controls">
               <input type="text" id="profile_school" name="profile[school]" class="form-control" value="{{ profile.school|default('') }}">
@@ -89,12 +89,12 @@
               <input type="text" id="profile_class" name="profile[class]" class="form-control" value="{{ profile.class|default('') }}">
               <div class="help-block" style="display:none;"></div>
             </div>
-          </div> #}
+          </div> 
 
           <div class="form-group form-forIam-group form-notStudent-group">
             <label class="col-md-2 control-label">公司</label>
             <div class="col-md-7 controls">
-              <input type="text" id="profile_company" name="profile[company]" class="form-control" value="{{ profile.company|default('') }}">
+              <input type="text" id="profile_companyname" name="profile[companyname]" class="form-control" value="{{ profile.companyname|default('') }}">
               <div class="help-block" style="display:none;"></div>
             </div>
           </div>
@@ -118,7 +118,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label">个人签名</label>
             <div class="col-md-7 controls">
-              <input type="text" id="profile_signature" name="profile[signature]" class="form-control" value="{{ profile.signature|default('') }}">
+              <input type="text" id="profile_nichen" name="profile[nichen]" class="form-control" value="{{ profile.nichen|default('') }}">
               <div class="help-block" style="display:none;"></div>
             </div>
           </div>
@@ -126,7 +126,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label">自我介绍</label>
             <div class="col-md-7 controls">
-              <textarea name="profile[about]" rows="10" id="profile_about" class="form-control">{{ profile.about|default('') }}</textarea>
+              <textarea name="profile[remark]" rows="10" id="profile_about" class="form-control">{{ profile.remark|default('') }}</textarea>
             </div>
           </div>
 
@@ -165,9 +165,9 @@
           </div>
 
           <div class="form-group">
-            <label for="profile_mobile" class="col-md-2 control-label">备用手机</label>
+            <label for="profile_mphone" class="col-md-2 control-label">备用手机</label>
             <div class="col-md-7 controls">
-              <input type="text" id="profile_mobile" name="profile[mobile]" class="form-control" data-widget-cid="widget-5" data-explain="" value="{{ profile.mobile|default('') }}">
+              <input type="text" id="profile_mphone" name="profile[mphone]" class="form-control" data-widget-cid="widget-5" data-explain="" value="{{ profile.mphone|default('') }}">
               <div class="help-block" style="display:none;"></div>
             </div>
           </div>

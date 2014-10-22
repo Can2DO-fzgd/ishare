@@ -156,11 +156,11 @@ class ProductStudentManageController extends BaseController
             $member .= $users[$productMember['userId']]['userName'].",";
             $member .= date('Y-n-d H:i:s', $productMember['createdTime']).",";
             $member .= $progresses[$productMember['userId']]['percent'].",";
-            $member .= $profiles[$productMember['userId']]['truename'] ? $profiles[$productMember['userId']]['truename']."," : "-".",";
+            $member .= $profiles[$productMember['userId']]['realName'] ? $profiles[$productMember['userId']]['realName']."," : "-".",";
             $member .= $users[$productMember['userId']]['email'].",";
-            $member .= $profiles[$productMember['userId']]['company'] ? $profiles[$productMember['userId']]['company']."," : "-".",";
+            $member .= $profiles[$productMember['userId']]['companyname'] ? $profiles[$productMember['userId']]['companyname']."," : "-".",";
             $member .= $users[$productMember['userId']]['title'] ? $users[$productMember['userId']]['title']."," : "-".",";
-            $member .= $profiles[$productMember['userId']]['mobile'] ? $profiles[$productMember['userId']]['mobile']."," : "-".",";
+            $member .= $profiles[$productMember['userId']]['mphone'] ? $profiles[$productMember['userId']]['mphone']."," : "-".",";
             $member .= $profiles[$productMember['userId']]['weixin'] ? $profiles[$productMember['userId']]['weixin']."," : "-".",";
             $member .= $profiles[$productMember['userId']]['qq'] ? $profiles[$productMember['userId']]['qq']."," : "-";
             $students[] = $member;   

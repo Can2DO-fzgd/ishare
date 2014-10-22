@@ -224,7 +224,7 @@
 			</ul>
 		  </td>
 		  
-		  <td class="btn-group"><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/tuijian.png?1.0.0') }}"/></a>
+		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/tuijian.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			<li><a href="{{ path('homepage') }}recommend"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">推荐产品</span>#}推荐产品</a></li>
 			<li><a href="{{ path('homepage') }}new"><i class="glyphicon glyphicon-th-list"></i>{#<span class="label label-success ">最新产品</span>#}最新产品</a></li>
@@ -241,7 +241,7 @@
 			</ul>
 		  </td>
 		  {% else %}
-		  <td class="btn-group"><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
+		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			{% for category in categories %}
 			<li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><i class="glyphicon glyphicon-th-list"></i>{{ category.name }}</a></li>

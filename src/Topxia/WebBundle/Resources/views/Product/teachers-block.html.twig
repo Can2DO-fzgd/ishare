@@ -36,7 +36,7 @@
               <div class="userName"><a href="{{ path('user_show', {id:user.id}) }}">{{ user.userName }}</a></div>
               <div class="title">{{ user.title }}</div>
               <div class="divider"></div>
-              <div class="about">{{ profile.about | raw }}</div>
+              <div class="about">{{ profile.remark | raw }}</div>
             </div>
             {% endif %}
           {% endfor %}
