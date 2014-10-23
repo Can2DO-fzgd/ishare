@@ -30,6 +30,7 @@ class ProductMemberDaoImpl extends BaseDao implements ProductMemberDao
         return $this->getConnection()->fetchAssoc($sql, array($userId, $productId)) ? : null;
     }
 
+	//用户主页分享产品数据（linestate=0 ）上架产品
     public function findMembersByUserIdAndRole($userId, $role, $start, $limit, $onlyPublished = true)
     {
         $this->filterStartLimit($start, $limit);
@@ -38,21 +39,24 @@ class ProductMemberDaoImpl extends BaseDao implements ProductMemberDao
         $sql.= ' JOIN  '. ProductDao::TABLENAME . ' AS c ON m.userId = ? ';
         $sql .= " AND m.role =  ? AND m.productId = c.id ";
         if($onlyPublished){
-            $sql .= " AND c.state = '1' ";
+            $sql .= " AND c.linestate = '0' ";
+			//$sql .= " AND c.state = '1' ";
         }
 
         $sql .= " ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
 
         return $this->getConnection()->fetchAll($sql, array($userId, $role));
     }
-
+	
+	//用户主页分享产品数据的个数统计（linestate = 0） 上架产品
     public function findMemberCountByUserIdAndRole($userId, $role, $onlyPublished = true)
     {
         $sql = "SELECT COUNT( m.productId ) FROM {$this->table} m ";
         $sql.= " JOIN  ". ProductDao::TABLENAME ." AS c ON m.userId = ? ";
         $sql.= " AND m.role =  ? AND m.productId = c.id ";
         if($onlyPublished){
-            $sql.= " AND c.state = '1' ";
+            $sql.= " AND c.linestate = '0' ";
+			//$sql.= " AND c.state = '1' ";
         }
         return $this->getConnection()->fetchColumn($sql,array($userId, $role));
     }
