@@ -276,6 +276,11 @@ class CategoryServiceImpl extends BaseService implements CategoryService
 
         return $category;
     }
+	
+	public function getAllCategoriesCountByPid()
+    {
+        return $this->getCategoryDao()->findAllCategoriesCountByPid();
+    }
 
     private function getCategoryDao ()
     {

@@ -25,5 +25,7 @@ interface CategoryDao {
 	public function findCategoriesByIds(array $ids);
 
 	public function findAllCategories();
+	
+	public function findAllCategoriesCountByPid();
 
 }

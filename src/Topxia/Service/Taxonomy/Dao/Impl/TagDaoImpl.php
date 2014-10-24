@@ -7,7 +7,7 @@ use Topxia\Service\Taxonomy\Dao\TagDao;
 
 class TagDaoImpl extends BaseDao implements TagDao
 {
-    protected $table = 't_module_front';
+    protected $table = 'tag';
 
     public function getTag($id)
     {
@@ -54,7 +54,8 @@ class TagDaoImpl extends BaseDao implements TagDao
     public function findAllTags($start, $limit)
     {
         $this->filterStartLimit($start, $limit);
-        $sql = "SELECT * FROM {$this->table} WHERE pid > 1 and pid < 256 ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
+		$sql = "SELECT * FROM {$this->table} ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
+        //$sql = "SELECT * FROM {$this->table} WHERE pid > 1 and pid < 256 ORDER BY createdTime DESC LIMIT {$start}, {$limit}";
         return $this->getConnection()->fetchAll($sql, array());
     }
 

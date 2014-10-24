@@ -80,5 +80,11 @@ class CategoryDaoImpl extends BaseDao implements CategoryDao
         $sql = "SELECT * FROM {$this->table}";
         return $this->getConnection()->fetchAll($sql) ? : array();
     }
+	
+	public function findAllCategoriesCountByPid()
+    {
+        $sql = "SELECT COUNT(id) FROM {$this->table} WHERE pid = '1' ";
+        return $this->getConnection()->fetchColumn($sql, array());
+    }
 
 }

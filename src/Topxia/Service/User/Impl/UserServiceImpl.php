@@ -253,7 +253,7 @@ class UserServiceImpl extends BaseService implements UserService
 		} elseif($registration['userTypeId'] == '5') {
 			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_AGENT');
 		} elseif($registration['userTypeId'] == '6') {
-			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE', 'ROLE_USER');
+			$user['roles'] =  array('ROLE_USER', 'ROLE_ISHARE');
 		} else {
 			$user['roles'] =  array('ROLE_USER');
 		}

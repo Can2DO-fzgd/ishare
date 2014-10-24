@@ -267,8 +267,8 @@ class ProductServiceImpl extends BaseService implements ProductService
 				
 		$product['code'] = $uuid;
 		$product['state'] = '0';
-		$product['linestate'] = '0';
-		$product['sync'] = '1';
+		$product['linestate'] = '1';
+		$product['sync'] = '0';
 		$product['sort'] = '1';
 		$product['createDate'] = date("Ymd");
 		//$d=strtotime("tomorrow");
@@ -473,7 +473,7 @@ class ProductServiceImpl extends BaseService implements ProductService
 	public function publishProduct($id)
 	{
 		$product = $this->tryManageProduct($id);
-		$this->getProductDao()->updateProduct($id, array('state' => '1'));
+		$this->getProductDao()->updateProduct($id, array('state' => '0','linestate'=>'0'));
 		$this->getLogService()->info('product', 'publish', "发布产品《{$product['name']}》(#{$product['id']})");
 	}
 

@@ -7,23 +7,93 @@
 <div class="es-row-wrap container-gap">
   <div class="row">
     <div class="col-md-12">
-      <div class="page-header"><h1>产品热词</h1></div>
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>展馆</h1></div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-12" style="min-height:300px;">
+    <div class="col-md-12">
 
-      {% if tags  %}
-        {% for tag in tags %}
-          <a href="{{ path('tag_show', {name:tag.name}) }}" class="btn btn-default"><span class="text-muted glyphicon glyphicon-tag"></span> {{ tag.name }}</a>
-        {% endfor %}
-      {% else %}
-        <div class="empty">当前还没有产品热词</div>
-      {% endif %}
-      
+	{% for category in categories %}
+	{% if category.name != '预约展馆' %}
+		<a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}" class="btn btn-default">{#<span class="text-muted glyphicon glyphicon-tag"></span>#} {{ category.name }}</a>
+	{% endif %}
+	{% endfor %}
+	
+	{#<ul class="homepage-category-nav">
+      {% for category in categories %}
+        <li><a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
+      {% endfor %}
+    </ul>#}
+	  
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>标签</h1></div>
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-12">
+
+    {#<ul class="nav nav-pills nav-stacked">
+		<li {% if not category.id %}class="active"{% endif %}><a href="{{ path('product_explore') }}">全部</a></li>
+		{% for cat in categories1 %}
+          <li {% if category.id == cat.id %}class="active"{% endif %}>
+            <a href="{{ path('product_explore', {category:cat.sn|default(cat.id)}) }}">
+			<span class="label label-success ">
+            {% if cat.depth > 1 %}
+              {{ cat.depth }}级标签：{% for i in 0..(cat.depth-1) %}---{% endfor %}
+            {% endif %}
+            {{ cat.name }}
+			</span></a>
+          </li>
+        {% endfor %}
+      </ul>#}
+	  
+	{% for cat in categories1 %}
+		{#{% if cat.depth == 1 %}
+			<ul class="nav nav-pills nav-stacked">
+				<li><a href="{{ path('product_explore', {category:cat.sn|default(cat.id)}) }}"><span class="label label-success ">
+              		{{ cat.depth }}级标签：{{ cat.name }}</span></a>
+				</li>
+			</ul>#}
+        {% if cat.depth > 1 and cat.depth < 4 %}
+			{% if cat.depth == 2 %}
+			{% if cat.name != '其它' %}
+			<ul class="nav nav-pills nav-stacked">
+				<li><a href="{{ path('product_explore', {category:cat.sn|default(cat.id)}) }}" class="btn btn-default"><span class="label label-success ">
+					 {{ cat.name }}</span></a>
+				</li>
+			</ul>
+			{% endif %}
+			{% elseif cat.depth > 2 %}
+			<a href="{{ path('product_explore', {category:cat.sn|default(cat.id)}) }}" class="btn btn-default">
+			{#<span class="text-muted glyphicon glyphicon-tag"></span>#} {{ cat.name }}</a>
+			{% endif %}
+			{% endif %}
+        {% endfor %}
+	  
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>热词</h1></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12" style="min-height:130px;">
+
+      <a class="btn btn-default btn-lg btn-block" href="{{ path('tagall') }}">更多热词</a>
+	  
+    </div>
+  </div>
+	
 </div>
 {% endblock %}

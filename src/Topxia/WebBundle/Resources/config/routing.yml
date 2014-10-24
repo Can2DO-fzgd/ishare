@@ -806,6 +806,10 @@ tag:
     pattern: /tag
     defaults: { _controller: TopxiaWebBundle:Tag:index }
 
+tagall:
+    pattern: /tagall
+    defaults: { _controller: TopxiaWebBundle:Tag:index1 }
+
 tag_all:
     pattern: /tag/all_jsonm
     defaults: { _controller: TopxiaWebBundle:Tag:all }

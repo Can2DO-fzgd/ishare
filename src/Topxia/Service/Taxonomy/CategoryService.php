@@ -39,4 +39,6 @@ interface CategoryService
     public function addGroup(array $group);
 
     public function deleteGroup($id);
+	
+	public function getAllCategoriesCountByPid();
 }

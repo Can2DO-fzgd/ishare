@@ -193,7 +193,7 @@ function changeselect2(locationid)
 			<div class="form-group">
 				<label class="col-md-2 control-label">更新状态</label>
 				<div class="col-md-8 controls radios">
-					{{ radios('serializeMode', {'none':'编辑中', 'serialize':'上架', 'finished':'下架'}, product.serializeMode|default('none') ) }}
+					{{ radios('serializeMode', {'none':'编辑中', 'serialize':'更新好', 'finished':'不更新'}, product.serializeMode|default('none') ) }}
 				</div>
 			</div>
 

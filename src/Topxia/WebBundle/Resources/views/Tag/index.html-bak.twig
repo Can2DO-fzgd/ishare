@@ -1,0 +1,93 @@
+{% extends 'TopxiaWebBundle:Default:layout.html.twig' %}
+
+{% block title %}产品热词 - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+<div class="es-row-wrap container-gap">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>展馆</h1></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+	{% for category in categories %}
+	{% if category.name != '预约展馆' %}
+		<a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}" class="btn btn-default">{#<span class="text-muted glyphicon glyphicon-tag"></span>#} {{ category.name }}</a>
+	{% endif %}
+	{% endfor %}
+	
+	{#<ul class="homepage-category-nav">
+      {% for category in categories %}
+        <li><a href="{{ path('product_explore', {category:category.sn|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a></li>
+      {% endfor %}
+    </ul>#}
+	  
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>标签</h1></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="accordion" id="accordion-42380">
+						
+				
+	{% for cat in categories1 %}
+        {% if cat.depth > 0 and cat.depth < 4 %}
+			<div class="accordion-group">
+				{% if cat.depth == 1 %}
+				
+					<div class="accordion-heading">
+						 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-42380" href="#accordion-element-{% for i in 0..(categoriescount) %}1{% endfor %}">
+						{{ cat.name }}
+						</a>
+					</div>
+				
+				{% elseif cat.depth > 1 %}
+					<div id="accordion-element-{% for i in 0..(categoriescount) %}1{% endfor %}" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<a href="{{ path('product_explore', {category:cat.sn|default(cat.id)}) }}" class="btn btn-default">{{ cat.name }}</a>
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		
+			{% endif %}
+        {% endfor %}
+	  					
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header"><h1><span class="text-muted glyphicon glyphicon-tag"></span>热词</h1></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12" style="min-height:130px;">
+
+      <a class="btn btn-default btn-lg btn-block" href="{{ path('tagall') }}">更多热词</a>
+	  
+    </div>
+  </div>
+	
+</div>
+{% endblock %}

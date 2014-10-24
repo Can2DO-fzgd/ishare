@@ -15,12 +15,43 @@ class TagController extends BaseController
      */
     public function indexAction()
     {   
+		$group = $this->getCategoryService()->getGroupByCode('product');
+        if (empty($group)) {
+            $categories1 = array();
+        } else {
+            $categories1 = $this->getCategoryService()->getCategoryTree($group['id']);
+        }
+		
+		$categories = $this->getCategoryService()->findGroupRootCategories('product');
+		
+        $tags = $this->getTagService()->findAllTags(0, 100);
+		
+		$categoriescount = $this->getCategoryService()->getAllCategoriesCountByPid();
+
+        return $this->render('TopxiaWebBundle:Tag:index.html.twig',array(
+			'categories' => $categories,
+			'categories1' => $categories1,
+            'tags'=>$tags,
+			'categoriescount'=>$categoriescount
+        ));
+    }
+	
+	public function index1Action()
+    {   
+		$group = $this->getCategoryService()->getGroupByCode('product');
+        if (empty($group)) {
+            $categories1 = array();
+        } else {
+            $categories1 = $this->getCategoryService()->getCategoryTree($group['id']);
+        }
+		
 		$categories = $this->getCategoryService()->findGroupRootCategories('product');
 		
         $tags = $this->getTagService()->findAllTags(0, 100);
 
-        return $this->render('TopxiaWebBundle:Tag:index.html.twig',array(
+        return $this->render('TopxiaWebBundle:Tag:index1.html.twig',array(
 			'categories' => $categories,
+			'categories1' => $categories1,
             'tags'=>$tags
         ));
     }
