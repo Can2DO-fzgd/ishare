@@ -92,11 +92,11 @@ class TagController extends BaseController
         ));
     }
 
-    public function allAction()
+    public function allAction(Request $request, $ad = 0, $af = 100)
     {
         $data = array();
 
-        $tags = $this->getTagService()->findAllTags(0, 100);
+        $tags = $this->getTagService()->findAllTags($ad, $af);
         foreach ($tags as $tag) {
             $data[] = array('id' => $tag['id'],  'name' => $tag['name'] );
         }
@@ -108,9 +108,11 @@ class TagController extends BaseController
         $data = array();
         $queryString = $request->query->get('q');
         $callback = $request->query->get('callback');
-        $tags = $this->getTagService()->getTagByLikeName($queryString);
+        $tags = $this->getTagService()->findAllTags(0, 2);
+		//$tags = $this->getTagService()->getTagByLikeName($queryString);
         foreach ($tags as $tag) {
-            $data[] = array('id' => $tag['id'],  'name' => $tag['name'] );
+            //$data[] = array('id' => $tag['id'],  'name' => $tag['name'] );
+			$data[] = array('code' => $tag['id'],'message' => $tag['id'],'result' => array('Notice' => array('message' => $tag['id'].$tag['name'])));
         }
         return new JsonResponse($data);
     }
