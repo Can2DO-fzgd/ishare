@@ -23,7 +23,7 @@
               <button class="btn btn-default" data-toggle="modal" data-target="#modal" data-url="{{path('message_create', {toId:user.id})}}">私信</button>
             {% endif %}
           </div>
-          <h3><small>{{ user.title }}</small></h3>
+          <br/><h3><small>{{ user.nichen }}</small></h3>
           <div class="about">{{ user.remark|raw }}</div>
           <div class="links">
             {% if user %}

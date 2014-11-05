@@ -337,8 +337,14 @@ class ProductController extends BaseController
             $form->bind($request);
             if ($form->isValid()) {
                 $product = $form->getData();
-                $product = $this->getProductService()->createProduct($product);
-                return $this->redirect($this->generateUrl('product_manage', array('id' => $product['id'])));
+				
+				if (empty($product)) {
+            		return $this->createMessageResponse('info', '亲，你已经登录了，不需要再次登录!3秒后界面将跳到首页。', null, 3000, $this->generateUrl('homepage'));
+        		} else {
+                	$product = $this->getProductService()->createProduct($product);
+                	return $this->redirect($this->generateUrl('product_manage', array('id' => $product['id'])));
+				}
+				
             }
         }
 

@@ -66,10 +66,11 @@ class CategoryBuilder
         }
 
         $choices = array();
-        //$categories = $this->getCategoryService()->getCategoryTree($group['id']);
-		$categories = $this->getCategoryService()->findGroupRoot2Categories($groupCode ,$pid);
+        $categories = $this->getCategoryService()->getCategoryTree($group['id']);
+		//$categories = $this->getCategoryService()->findGroupRoot2Categories($groupCode ,$pid);
 		
         foreach ($categories as $category) {
+		if ($category['depth'] < '4')
             $choices[$category['id']] = str_repeat(is_null($indent) ? '└' : '└'.$indent, ($category['depth']-1)) . $category['name'];
         }
 

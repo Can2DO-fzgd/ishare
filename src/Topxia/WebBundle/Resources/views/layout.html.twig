@@ -161,7 +161,7 @@
 			<ul class="dropdown-menu">
 				{% if app.user %}
 				  	<li><a href="{{ path('user_show', {id:app.user.id}) }}"> 欢迎您：
-				  	{% if app.user.companyname != '' %} 
+				  	{#{% if app.user.companyname != '' %} 
 				  			{{ app.user.companyname }} 
 				  	{% elseif app.user.nichen != '' %}
 				  			{{ app.user.nichen}}
@@ -169,6 +169,11 @@
 				  			{{ app.user.realName }}
 				  	{% else %} 
 				  			神秘人物
+				  	{% endif %}#}
+					{% if app.user.userName %}
+							{{ app.user.userName }}
+					{% else %}
+							神秘人物
 				  	{% endif %}
 				  	</a></li>
 				  	<li class="divider"></li>
@@ -236,7 +241,9 @@
 		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			{% for category in categories %}
+			{% if category.name != '预约展馆' %}
 			<a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><span class="label label-success ">{{ category.name }}</span></a>
+			{% endif %}
       			{% endfor %}
 			</ul>
 		  </td>
@@ -244,8 +251,10 @@
 		  <td><a href="#" class="navbar-brand-logo" data-toggle="dropdown"><img src="{{ asset('bundles/topxiaweb/img/types.png?1.0.0') }}"/></a>
 			<ul class="dropdown-menu">
 			{% for category in categories %}
+			{% if category.name != '预约展馆' %}
 			<li><a href="{{ path('product_explore', {category:category.code|default(category.id)}) }}"><i class="glyphicon glyphicon-th-list"></i>{{ category.name }}</a></li>
-      			{% endfor %}
+			{% endif %}
+      		{% endfor %}
 			</ul>
 		  </td>
 		  {% endif %}

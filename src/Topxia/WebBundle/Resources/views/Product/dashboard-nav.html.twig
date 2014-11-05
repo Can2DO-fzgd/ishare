@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs product-dashboard-tabs clearfix" id="product-tabs">
   {% block product_dashboard_nav %}
-	<li class="{% if nav == 'lesson' %}active{% endif %}"><a class="js-nav" href="{{ path('product_show', {id:product.id}) }}">补充说明</a></li>
+	{#<li class="{% if nav == 'lesson' %}active{% endif %}"><a class="js-nav" href="{{ path('product_show', {id:product.id}) }}">补充说明</a></li>#}
 	<li class="{% if nav == 'thread' %}active{% endif %}"><a class="js-nav" href="{{ path('product_threads', {id:product.id}) }}">问题讨论</a></li>
 	{#<li class="{% if nav == 'material' %}active{% endif %}"><a class="js-nav" href="{{ path('product_materials', {id:product.id}) }}">附件下载</a></li>#}
   {% endblock %}

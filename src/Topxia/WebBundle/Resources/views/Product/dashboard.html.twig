@@ -4,7 +4,7 @@
 {% set script_arguments = {product_uri: path('product_show', {id:product.id})} %}
 
 {% block dashboard_main %}
-	{% include 'TopxiaWebBundle:Product:dashboard-nav.html.twig' with {nav:'lesson'} %}
+	{% include 'TopxiaWebBundle:Product:dashboard-nav.html.twig' with {nav:'thread'} %}
 
 	{% if items is empty %}
 		<ul class="media-list">

@@ -34,7 +34,39 @@ class ProductManageController extends BaseController
 
 	    if($request->getMethod() == 'POST'){
             $data = $request->request->all();
-
+			
+			$pid = $request->request->get('categoryId');
+			$categoriedpid1 =  $this->getCategoryService()->getCategory($pid);
+			$categoriedpid2 =  $this->getCategoryService()->getCategory($categoriedpid1['pid']);
+			
+			if ($categoriedpid2['pid'] >= '2' && $categoriedpid1['pid'] > '2') {
+				$data['tagido'] = $categoriedpid2['pid'];
+				$data['tagidt'] = $categoriedpid1['pid'];
+				$data['tagids'] = $pid;
+			} elseif ($categoriedpid2['pid'] == '1' && $categoriedpid1['pid'] >= '2') {
+			 	$data['tagido'] = $categoriedpid1['pid'];
+				$data['tagidt'] = $pid;
+				$data['tagids'] = '-1';
+			} elseif ($categoriedpid2['pid'] == '0' && $categoriedpid1['pid'] == '1') {
+				$data['tagido'] = $pid;
+				$data['tagidt'] = '-1';
+				$data['tagids'] = '0';
+			}
+			
+			/*if ($categoriedpid2 >= 2 && $categoriedpid1 > 2) {
+				$data['tagido'] = $categoriedpid2['pid'];
+				$data['tagidt'] = $categoriedpid1['pid'];
+				$data['tagids'] = $pid;
+			} elseif ($categoriedpid2 == 1 && $categoriedpid1 >= 2) {
+			 	$data['tagido'] = $categoriedpid1['pid'];
+				$data['tagidt'] = $pid;
+				$data['tagids'] = '0';
+			} elseif ($categoriedpid2 == 0 && $categoriedpid1 == 1) {
+				$data['tagido'] = $pid;
+				$data['tagidt'] = '0';
+				$data['tagids'] = '0';
+			}*/
+			
             $this->getProductService()->updateProduct($id, $data);
             $this->setFlashMessage('success', '产品基本信息已保存！');
             return $this->redirect($this->generateUrl('product_manage_base',array('id' => $id))); 
