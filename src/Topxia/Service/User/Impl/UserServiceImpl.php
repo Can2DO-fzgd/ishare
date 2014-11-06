@@ -134,7 +134,7 @@ class UserServiceImpl extends BaseService implements UserService
         $largeImage->save($largeFilePath, array('quality' => 90));
         $largeFileRecord = $this->getFileService()->uploadFile('user', new File($largeFilePath));
 
-        $largeImage->resize(new Box(120, 120));
+        $largeImage->resize(new Box(100, 100));
         $mediumFilePath = "{$pathinfo['dirname']}/{$pathinfo['filename']}_medium.{$pathinfo['extension']}";
         $largeImage->save($mediumFilePath, array('quality' => 90));
         $mediumFileRecord = $this->getFileService()->uploadFile('user', new File($mediumFilePath));
